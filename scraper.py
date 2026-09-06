@@ -1,34 +1,34 @@
 #!/usr/bin/env python3
 """
 ╔══════════════════════════════════════════════════════════════╗
-║                                                            ║
-║  ☁️  MNAENCA 2026 - SKY BLUE LUXURY EDITION  ☁️       ║
-║     Ultimate Version - 10 Files - 3500+ Lines              ║
-║                                                            ║
-║  🔥  Firebase: muvg-42126                                 ║
-║  ☁️   Cloudinary: dmqyd0haj / s3_gok                     ║
+║                                                              ║
+║  🎀  BOMK - PINK LUXURY EDITION 2026  💖                 ║
+║     Ultimate Version - 9 Files                              ║
+║                                                              ║
+║  🔥  Firebase: bomk-9f6ec                                  ║
+║  ☁️   Cloudinary: vt6hibdu / y66.ko                      ║
 ║  👑  Admin: jasim28v@gmail.com                            ║
-║  👾  Avatars: DiceBear Big Smile (Random)                  ║
-║  💎  Design: Sky Blue Glass Luxury                        ║
-║                                                            ║
+║  🤖  Avatars: DiceBear Big Smile (Random)                 ║
+║  💎  Design: Pink Glass Luxury                            ║
+║                                                              ║
 ║  ✨  PREMIUM FEATURES:                                     ║
 ║     • 💬 TikTok-Style Comments with Replies              ║
 ║     • 📤 Professional Share System                       ║
 ║     • 👤 Enhanced Profile with Video Grid                ║
 ║     • 💰 Iraqi Dinar Earnings Wallet                     ║
-║     • 💧 Watermark on Downloaded Videos                  ║
-║     • 🔔 Notification System (Working 100%)              ║
-║     • 🎬 Compact Video Grid with Description              ║
-║     • 🗑️  Delete Videos from Admin Panel                  ║
-║     • 🖤 Parallax Cover                                   ║
-║     • 💎 Glass Morphism Dark Layers                       ║
-║     • 💙 Sky Blue Story Rings                            ║
-║     • ✨ Blue/Cyan Glow Effects                           ║
-║     • 🌟 Smooth In-App Viewer (No Popups!)               ║
-║     • 📱 Floating Bottom Nav with Wallet                  ║
-║     • 🎥 Slide-Up Video Reveal Animation                 ║
-║     • توثيق + حظر + حذف فيديوهات + محفظة أرباح              ║
-║                                                            ║
+║     • 👁️ Views Counter on Videos                        ║
+║     • 🔍 Search System (No Explore)                      ║
+║     • 🔔 Notification System                             ║
+║     • 🗑️  Delete Videos from Admin Panel                 ║
+║     • 🖤 Parallax Cover                                  ║
+║     • 💎 Glass Morphism Dark Layers                      ║
+║     • 🎀 Pink Story Rings                               ║
+║     • ✨ Pink/Cyan Glow Effects                          ║
+║     • 🌟 Smooth In-App Viewer (No Popups!)              ║
+║     • 📱 Floating Bottom Nav with Wallet                 ║
+║     • 🎥 Slide-Up Video Reveal Animation                ║
+║     • توثيق + حظر + حذف فيديوهات + محفظة أرباح             ║
+║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
 """
 
@@ -38,47 +38,47 @@ import json
 import shutil
 
 # ═══════════════════════════════════════════════════════════
-# ☁️ CONFIGURATION - الإعدادات
+# 🎀 CONFIGURATION - الإعدادات
 # ═══════════════════════════════════════════════════════════
 
 FIREBASE_CONFIG = {
-    "apiKey": "AIzaSyCqDvG98pEqmZHKZienquJEq6gS1kNjK8M",
-    "authDomain": "muvg-42126.firebaseapp.com",
-    "databaseURL": "https://muvg-42126-default-rtdb.europe-west1.firebasedatabase.app",
-    "projectId": "muvg-42126",
-    "storageBucket": "muvg-42126.firebasestorage.app",
-    "messagingSenderId": "514075097173",
-    "appId": "1:514075097173:web:6fab4e9598549691cc7cdc",
-    "measurementId": "G-4VP8E6WJ48"
+    "apiKey": "AIzaSyAAiH5kBtNBfuRbXddoCuLet9IGMG2U7q0",
+    "authDomain": "bomk-9f6ec.firebaseapp.com",
+    "databaseURL": "https://bomk-9f6ec-default-rtdb.firebaseio.com",
+    "projectId": "bomk-9f6ec",
+    "storageBucket": "bomk-9f6ec.firebasestorage.app",
+    "messagingSenderId": "743058000945",
+    "appId": "1:743058000945:web:a862e1eecf7d3d98925910",
+    "measurementId": "G-7F4W2H5Z3Y"
 }
 
 CLOUD_NAME = "vt6hibdu"
 UPLOAD_PRESET = "y66.ko"
 ADMIN_EMAILS_JS = "['jasim28v@gmail.com']"
 DICEBEAR_URL = "https://api.dicebear.com/7.x/big-smile/svg"
-APP_NAME = "MNAENCA"
-WATERMARK_TEXT = "☁️ MNAENCA"
-WATERMARK_URL = "https://res.cloudinary.com/dmqyd0haj/image/upload/v1/watermark_mnaenca"
+APP_NAME = "BOMK"
+WATERMARK_TEXT = "🎀 BOMK"
+WATERMARK_URL = "https://res.cloudinary.com/vt6hibdu/image/upload/v1/watermark_bomk"
 
 # 💰 Iraqi Dinar Earnings Configuration
 VIEW_RATE_IQD = 100  # 100 دينار لكل مشاهدة
 MIN_WITHDRAWAL_IQD = 10000  # الحد الأدنى للسحب 10,000 دينار
 USD_TO_IQD = 1450  # سعر الصرف
 
-# ☁️ Sky Blue Luxury Palette
-SKY_COLORS_JS = """[
-    "linear-gradient(135deg, #0c4a6e, #0369a1, #0284c7)",
-    "linear-gradient(135deg, #082f49, #0c4a6e, #0369a1)",
-    "linear-gradient(135deg, #164e63, #155e75, #0e7490)",
-    "linear-gradient(135deg, #1e3a8a, #2563eb, #3b82f6)",
-    "linear-gradient(135deg, #0284c7, #38bdf8, #7dd3fc)",
-    "linear-gradient(135deg, #0a1628, #0f2847, #0369a1)"
+# 🎀 Pink Luxury Palette
+PINK_COLORS_JS = """[
+    "linear-gradient(135deg, #4a0025, #800040, #c9184a)",
+    "linear-gradient(135deg, #2d0015, #590d22, #a4133c)",
+    "linear-gradient(135deg, #3d0020, #6b0035, #c9184a)",
+    "linear-gradient(135deg, #1a0010, #4a0025, #800040)",
+    "linear-gradient(135deg, #590d22, #a4133c, #ff4d6d)",
+    "linear-gradient(135deg, #0a0005, #2d0015, #590d22)"
 ]"""
 
 OUTPUT_DIR = "output"
 
 # ═══════════════════════════════════════════════════════════
-# 💙 UTILITY - دوال مساعدة
+# 💖 UTILITY - دوال مساعدة
 # ═══════════════════════════════════════════════════════════
 
 TOTAL_LINES = 0
@@ -97,25 +97,27 @@ def write(filename, content):
 def section(title):
     """طباعة عنوان القسم"""
     print(f"\n{'='*60}")
-    print(f"  ☁️  {title}")
+    print(f"  🎀  {title}")
     print(f"{'='*60}")
 
 # ═══════════════════════════════════════════════════════════
-# ☁️ COMMON CSS - ستايل مشترك
+# 🎀 COMMON CSS - ستايل مشترك وردي
 # ═══════════════════════════════════════════════════════════
 
 COMMON_CSS = """
     :root{
-        --glass:rgba(14,165,233,0.03);
-        --border:rgba(14,165,233,0.12);
-        --accent:#0ea5e9;
-        --accent2:#06b6d4;
-        --bg:#020617;
-        --card:rgba(14,165,233,0.06);
+        --glass:rgba(255,77,109,0.03);
+        --border:rgba(255,77,109,0.15);
+        --accent:#ff4d6d;
+        --accent2:#c9184a;
+        --bg:#0a0005;
+        --card:rgba(255,77,109,0.06);
         --danger:#ef4444;
         --success:#22c55e;
         --warning:#f59e0b;
         --gold:#fbbf24;
+        --pink:#ff4d6d;
+        --rose:#ff8fa3;
     }
     *{margin:0;padding:0;box-sizing:border-box}
     body{
@@ -134,11 +136,11 @@ COMMON_CSS = """
     @keyframes slideDown{from{transform:translateY(0)}to{transform:translateY(100%)}}
     @keyframes scaleIn{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
     @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-    @keyframes glowPulse{0%,100%{box-shadow:0 0 20px rgba(14,165,233,0.3)}50%{box-shadow:0 0 40px rgba(6,182,212,0.7)}}
+    @keyframes pinkGlow{0%,100%{box-shadow:0 0 20px rgba(255,77,109,0.3)}50%{box-shadow:0 0 40px rgba(201,24,74,0.7)}}
     @keyframes goldGlow{0%,100%{box-shadow:0 0 20px rgba(251,191,36,0.3)}50%{box-shadow:0 0 40px rgba(251,191,36,0.7)}}
     .spinner{
         width:36px;height:36px;
-        border:3px solid rgba(14,165,233,0.2);
+        border:3px solid rgba(255,77,109,0.2);
         border-top-color:var(--accent);
         border-radius:50%;
         animation:spin 0.7s linear infinite;
@@ -146,14 +148,14 @@ COMMON_CSS = """
     }
     .toast-msg{
         position:fixed;bottom:120px;left:50%;transform:translateX(-50%);
-        background:rgba(2,6,23,0.95);padding:12px 24px;border-radius:30px;
-        z-index:10000;border:1px solid rgba(14,165,233,0.3);font-size:13px;
+        background:rgba(10,0,5,0.95);padding:12px 24px;border-radius:30px;
+        z-index:10000;border:1px solid rgba(255,77,109,0.4);font-size:13px;
         opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;
-        box-shadow:0 8px 32px rgba(0,0,0,0.4);
+        box-shadow:0 8px 32px rgba(255,77,109,0.4);
     }
     .toast-msg.show{opacity:1}
     .overlay{
-        position:fixed;inset:0;background:rgba(2,6,23,0.97);
+        position:fixed;inset:0;background:rgba(10,0,5,0.97);
         backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);
         z-index:400;overflow-y:auto;
         animation:fadeIn 0.3s ease;
@@ -161,27 +163,27 @@ COMMON_CSS = """
     .overlay-header{
         display:flex;justify-content:space-between;align-items:center;
         padding:16px 20px;border-bottom:1px solid var(--border);
-        position:sticky;top:0;background:rgba(2,6,23,0.9);
+        position:sticky;top:0;background:rgba(10,0,5,0.9);
         backdrop-filter:blur(20px);z-index:5;
     }
     .overlay-header h3{font-weight:700;font-size:17px;display:flex;align-items:center;gap:8px}
     .btn-close-overlay{
-        background:rgba(14,165,233,0.1);border:1px solid var(--border);
+        background:rgba(255,77,109,0.1);border:1px solid var(--border);
         color:#fff;width:36px;height:36px;border-radius:50%;
         display:flex;align-items:center;justify-content:center;
         cursor:pointer;font-size:16px;transition:all 0.3s;
     }
-    .btn-close-overlay:hover{background:rgba(14,165,233,0.25);box-shadow:0 0 15px rgba(14,165,233,0.3)}
+    .btn-close-overlay:hover{background:rgba(255,77,109,0.25);box-shadow:0 0 15px rgba(255,77,109,0.4)}
 """
 
 # ═══════════════════════════════════════════════════════════
-# ☁️ 1. firebase-config.js
+# 🎀 1. firebase-config.js
 # ═══════════════════════════════════════════════════════════
 
 def build_config():
-    return f"""// ☁️ MNAENCA 2026 - Sky Blue Luxury Configuration
-// Firebase: muvg-42126 | Cloudinary: dmqyd0haj
-// ✨ PREMIUM: Comments + Share + Wallet + Enhanced Profile
+    return f"""// 🎀 BOMK 2026 - Pink Luxury Configuration
+// Firebase: bomk-9f6ec | Cloudinary: vt6hibdu
+// ✨ PREMIUM: Comments + Share + Wallet + Search + Views
 
 const firebaseConfig = {{
     apiKey: "{FIREBASE_CONFIG['apiKey']}",
@@ -205,31 +207,32 @@ const UPLOAD_PRESET = "{UPLOAD_PRESET}";
 const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${{CLOUD_NAME}}/auto/upload`;
 const CLOUDINARY_IMAGE_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${{CLOUD_NAME}}/image/upload`;
 
-// ☁️ MNAENCA Settings
+// 🎀 BOMK Settings
 const ADMIN_EMAILS = {ADMIN_EMAILS_JS};
 const DICEBEAR_URL = "{DICEBEAR_URL}";
-const COVER_COLORS = {SKY_COLORS_JS};
+const COVER_COLORS = {PINK_COLORS_JS};
 
 // 💰 Iraqi Dinar Earnings Settings
 const VIEW_RATE_IQD = {VIEW_RATE_IQD};
 const MIN_WITHDRAWAL_IQD = {MIN_WITHDRAWAL_IQD};
 const USD_TO_IQD = {USD_TO_IQD};
 
-// ☁️ App Info
+// 🎀 App Info
 const APP_NAME = "{APP_NAME}";
-const APP_VERSION = "2026.4";
-const PRIMARY_COLOR = "#0ea5e9";
-const SECONDARY_COLOR = "#38bdf8";
+const APP_VERSION = "2026.5";
+const PRIMARY_COLOR = "#ff4d6d";
+const SECONDARY_COLOR = "#ff8fa3";
 const GOLD_COLOR = "#fbbf24";
 const WATERMARK_TEXT = "{WATERMARK_TEXT}";
 const WATERMARK_URL = "{WATERMARK_URL}";
 
-console.log('☁️ %c'+APP_NAME+' v'+APP_VERSION+' Ready ✨', 'color: #0ea5e9; font-size: 16px; font-weight: bold;');
+console.log('🎀 %c'+APP_NAME+' v'+APP_VERSION+' Ready 💖', 'color: #ff4d6d; font-size: 16px; font-weight: bold;');
 console.log('💰 %cEarnings System Active - '+VIEW_RATE_IQD+' IQD/View', 'color: #fbbf24; font-size: 14px; font-weight: bold;');
+console.log('👁️ %cViews Counter Active', 'color: #ff8fa3; font-size: 14px; font-weight: bold;');
 """
 
 # ═══════════════════════════════════════════════════════════
-# ☁️ 2. auth.html - تسجيل الدخول والاشتراك
+# 🎀 2. auth.html - تسجيل الدخول والاشتراك
 # ═══════════════════════════════════════════════════════════
 
 def build_auth():
@@ -238,7 +241,7 @@ def build_auth():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>☁️ MNAENCA | دخول</title>
+    <title>🎀 BOMK | دخول</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
@@ -247,7 +250,7 @@ def build_auth():
         {COMMON_CSS}
         body{{
             min-height:100vh;
-            background:radial-gradient(ellipse at top, #0a1628, #060d1a, #020617);
+            background:radial-gradient(ellipse at top, #1a0010, #0a0005, #000000);
             display:flex;align-items:center;justify-content:center;
             overflow:hidden;position:relative;
         }}
@@ -255,63 +258,63 @@ def build_auth():
             position:fixed;border-radius:50%;filter:blur(130px);opacity:0.25;
             animation:orbFloat 20s infinite alternate;pointer-events:none;
         }}
-        .bg-orb:nth-child(1){{width:400px;height:400px;background:#0ea5e9;top:-100px;left:-100px}}
-        .bg-orb:nth-child(2){{width:350px;height:350px;background:#06b6d4;bottom:-100px;right:-100px;animation-delay:5s}}
-        .bg-orb:nth-child(3){{width:300px;height:300px;background:#38bdf8;top:50%;left:50%;animation-delay:10s}}
+        .bg-orb:nth-child(1){{width:400px;height:400px;background:#ff4d6d;top:-100px;left:-100px}}
+        .bg-orb:nth-child(2){{width:350px;height:350px;background:#c9184a;bottom:-100px;right:-100px;animation-delay:5s}}
+        .bg-orb:nth-child(3){{width:300px;height:300px;background:#ff8fa3;top:50%;left:50%;animation-delay:10s}}
         @keyframes orbFloat{{0%{{transform:translate(0,0) scale(1)}}100%{{transform:translate(50px,-50px) scale(1.3)}}}}
 
         .card{{
             position:relative;z-index:1;width:90%;max-width:420px;
-            background:rgba(14,165,233,0.03);
+            background:rgba(255,77,109,0.03);
             backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);
             border-radius:32px;padding:36px 24px;
-            border:1px solid rgba(14,165,233,0.2);
-            box-shadow:0 30px 70px rgba(14,165,233,0.1),inset 0 0 30px rgba(14,165,233,0.02);
+            border:1px solid rgba(255,77,109,0.25);
+            box-shadow:0 30px 70px rgba(255,77,109,0.15),inset 0 0 30px rgba(255,77,109,0.02);
             animation:fadeUp 0.8s ease;
         }}
         .logo{{
             width:70px;height:70px;margin:0 auto 20px;
-            background:linear-gradient(135deg, rgba(14,165,233,0.3), rgba(6,182,212,0.3));
+            background:linear-gradient(135deg, rgba(255,77,109,0.4), rgba(201,24,74,0.4));
             border-radius:20px;display:flex;align-items:center;justify-content:center;
-            font-size:36px;border:1px solid rgba(14,165,233,0.2);
-            animation:glowPulse 3s ease-in-out infinite;
+            font-size:36px;border:1px solid rgba(255,77,109,0.3);
+            animation:pinkGlow 3s ease-in-out infinite;
         }}
-        h1{{text-align:center;font-size:36px;font-weight:900;background:linear-gradient(to bottom, #fff, #7dd3fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}}
-        .sub{{text-align:center;color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:20px}}
+        h1{{text-align:center;font-size:36px;font-weight:900;background:linear-gradient(to bottom, #fff, #ff8fa3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}}
+        .sub{{text-align:center;color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:20px}}
         .earn-banner{{
             text-align:center;margin-bottom:20px;padding:12px;
-            background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);
+            background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.4);
             border-radius:16px;font-size:12px;color:var(--gold);
             animation:goldGlow 2s ease-in-out infinite;
         }}
-        .tabs{{display:flex;gap:4px;background:rgba(14,165,233,0.06);border-radius:40px;padding:4px;margin-bottom:24px}}
+        .tabs{{display:flex;gap:4px;background:rgba(255,77,109,0.08);border-radius:40px;padding:4px;margin-bottom:24px}}
         .tab{{flex:1;padding:12px;background:none;border:none;color:rgba(255,255,255,0.5);cursor:pointer;border-radius:40px;font-size:14px;transition:all 0.3s;font-weight:500}}
-        .tab.active{{background:linear-gradient(135deg, #0ea5e9, #06b6d4);color:#fff;box-shadow:0 8px 20px rgba(14,165,233,0.4)}}
+        .tab.active{{background:linear-gradient(135deg, #ff4d6d, #c9184a);color:#fff;box-shadow:0 8px 20px rgba(255,77,109,0.5)}}
 
         .form{{display:none;animation:fadeIn 0.4s ease}}
         .form.active{{display:block}}
 
         input{{
             width:100%;padding:15px 18px;margin:8px 0;
-            border-radius:50px;background:rgba(14,165,233,0.04);
-            border:1px solid rgba(14,165,233,0.15);color:#fff;
+            border-radius:50px;background:rgba(255,77,109,0.05);
+            border:1px solid rgba(255,77,109,0.2);color:#fff;
             font-size:14px;outline:none;transition:all 0.4s;
         }}
-        input:focus{{border-color:rgba(14,165,233,0.6);box-shadow:0 0 20px rgba(14,165,233,0.1);background:rgba(14,165,233,0.08)}}
+        input:focus{{border-color:rgba(255,77,109,0.7);box-shadow:0 0 20px rgba(255,77,109,0.2);background:rgba(255,77,109,0.1)}}
         input::placeholder{{color:rgba(255,255,255,0.3)}}
 
         button{{
             width:100%;padding:15px;margin-top:18px;
-            background:linear-gradient(135deg, #0ea5e9, #06b6d4);
+            background:linear-gradient(135deg, #ff4d6d, #c9184a);
             border:none;border-radius:50px;color:#fff;
             font-weight:bold;font-size:15px;cursor:pointer;
-            transition:all 0.3s;box-shadow:0 10px 30px rgba(14,165,233,0.4);
+            transition:all 0.3s;box-shadow:0 10px 30px rgba(255,77,109,0.5);
         }}
-        button:hover{{transform:translateY(-2px);box-shadow:0 20px 40px rgba(14,165,233,0.6)}}
+        button:hover{{transform:translateY(-2px);box-shadow:0 20px 40px rgba(255,77,109,0.7)}}
         button:active{{transform:scale(0.97)}}
         button:disabled{{opacity:0.5;pointer-events:none}}
 
-        .msg{{text-align:center;color:#fca5a5;font-size:13px;margin-top:12px;min-height:20px}}
+        .msg{{text-align:center;color:#ff8fa3;font-size:13px;margin-top:12px;min-height:20px}}
         .msg.success{{color:#4ade80}}
     </style>
 </head>
@@ -319,9 +322,9 @@ def build_auth():
     <div class="bg-orb"></div><div class="bg-orb"></div><div class="bg-orb"></div>
 
     <div class="card">
-        <div class="logo">☁️</div>
-        <h1>MNAENCA</h1>
-        <p class="sub">Sky Blue Luxury 2026 ✨</p>
+        <div class="logo">🎀</div>
+        <h1>BOMK</h1>
+        <p class="sub">Pink Luxury 2026 💖</p>
         <div class="earn-banner">
             💰 اربح {VIEW_RATE_IQD} دينار عراقي لكل مشاهدة!
         </div>
@@ -451,13 +454,13 @@ def build_auth():
             if(user) {{ window.location.replace('index.html'); }}
         }});
 
-        console.log('☁️ MNAENCA Auth Ready + Wallet System');
+        console.log('🎀 BOMK Auth Ready + Wallet System');
     </script>
 </body>
 </html>"""
 
 # ═══════════════════════════════════════════════════════════
-# ☁️ 3. index.html - الرئيسية بدون بحث + محفظة
+# 🎀 3. index.html - الرئيسية مع بحث + مشاهدات + محفظة
 # ═══════════════════════════════════════════════════════════
 
 def build_index():
@@ -466,7 +469,7 @@ def build_index():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>☁️ MNAENCA | الرئيسية</title>
+    <title>🎀 BOMK | الرئيسية</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
@@ -477,13 +480,13 @@ def build_index():
         
         #loaderScreen{{
             position:fixed;inset:0;z-index:9999;
-            background:radial-gradient(ellipse at top, #0a1628, #060d1a, #020617);
+            background:radial-gradient(ellipse at top, #1a0010, #0a0005, #000000);
             display:flex;align-items:center;justify-content:center;
             flex-direction:column;gap:16px;
         }}
         .spinner-big{{
             width:50px;height:50px;
-            border:4px solid rgba(14,165,233,0.2);
+            border:4px solid rgba(255,77,109,0.2);
             border-top-color:var(--accent);
             border-radius:50%;
             animation:spin 0.8s linear infinite;
@@ -495,42 +498,35 @@ def build_index():
             position:fixed;top:10px;left:10px;right:10px;z-index:100;
             display:flex;justify-content:space-between;align-items:center;
             padding:8px 16px;
-            background:rgba(2,6,23,0.7);
+            background:rgba(10,0,5,0.8);
             backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);
             border:1px solid var(--border);
             border-radius:50px;
-            box-shadow:0 8px 32px rgba(14,165,233,0.08);
+            box-shadow:0 8px 32px rgba(255,77,109,0.1);
         }}
         .logo-icon{{
             width:34px;height:34px;
             background:linear-gradient(135deg,var(--accent),var(--accent2));
             border-radius:50%;display:flex;align-items:center;justify-content:center;
             font-weight:900;font-size:12px;
-            animation:glowPulse 2s ease-in-out infinite;
+            animation:pinkGlow 2s ease-in-out infinite;
         }}
         .logo-text{{
             font-weight:800;font-size:17px;
-            background:linear-gradient(to bottom,#fff,#7dd3fc);
+            background:linear-gradient(to bottom,#fff,#ff8fa3);
             -webkit-background-clip:text;-webkit-text-fill-color:transparent;
             margin-left:8px;
         }}
-        .tabs{{display:flex;gap:4px;background:var(--glass);border-radius:30px;padding:3px}}
-        .tab{{
-            background:none;border:none;color:rgba(255,255,255,0.5);
-            padding:7px 16px;cursor:pointer;border-radius:25px;
-            font-size:13px;font-weight:500;transition:all 0.3s;
-        }}
-        .tab.active{{background:rgba(14,165,233,0.25);color:#fff}}
         .top-icons{{display:flex;gap:16px;align-items:center}}
         .wallet-badge{{
             display:flex;align-items:center;gap:5px;
-            background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.3);
+            background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.4);
             padding:6px 12px;border-radius:20px;cursor:pointer;
             font-size:11px;font-weight:700;color:var(--gold);
             animation:goldGlow 2s ease-in-out infinite;
             transition:all 0.3s;
         }}
-        .wallet-badge:hover{{background:rgba(251,191,36,0.25)}}
+        .wallet-badge:hover{{background:rgba(251,191,36,0.3)}}
         .top-icon{{
             background:none;border:none;color:rgba(255,255,255,0.7);
             font-size:18px;cursor:pointer;transition:all 0.3s;position:relative;
@@ -547,13 +543,31 @@ def build_index():
             font-size:9px;font-weight:bold;padding:0 5px;
         }}
 
+        /* 🔍 Search Bar */
+        .search-bar{{
+            position:fixed;top:65px;left:10px;right:10px;z-index:99;
+            display:flex;align-items:center;gap:8px;
+            padding:8px 16px;
+            background:rgba(10,0,5,0.8);
+            backdrop-filter:blur(30px);
+            border:1px solid var(--border);
+            border-radius:50px;
+        }}
+        .search-bar input{{
+            flex:1;background:none;border:none;color:#fff;
+            font-size:14px;outline:none;
+        }}
+        .search-bar input::placeholder{{color:rgba(255,255,255,0.4)}}
+        .search-bar i{{color:var(--accent);font-size:16px}}
+
         .videos-wrap{{
             height:100vh;overflow-y:scroll;
             scroll-snap-type:y mandatory;
             scrollbar-width:none;-ms-overflow-style:none;
+            padding-top:110px;
         }}
         .videos-wrap::-webkit-scrollbar{{display:none}}
-        .vid-card{{height:100vh;scroll-snap-align:start;position:relative;background:#000}}
+        .vid-card{{height:100vh;scroll-snap-align:start;position:relative;background:#000;margin-top:-50px}}
 
         .vid-card video {{
             width:100%;height:100%;object-fit:cover;
@@ -570,32 +584,32 @@ def build_index():
         .author-avatar{{
             width:50px;height:50px;border-radius:50%;overflow:hidden;
             cursor:pointer;position:relative;
-            background:linear-gradient(135deg, #0ea5e9, #06b6d4, #7dd3fc);
+            background:linear-gradient(135deg, #ff4d6d, #c9184a, #ff8fa3);
             padding:3px;
             animation:storyRing 3s ease-in-out infinite;
             flex-shrink:0;
         }}
-        @keyframes storyRing{{0%,100%{{box-shadow:0 0 15px rgba(14,165,233,0.4)}}50%{{box-shadow:0 0 25px rgba(6,182,212,0.8)}}}}
+        @keyframes storyRing{{0%,100%{{box-shadow:0 0 15px rgba(255,77,109,0.5)}}50%{{box-shadow:0 0 25px rgba(201,24,74,0.9)}}}}
         .author-avatar img{{width:100%;height:100%;object-fit:cover;border-radius:50%;border:2px solid var(--bg)}}
         .author-name{{
             font-weight:700;font-size:15px;cursor:pointer;
             display:flex;align-items:center;gap:6px;flex-wrap:wrap;
         }}
         .verified-badge-main{{
-            background:linear-gradient(135deg, #0ea5e9, #06b6d4);
+            background:linear-gradient(135deg, #ff4d6d, #c9184a);
             color:#fff;font-size:10px;padding:2px 5px;border-radius:50%;
             display:inline-flex;align-items:center;justify-content:center;
             width:18px;height:18px;font-weight:bold;
-            box-shadow:0 0 12px rgba(56,189,248,0.6);
+            box-shadow:0 0 12px rgba(255,143,163,0.7);
         }}
         .btn-follow{{
             background:linear-gradient(135deg,var(--accent),var(--accent2));
             padding:5px 14px;border-radius:20px;font-size:11px;
             font-weight:700;border:none;color:#fff;cursor:pointer;
-            box-shadow:0 4px 15px rgba(14,165,233,0.4);
+            box-shadow:0 4px 15px rgba(255,77,109,0.5);
             transition:all 0.3s;white-space:nowrap;
         }}
-        .btn-follow:hover{{box-shadow:0 8px 25px rgba(14,165,233,0.7);transform:translateY(-1px)}}
+        .btn-follow:hover{{box-shadow:0 8px 25px rgba(255,77,109,0.8);transform:translateY(-1px)}}
         .caption{{font-size:14px;margin-bottom:5px;line-height:1.4}}
         .tag{{color:var(--accent2);cursor:pointer;font-weight:500}}
         .music{{font-size:12px;opacity:0.8;display:flex;align-items:center;gap:6px;cursor:pointer}}
@@ -607,6 +621,16 @@ def build_index():
         .music-wave span:nth-child(4){{height:12px;animation-delay:0.45s}}
         .music-wave span:nth-child(5){{height:4px;animation-delay:0.6s}}
         @keyframes musicWave{{0%,100%{{transform:scaleY(1)}}50%{{transform:scaleY(1.8)}}}}
+
+        /* 👁️ Views Counter */
+        .views-counter{{
+            position:absolute;top:20px;left:20px;
+            display:flex;align-items:center;gap:4px;
+            background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);
+            padding:4px 10px;border-radius:15px;
+            font-size:11px;font-weight:700;z-index:15;
+        }}
+        .views-counter i{{color:var(--accent);font-size:12px}}
 
         /* 💧 Watermark */
         .watermark-overlay{{
@@ -640,7 +664,7 @@ def build_index():
         /* 📤 Share Panel */
         .share-panel{{
             position:fixed;bottom:0;left:0;right:0;
-            background:rgba(2,6,23,0.98);
+            background:rgba(10,0,5,0.98);
             backdrop-filter:blur(40px);
             border-top:2px solid var(--accent);
             border-radius:24px 24px 0 0;
@@ -665,12 +689,12 @@ def build_index():
         .share-item span{{font-size:11px;opacity:0.7}}
         .share-copy-row{{
             display:flex;gap:8px;align-items:center;
-            background:rgba(14,165,233,0.06);border-radius:16px;
+            background:rgba(255,77,109,0.08);border-radius:16px;
             padding:8px;border:1px solid var(--border);
         }}
         .share-copy-row input{{
             flex:1;padding:12px;border-radius:12px;
-            background:rgba(14,165,233,0.04);border:1px solid var(--border);
+            background:rgba(255,77,109,0.05);border:1px solid var(--border);
             color:#fff;font-size:13px;outline:none;direction:ltr;
         }}
         .share-copy-row button{{
@@ -682,7 +706,7 @@ def build_index():
         /* 💬 TikTok Style Comments */
         .comments-panel{{
             position:fixed;bottom:0;left:0;right:0;
-            background:rgba(2,6,23,0.98);
+            background:rgba(10,0,5,0.98);
             backdrop-filter:blur(40px);
             border-top:2px solid var(--accent);
             border-radius:24px 24px 0 0;
@@ -703,13 +727,13 @@ def build_index():
         .comments-list{{flex:1;overflow-y:auto;padding:12px 16px}}
         .comment-item{{
             display:flex;gap:10px;padding:12px 0;
-            border-bottom:1px solid rgba(14,165,233,0.06);
+            border-bottom:1px solid rgba(255,77,109,0.08);
             animation:fadeIn 0.3s ease;
         }}
         .comment-avatar{{
             width:36px;height:36px;border-radius:50%;
             overflow:hidden;flex-shrink:0;
-            border:2px solid rgba(14,165,233,0.2);
+            border:2px solid rgba(255,77,109,0.3);
         }}
         .comment-avatar img{{width:100%;height:100%;object-fit:cover}}
         .comment-body{{flex:1;min-width:0}}
@@ -721,19 +745,19 @@ def build_index():
         .comment-time{{font-size:10px;opacity:0.4}}
         .reply-item{{
             margin-right:46px;padding:8px 0;
-            border-bottom:1px solid rgba(14,165,233,0.04);
+            border-bottom:1px solid rgba(255,77,109,0.06);
             display:flex;gap:8px;
         }}
         .reply-item .comment-avatar{{width:28px;height:28px}}
         .comment-input-row{{
             display:flex;gap:8px;padding:12px 16px;
             border-top:1px solid var(--border);
-            background:rgba(2,6,23,0.95);
+            background:rgba(10,0,5,0.95);
             flex-shrink:0;
         }}
         .comment-input-row input{{
             flex:1;padding:12px 16px;border-radius:30px;
-            background:rgba(14,165,233,0.04);border:1px solid var(--border);
+            background:rgba(255,77,109,0.05);border:1px solid var(--border);
             color:#fff;font-size:13px;outline:none;
         }}
         .comment-input-row button{{
@@ -742,7 +766,7 @@ def build_index():
             font-weight:700;cursor:pointer;white-space:nowrap;font-size:13px;
         }}
 
-        /* ☁️ Fullscreen Video Player */
+        /* 🎀 Fullscreen Video Player */
         .fullscreen-player {{
             position:fixed;top:0;left:0;width:100vw;height:100vh;
             background:#000;z-index:9999;display:flex;align-items:center;
@@ -756,34 +780,34 @@ def build_index():
             display:flex;align-items:center;justify-content:space-between;
             background:rgba(0,0,0,0.6);backdrop-filter:blur(20px);
             border-radius:50px;padding:10px 20px;
-            border:1px solid rgba(14,165,233,0.3);z-index:10000;color:#fff;gap:12px;flex-wrap:wrap;
+            border:1px solid rgba(255,77,109,0.4);z-index:10000;color:#fff;gap:12px;flex-wrap:wrap;
         }}
         .player-controls button{{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;transition:color 0.2s;padding:5px}}
-        .player-controls button:hover{{color:#38bdf8}}
+        .player-controls button:hover{{color:#ff8fa3}}
         .progress-wrap{{flex:1;display:flex;align-items:center;gap:8px;min-width:100px}}
         .progress-bar{{flex:1;height:4px;background:rgba(255,255,255,0.2);border-radius:4px;cursor:pointer;position:relative}}
-        .progress-fill{{height:100%;background:linear-gradient(90deg,#0ea5e9,#06b6d4);border-radius:4px;width:0%}}
+        .progress-fill{{height:100%;background:linear-gradient(90deg,#ff4d6d,#c9184a);border-radius:4px;width:0%}}
         .close-player{{
             position:absolute;top:20px;left:20px;
             background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);
-            border:1px solid rgba(14,165,233,0.4);color:#fff;
+            border:1px solid rgba(255,77,109,0.5);color:#fff;
             width:44px;height:44px;border-radius:50%;
             display:flex;align-items:center;justify-content:center;
             cursor:pointer;font-size:20px;z-index:10001;transition:all 0.3s;
         }}
-        .close-player:hover{{background:rgba(14,165,233,0.3);box-shadow:0 0 20px rgba(14,165,233,0.5)}}
+        .close-player:hover{{background:rgba(255,77,109,0.4);box-shadow:0 0 20px rgba(255,77,109,0.6)}}
 
         /* 📱 FLOATING BOTTOM NAV */
         .nav-bottom{{
             position:fixed;bottom:12px;left:12px;right:12px;
             display:flex;justify-content:space-around;align-items:center;
             padding:8px 0;
-            background:rgba(2,6,23,0.8);
+            background:rgba(10,0,5,0.85);
             backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);
             z-index:100;
             border:1px solid var(--border);
             border-radius:40px;
-            box-shadow:0 -8px 32px rgba(14,165,233,0.06);
+            box-shadow:0 -8px 32px rgba(255,77,109,0.1);
         }}
         .nav-item{{
             display:flex;flex-direction:column;align-items:center;gap:3px;
@@ -797,29 +821,25 @@ def build_index():
             background:linear-gradient(135deg,var(--accent),var(--accent2));
             border-radius:50%;display:flex;align-items:center;justify-content:center;
             margin-top:-30px;cursor:pointer;
-            box-shadow:0 10px 30px rgba(14,165,233,0.6),0 0 40px rgba(14,165,233,0.2);
+            box-shadow:0 10px 30px rgba(255,77,109,0.7),0 0 40px rgba(255,77,109,0.3);
             border:none;color:#fff;font-size:20px;
             z-index:101;transition:all 0.3s;text-decoration:none;
         }}
-        .btn-add:hover{{transform:scale(1.1);box-shadow:0 15px 40px rgba(14,165,233,0.8)}}
+        .btn-add:hover{{transform:scale(1.1);box-shadow:0 15px 40px rgba(255,77,109,0.9)}}
     </style>
 </head>
 <body>
 
 <div id="loaderScreen">
     <div class="spinner-big"></div>
-    <p style="color:rgba(255,255,255,0.5);font-size:15px">☁️ MNAENCA جاري التحميل...</p>
+    <p style="color:rgba(255,255,255,0.5);font-size:15px">🎀 BOMK جاري التحميل...</p>
 </div>
 
 <div id="mainApp">
     <div class="topbar">
         <div style="display:flex;align-items:center">
-            <div class="logo-icon">☁️</div>
-            <span class="logo-text">MNAENCA</span>
-        </div>
-        <div class="tabs">
-            <button class="tab" onclick="switchFeed('following')">متابَعين</button>
-            <button class="tab active" onclick="switchFeed('forYou')">لك</button>
+            <div class="logo-icon">🎀</div>
+            <span class="logo-text">BOMK</span>
         </div>
         <div class="top-icons">
             <div class="wallet-badge" onclick="window.location.href='wallet.html'">
@@ -831,15 +851,22 @@ def build_index():
         </div>
     </div>
 
+    <!-- 🔍 Search Bar -->
+    <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="ابحث عن فيديوهات أو مستخدمين..." onkeyup="handleSearch(this.value)">
+        <i class="fas fa-times" style="cursor:pointer" onclick="clearSearch()"></i>
+    </div>
+
     <div class="videos-wrap" id="videosWrap">
         <div style="display:flex;align-items:center;justify-content:center;height:100vh;color:rgba(255,255,255,0.5);flex-direction:column;gap:12px">
-            <i class="fas fa-video" style="font-size:48px;opacity:0.3;color:#0ea5e9"></i>
+            <i class="fas fa-video" style="font-size:48px;opacity:0.3;color:#ff4d6d"></i>
             <p>لا توجد فيديوهات بعد</p>
             <p style="font-size:12px;opacity:0.5">ارفع أول فيديو واربح! 💰</p>
         </div>
     </div>
 
-    <!-- ☁️ Fullscreen Video Player -->
+    <!-- 🎀 Fullscreen Video Player -->
     <div class="fullscreen-player" id="fullscreenPlayer" onclick="if(event.target===this)closePlayer()">
         <button class="close-player" onclick="closePlayer()"><i class="fas fa-times"></i></button>
         <video id="fullscreenVideo" controls playsinline></video>
@@ -855,7 +882,7 @@ def build_index():
                 <span id="duration">0:00</span>
             </div>
             <button onclick="toggleMutePlayer()"><i class="fas fa-volume-up" id="muteIcon"></i></button>
-            <a id="downloadLink" href="#" download style="color:#38bdf8;text-decoration:none;margin-left:10px;"><i class="fas fa-download"></i></a>
+            <a id="downloadLink" href="#" download style="color:#ff8fa3;text-decoration:none;margin-left:10px;"><i class="fas fa-download"></i></a>
         </div>
     </div>
 
@@ -888,7 +915,7 @@ def build_index():
                 <span>بريد</span>
             </div>
             <div class="share-item" onclick="shareTo('copy')">
-                <div class="share-icon" style="background:rgba(14,165,233,0.15);color:#0ea5e9"><i class="fas fa-link"></i></div>
+                <div class="share-icon" style="background:rgba(255,77,109,0.15);color:#ff4d6d"><i class="fas fa-link"></i></div>
                 <span>نسخ الرابط</span>
             </div>
             <div class="share-item" onclick="shareTo('embed')">
@@ -919,7 +946,6 @@ def build_index():
 
     <div class="nav-bottom">
         <button class="nav-item active"><i class="fas fa-home"></i><span>الرئيسية</span></button>
-        <a href="explore.html" class="nav-item"><i class="fas fa-compass"></i><span>استكشاف</span></a>
         <a href="upload.html" class="btn-add"><i class="fas fa-plus"></i></a>
         <a href="chat.html" class="nav-item"><i class="fas fa-envelope"></i><span>رسائل</span></a>
         <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>ملفي</span></a>
@@ -934,15 +960,39 @@ def build_index():
     let currentUserData = null;
     let allUsers = {{}};
     let allVideos = [];
-    let allSounds = {{}};
+    let filteredVideos = [];
     let isMuted = true;
-    let currentFeed = 'forYou';
     let currentShareUrl = null;
     let playerVideo = null;
     let currentCommentVideoId = null;
     let replyingTo = null;
 
-    // ☁️ Player Functions
+    // 🔍 Search Functions
+    function handleSearch(query) {{
+        query = query.trim().toLowerCase();
+        if(!query) {{
+            filteredVideos = allVideos;
+        }} else {{
+            filteredVideos = allVideos.filter(v => {{
+                const user = allUsers[v.sender] || {{}};
+                const username = (user.username || '').toLowerCase();
+                const desc = (v.description || '').toLowerCase();
+                const music = (v.music || '').toLowerCase();
+                return username.includes(query) || desc.includes(query) || music.includes(query);
+            }});
+        }}
+        renderVideos();
+    }}
+    window.handleSearch = handleSearch;
+
+    function clearSearch() {{
+        document.getElementById('searchInput').value = '';
+        filteredVideos = allVideos;
+        renderVideos();
+    }}
+    window.clearSearch = clearSearch;
+
+    // 🎀 Player Functions
     function openPlayer(url, title) {{
         const player = document.getElementById('fullscreenPlayer');
         const video = document.getElementById('fullscreenVideo');
@@ -1000,7 +1050,7 @@ def build_index():
     }}
     function shareTo(platform) {{
         const url = encodeURIComponent(currentShareUrl);
-        const text = encodeURIComponent('شاهد هذا الفيديو على MNAENCA ☁️');
+        const text = encodeURIComponent('شاهد هذا الفيديو على BOMK 🎀');
         let shareUrl = '';
         switch(platform) {{
             case 'whatsapp': shareUrl = 'https://wa.me/?text=' + text + '%20' + url; break;
@@ -1129,7 +1179,6 @@ def build_index():
             const snap = await db.ref('users/' + user.uid).get();
             if(snap.exists()) {{
                 currentUserData = {{uid: user.uid, ...snap.val()}};
-                // Update wallet balance in top bar
                 const walletBalance = currentUserData.wallet?.balance || 0;
                 document.getElementById('walletBalanceTop').innerText = formatNumber(walletBalance);
             }}
@@ -1138,14 +1187,11 @@ def build_index():
         db.ref('users').on('value', s => {{ allUsers = s.val() || {{}}; }});
         db.ref('videos').on('value', s => {{
             const data = s.val();
-            if(!data) {{ allVideos = []; allSounds = {{}}; }}
+            if(!data) {{ allVideos = []; filteredVideos = []; }}
             else {{
-                allVideos = []; allSounds = {{}};
-                Object.entries(data).forEach(([key, value]) => {{
-                    allVideos.push({{id: key, ...value}});
-                    if(value.music) allSounds[value.music] = (allSounds[value.music] || 0) + 1;
-                }});
+                allVideos = Object.entries(data).map(([key, value]) => ({{id: key, ...value}}));
                 allVideos.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                filteredVideos = allVideos;
             }}
             renderVideos();
         }});
@@ -1182,17 +1228,17 @@ def build_index():
     function renderVideos() {{
         const container = document.getElementById('videosWrap');
         if(!container) return;
-        let filtered = currentFeed === 'forYou' ? allVideos : allVideos.filter(v => currentUserData?.following?.[v.sender]);
-        if(!filtered.length) {{
-            container.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;color:rgba(255,255,255,0.5);flex-direction:column;gap:12px"><i class="fas fa-video" style="font-size:48px;opacity:0.3;color:#0ea5e9"></i><p>${{currentFeed === 'forYou' ? 'لا توجد فيديوهات بعد' : 'تابع مستخدمين لرؤية فيديوهاتهم'}}</p></div>`;
+        if(!filteredVideos.length) {{
+            container.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;color:rgba(255,255,255,0.5);flex-direction:column;gap:12px"><i class="fas fa-search" style="font-size:48px;opacity:0.3;color:#ff4d6d"></i><p>لا توجد نتائج</p></div>`;
             return;
         }}
         container.innerHTML = '';
-        filtered.forEach(video => {{
+        filteredVideos.forEach(video => {{
             const isLiked = video.likedBy && video.likedBy[currentUser?.uid];
             const user = allUsers[video.sender] || {{username: video.senderName || 'مستخدم'}};
             const isFollowing = currentUserData?.following && currentUserData.following[video.sender];
             const commentsCount = video.comments ? Object.keys(video.comments).length : 0;
+            const viewsCount = video.views || 0;
             const caption = (video.description || '').replace(/#(\\w+)/g, '<span class="tag">#$1</span>');
             const avatarUrl = user.avatarUrl || (DICEBEAR_URL + '?seed=' + video.sender);
             const verifiedBadgeHtml = user.isVerified ? '<span class="verified-badge-main"><i class="fas fa-check"></i></span>' : '';
@@ -1201,7 +1247,8 @@ def build_index():
             const div = document.createElement('div');
             div.className = 'vid-card';
             div.innerHTML = `
-                <div class="watermark-overlay"><span>☁️ MNAENCA</span></div>
+                <div class="views-counter"><i class="fas fa-eye"></i> ${{formatNumber(viewsCount)}}</div>
+                <div class="watermark-overlay"><span>🎀 BOMK</span></div>
                 <video loop playsinline muted data-src="${{video.url}}" poster="${{video.thumbnail || ''}}"></video>
                 <div class="vid-info">
                     <div class="author-row">
@@ -1218,7 +1265,6 @@ def build_index():
                     <div class="music">${{musicHtml}}</div>
                 </div>
                 <div class="side-btns">
-                    <button class="sbtn" onclick="toggleMute()"><i class="fas ${{isMuted ? 'fa-volume-mute' : 'fa-volume-up'}}"></i></button>
                     <button class="sbtn like-btn ${{isLiked ? 'liked' : ''}}" onclick="toggleLike('${{video.id}}', this)"><i class="fas fa-heart"></i><span class="cnt">${{video.likes || 0}}</span></button>
                     <button class="sbtn" onclick="openCommentsPanel('${{video.id}}')"><i class="fas fa-comment"></i><span class="cnt">${{commentsCount}}</span></button>
                     <button class="sbtn" onclick="openPlayer('${{video.url}}', 'video.mp4')"><i class="fas fa-expand"></i></button>
@@ -1257,9 +1303,6 @@ def build_index():
         }}, {{threshold: 0.65}});
         document.querySelectorAll('.vid-card').forEach(seg => observer.observe(seg));
     }}
-
-    function toggleMute() {{ isMuted = !isMuted; document.querySelectorAll('video').forEach(v => v.muted = isMuted); }}
-    function switchFeed(feed) {{ currentFeed = feed; document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); event.target.classList.add('active'); renderVideos(); }}
 
     async function toggleLike(videoId, btn) {{
         if(!currentUser) return;
@@ -1300,11 +1343,11 @@ def build_index():
         const items = Object.values(ns).reverse();
         let notifHTML = '';
         if(!items.length) {{
-            notifHTML = '<div style="text-align:center;opacity:0.5;padding:40px"><i class="fas fa-bell" style="font-size:48px;color:#0ea5e9;margin-bottom:12px;display:block"></i><p>لا توجد إشعارات</p></div>';
+            notifHTML = '<div style="text-align:center;opacity:0.5;padding:40px"><i class="fas fa-bell" style="font-size:48px;color:#ff4d6d;margin-bottom:12px;display:block"></i><p>لا توجد إشعارات</p></div>';
         }} else {{
             items.forEach(n => {{
-                notifHTML += `<div style="display:flex;gap:12px;padding:14px;border-bottom:1px solid rgba(14,165,233,0.1);align-items:center;animation:fadeIn 0.3s ease">
-                    <div style="width:40px;height:40px;border-radius:50%;background:rgba(14,165,233,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;color:#0ea5e9"><i class="fas fa-bell"></i></div>
+                notifHTML += `<div style="display:flex;gap:12px;padding:14px;border-bottom:1px solid rgba(255,77,109,0.15);align-items:center;animation:fadeIn 0.3s ease">
+                    <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,77,109,0.2);display:flex;align-items:center;justify-content:center;font-size:18px;color:#ff4d6d"><i class="fas fa-bell"></i></div>
                     <div><div style="font-weight:600">${{n.from || 'مستخدم'}}</div><div style="font-size:12px;opacity:0.6;margin-top:2px">${{n.msg || ''}}</div><div style="font-size:10px;opacity:0.3;margin-top:4px">${{new Date(n.timestamp).toLocaleString('ar-SA')}}</div></div></div>`;
             }});
         }}
@@ -1367,13 +1410,13 @@ def build_index():
     window.toggleLike = toggleLike;
     window.formatTime = formatTime;
 
-    console.log('☁️ MNAENCA Index Ready ✨');
+    console.log('🎀 BOMK Index Ready 💖');
 </script>
 </body>
 </html>"""
 
 # ═══════════════════════════════════════════════════════════
-# ☁️ 4. wallet.html - محفظة الأرباح بالدينار العراقي
+# 🎀 4. wallet.html - محفظة الأرباح
 # ═══════════════════════════════════════════════════════════
 
 def build_wallet():
@@ -1382,7 +1425,7 @@ def build_wallet():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>💰 MNAENCA | محفظة الأرباح</title>
+    <title>💰 BOMK | محفظة الأرباح</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
@@ -1395,10 +1438,10 @@ def build_wallet():
             display:flex;align-items:center;gap:12px;padding:16px;
             border-bottom:1px solid var(--border);
             position:sticky;top:0;z-index:10;
-            background:rgba(2,6,23,0.8);backdrop-filter:blur(20px);
+            background:rgba(10,0,5,0.85);backdrop-filter:blur(20px);
         }}
         .btn-back{{
-            background:rgba(14,165,233,0.1);border:1px solid var(--border);
+            background:rgba(255,77,109,0.15);border:1px solid var(--border);
             width:38px;height:38px;border-radius:50%;
             display:flex;align-items:center;justify-content:center;
             color:#fff;cursor:pointer;font-size:16px;text-decoration:none;
@@ -1407,8 +1450,8 @@ def build_wallet():
         .container{{max-width:500px;margin:0 auto;padding:20px}}
         
         .balance-card{{
-            background:linear-gradient(135deg, rgba(251,191,36,0.15), rgba(14,165,233,0.1));
-            border:2px solid rgba(251,191,36,0.4);
+            background:linear-gradient(135deg, rgba(251,191,36,0.15), rgba(255,77,109,0.15));
+            border:2px solid rgba(251,191,36,0.5);
             border-radius:24px;padding:30px 20px;text-align:center;
             margin-bottom:20px;position:relative;overflow:hidden;
             animation:goldGlow 3s ease-in-out infinite;
@@ -1440,17 +1483,17 @@ def build_wallet():
             background:linear-gradient(135deg, #f59e0b, #d97706);
             border:none;border-radius:20px;color:#fff;
             font-weight:800;font-size:16px;cursor:pointer;
-            margin-bottom:20px;box-shadow:0 10px 30px rgba(245,158,11,0.4);
+            margin-bottom:20px;box-shadow:0 10px 30px rgba(245,158,11,0.5);
             transition:all 0.3s;
         }}
         .withdraw-btn:hover{{
             transform:translateY(-2px);
-            box-shadow:0 15px 40px rgba(245,158,11,0.6);
+            box-shadow:0 15px 40px rgba(245,158,11,0.7);
         }}
         .withdraw-btn:disabled{{opacity:0.5;cursor:not-allowed}}
         
         .withdraw-form{{
-            display:none;background:rgba(2,6,23,0.95);
+            display:none;background:rgba(10,0,5,0.95);
             border:1px solid var(--border);border-radius:20px;
             padding:20px;margin-bottom:20px;
             animation:fadeIn 0.3s ease;
@@ -1462,10 +1505,10 @@ def build_wallet():
         .form-group label{{display:block;font-size:12px;opacity:0.7;margin-bottom:6px}}
         .form-group input,.form-group select{{
             width:100%;padding:12px 16px;border-radius:14px;
-            background:rgba(14,165,233,0.04);border:1px solid var(--border);
+            background:rgba(255,77,109,0.05);border:1px solid var(--border);
             color:#fff;font-size:14px;outline:none;
         }}
-        .form-group select option{{background:#0a1628;color:#fff}}
+        .form-group select option{{background:#1a0010;color:#fff}}
         
         .btn-submit-withdraw{{
             width:100%;padding:14px;
@@ -1501,8 +1544,8 @@ def build_wallet():
         
         .toast-msg{{
             position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
-            background:rgba(2,6,23,0.95);padding:12px 24px;border-radius:30px;
-            z-index:1000;border:1px solid rgba(14,165,233,0.3);
+            background:rgba(10,0,5,0.95);padding:12px 24px;border-radius:30px;
+            z-index:1000;border:1px solid rgba(255,77,109,0.4);
             font-size:13px;opacity:0;transition:opacity 0.3s;
             pointer-events:none;white-space:nowrap;
         }}
@@ -1577,7 +1620,7 @@ def build_wallet():
     </div>
     
     <div class="transactions">
-        <h3><i class="fas fa-history" style="color:#0ea5e9"></i> سجل المعاملات</h3>
+        <h3><i class="fas fa-history" style="color:#ff4d6d"></i> سجل المعاملات</h3>
         <div id="transactionsList"></div>
     </div>
 </div>
@@ -1750,13 +1793,13 @@ def build_wallet():
         return (num || 0).toLocaleString('ar-IQ');
     }}
     
-    console.log('💰 MNAENCA Wallet Ready');
+    console.log('💰 BOMK Wallet Ready');
 </script>
 </body>
 </html>"""
 
 # ═══════════════════════════════════════════════════════════
-# ☁️ 5. profile.html - ملف شخصي محترف
+# 🎀 5. profile.html - ملف شخصي
 # ═══════════════════════════════════════════════════════════
 
 def build_profile():
@@ -1765,7 +1808,7 @@ def build_profile():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>☁️ MNAENCA | ملف شخصي</title>
+    <title>🎀 BOMK | ملف شخصي</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
@@ -1775,44 +1818,44 @@ def build_profile():
         body{{min-height:100vh;overflow-y:auto;overflow-x:hidden;}}
         .cover-section{{position:relative;width:100%;height:260px;overflow:hidden;cursor:pointer}}
         .cover-img{{width:100%;height:130%;object-fit:cover;transition:transform 0.1s linear;transform:translateY(0)}}
-        .cover-gradient{{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(2,6,23,0.4) 60%,rgba(2,6,23,0.95) 100%);pointer-events:none;z-index:1}}
-        .cover-glow{{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(14,165,233,0.15) 0%,transparent 70%);pointer-events:none;z-index:2}}
-        .cover-edit-btn{{position:absolute;top:12px;left:12px;background:rgba(0,0,0,0.5);backdrop-filter:blur(15px);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;border:1px solid rgba(14,165,233,0.3);color:#fff;font-size:14px;transition:all 0.3s;box-shadow:0 4px 15px rgba(0,0,0,0.3)}}
-        .cover-edit-btn:hover{{background:rgba(14,165,233,0.4);box-shadow:0 0 20px rgba(14,165,233,0.5)}}
+        .cover-gradient{{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(10,0,5,0.4) 60%,rgba(10,0,5,0.95) 100%);pointer-events:none;z-index:1}}
+        .cover-glow{{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(255,77,109,0.2) 0%,transparent 70%);pointer-events:none;z-index:2}}
+        .cover-edit-btn{{position:absolute;top:12px;left:12px;background:rgba(0,0,0,0.5);backdrop-filter:blur(15px);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;border:1px solid rgba(255,77,109,0.4);color:#fff;font-size:14px;transition:all 0.3s;box-shadow:0 4px 15px rgba(0,0,0,0.3)}}
+        .cover-edit-btn:hover{{background:rgba(255,77,109,0.4);box-shadow:0 0 20px rgba(255,77,109,0.6)}}
         .btn-back{{position:fixed;top:20px;right:20px;background:rgba(0,0,0,0.5);backdrop-filter:blur(15px);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:50;border:1px solid var(--border);color:#fff;font-size:16px;transition:all 0.3s}}
-        .btn-back:hover{{background:rgba(14,165,233,0.3);box-shadow:0 0 20px rgba(14,165,233,0.4)}}
+        .btn-back:hover{{background:rgba(255,77,109,0.3);box-shadow:0 0 20px rgba(255,77,109,0.5)}}
         .avatar-wrap{{position:relative;z-index:2;margin-top:-60px;display:flex;justify-content:center}}
-        .avatar-lg{{width:120px;height:120px;border-radius:50%;overflow:hidden;cursor:pointer;background:linear-gradient(135deg,#0ea5e9,#06b6d4,#7dd3fc);padding:3px;box-shadow:0 0 30px rgba(14,165,233,0.4),0 0 60px rgba(14,165,233,0.1);animation:avatarGlow 3s ease-in-out infinite}}
-        @keyframes avatarGlow{{0%,100%{{box-shadow:0 0 30px rgba(14,165,233,0.4),0 0 60px rgba(14,165,233,0.1)}}50%{{box-shadow:0 0 40px rgba(6,182,212,0.7),0 0 80px rgba(14,165,233,0.3)}}}}
+        .avatar-lg{{width:120px;height:120px;border-radius:50%;overflow:hidden;cursor:pointer;background:linear-gradient(135deg,#ff4d6d,#c9184a,#ff8fa3);padding:3px;box-shadow:0 0 30px rgba(255,77,109,0.5),0 0 60px rgba(255,77,109,0.2);animation:avatarGlow 3s ease-in-out infinite}}
+        @keyframes avatarGlow{{0%,100%{{box-shadow:0 0 30px rgba(255,77,109,0.5),0 0 60px rgba(255,77,109,0.2)}}50%{{box-shadow:0 0 40px rgba(201,24,74,0.8),0 0 80px rgba(255,77,109,0.4)}}}}
         .avatar-lg img{{width:100%;height:100%;object-fit:cover;border-radius:50%;border:3px solid var(--bg)}}
-        .avatar-edit-btn{{position:absolute;bottom:5px;right:5px;width:30px;height:30px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid var(--bg);color:#fff;font-size:12px;box-shadow:0 0 15px rgba(14,165,233,0.5)}}
-        .online-dot{{position:absolute;top:10px;right:10px;width:18px;height:18px;background:#22c55e;border-radius:50%;border:3px solid var(--bg);z-index:3;box-shadow:0 0 10px rgba(34,197,94,0.6)}}
+        .avatar-edit-btn{{position:absolute;bottom:5px;right:5px;width:30px;height:30px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid var(--bg);color:#fff;font-size:12px;box-shadow:0 0 15px rgba(255,77,109,0.6)}}
+        .online-dot{{position:absolute;top:10px;right:10px;width:18px;height:18px;background:#22c55e;border-radius:50%;border:3px solid var(--bg);z-index:3;box-shadow:0 0 10px rgba(34,197,94,0.7)}}
         .profile-info{{padding:20px 20px 10px;text-align:center}}
         .username{{font-size:22px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;justify-content:center;gap:8px}}
         .bio-text{{font-size:13px;opacity:0.7;margin-bottom:8px;max-width:320px;margin-left:auto;margin-right:auto;line-height:1.5}}
         .contact-info{{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;font-size:12px}}
         .contact-info a{{color:var(--accent2);text-decoration:none;display:flex;align-items:center;gap:5px;background:var(--card);padding:6px 14px;border-radius:20px;border:1px solid var(--border);transition:all 0.3s}}
-        .contact-info a:hover{{background:rgba(14,165,233,0.15);box-shadow:0 0 15px rgba(14,165,233,0.2)}}
+        .contact-info a:hover{{background:rgba(255,77,109,0.2);box-shadow:0 0 15px rgba(255,77,109,0.3)}}
         .last-seen{{font-size:11px;opacity:0.5;display:flex;align-items:center;justify-content:center;gap:5px;margin-top:6px}}
         .wallet-mini{{
             display:flex;align-items:center;justify-content:center;gap:8px;
             margin:10px 20px;padding:12px;
-            background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);
+            background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.4);
             border-radius:16px;cursor:pointer;font-size:13px;font-weight:700;color:var(--gold);
             animation:goldGlow 2s ease-in-out infinite;
             transition:all 0.3s;
         }}
-        .wallet-mini:hover{{background:rgba(251,191,36,0.2)}}
-        .stats-row{{display:flex;justify-content:center;gap:30px;margin:15px 20px;padding:18px;background:rgba(14,165,233,0.04);backdrop-filter:blur(20px);border-radius:20px;border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,0.2)}}
+        .wallet-mini:hover{{background:rgba(251,191,36,0.25)}}
+        .stats-row{{display:flex;justify-content:center;gap:30px;margin:15px 20px;padding:18px;background:rgba(255,77,109,0.05);backdrop-filter:blur(20px);border-radius:20px;border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,0.2)}}
         .stat-item{{text-align:center;cursor:pointer;transition:transform 0.2s}}
         .stat-item:hover{{transform:scale(1.05)}}
         .stat-val{{font-size:20px;font-weight:700;color:var(--accent2)}}
         .stat-lbl{{font-size:10px;opacity:0.6;margin-top:2px}}
         .action-btns{{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:0 20px 20px}}
-        .btn{{background:rgba(14,165,233,0.06);border:1px solid var(--border);padding:10px 20px;border-radius:25px;color:#fff;cursor:pointer;font-size:13px;transition:all 0.3s;display:flex;align-items:center;gap:6px;backdrop-filter:blur(10px);text-decoration:none}}
-        .btn:hover{{background:rgba(14,165,233,0.15);border-color:var(--accent);box-shadow:0 0 20px rgba(14,165,233,0.2)}}
-        .btn-primary{{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;font-weight:700;color:#fff;box-shadow:0 8px 25px rgba(14,165,233,0.4)}}
-        .btn-primary:hover{{transform:translateY(-2px);box-shadow:0 12px 35px rgba(14,165,233,0.6)}}
+        .btn{{background:rgba(255,77,109,0.08);border:1px solid var(--border);padding:10px 20px;border-radius:25px;color:#fff;cursor:pointer;font-size:13px;transition:all 0.3s;display:flex;align-items:center;gap:6px;backdrop-filter:blur(10px);text-decoration:none}}
+        .btn:hover{{background:rgba(255,77,109,0.2);border-color:var(--accent);box-shadow:0 0 20px rgba(255,77,109,0.3)}}
+        .btn-primary{{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;font-weight:700;color:#fff;box-shadow:0 8px 25px rgba(255,77,109,0.5)}}
+        .btn-primary:hover{{transform:translateY(-2px);box-shadow:0 12px 35px rgba(255,77,109,0.7)}}
         .section-title{{font-size:16px;font-weight:700;padding:0 20px;margin-bottom:12px;display:flex;align-items:center;gap:8px}}
         .videos-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:0 8px 100px}}
         .video-grid-item{{aspect-ratio:9/16;position:relative;overflow:hidden;cursor:pointer;background:#000;border-radius:4px}}
@@ -1821,14 +1864,14 @@ def build_profile():
         .video-grid-item .grid-views{{position:absolute;bottom:4px;right:4px;font-size:10px;color:#fff;z-index:1;display:flex;align-items:center;gap:3px;opacity:0.8}}
         .empty-state{{text-align:center;opacity:0.5;padding:40px 20px}}
         .empty-state i{{font-size:48px;color:var(--accent);margin-bottom:12px;display:block}}
-        .badge-verified{{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;font-size:12px;padding:3px 6px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;font-weight:bold;box-shadow:0 0 15px rgba(56,189,248,0.6);animation:verifyGlow 2s ease-in-out infinite}}
-        @keyframes verifyGlow{{0%,100%{{box-shadow:0 0 15px rgba(56,189,248,0.6)}}50%{{box-shadow:0 0 25px rgba(56,189,248,0.9)}}}}
-        .edit-panel{{position:fixed;bottom:0;left:0;right:0;background:rgba(2,6,23,0.98);backdrop-filter:blur(40px);border-top:2px solid var(--accent);border-radius:24px 24px 0 0;padding:24px 20px 40px;z-index:200;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);max-height:80vh;overflow-y:auto;box-shadow:0 -10px 40px rgba(14,165,233,0.1)}}
+        .badge-verified{{background:linear-gradient(135deg,#ff4d6d,#c9184a);color:#fff;font-size:12px;padding:3px 6px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;font-weight:bold;box-shadow:0 0 15px rgba(255,143,163,0.7);animation:verifyGlow 2s ease-in-out infinite}}
+        @keyframes verifyGlow{{0%,100%{{box-shadow:0 0 15px rgba(255,143,163,0.7)}}50%{{box-shadow:0 0 25px rgba(255,143,163,1)}}}}
+        .edit-panel{{position:fixed;bottom:0;left:0;right:0;background:rgba(10,0,5,0.98);backdrop-filter:blur(40px);border-top:2px solid var(--accent);border-radius:24px 24px 0 0;padding:24px 20px 40px;z-index:200;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);max-height:80vh;overflow-y:auto;box-shadow:0 -10px 40px rgba(255,77,109,0.2)}}
         .edit-panel.show{{transform:translateY(0)}}
         .edit-panel h3{{font-size:18px;font-weight:700;margin-bottom:20px;color:var(--accent2);text-align:center}}
         .edit-panel label{{display:block;font-size:12px;opacity:0.7;margin-bottom:6px;margin-top:14px}}
         .edit-panel input,.edit-panel textarea{{width:100%;padding:12px 16px;border-radius:14px;background:var(--card);border:1px solid var(--border);color:#fff;font-size:14px;outline:none;resize:none;font-family:'Segoe UI',sans-serif;transition:border 0.3s}}
-        .edit-panel input:focus,.edit-panel textarea:focus{{border-color:var(--accent);box-shadow:0 0 15px rgba(14,165,233,0.15)}}
+        .edit-panel input:focus,.edit-panel textarea:focus{{border-color:var(--accent);box-shadow:0 0 15px rgba(255,77,109,0.2)}}
         .edit-actions{{display:flex;gap:10px;margin-top:20px}}
         .edit-actions button{{flex:1;padding:12px;border-radius:25px;font-weight:700;cursor:pointer;font-size:14px;transition:all 0.3s}}
         .btn-save{{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff}}
@@ -1838,16 +1881,16 @@ def build_profile():
         
         /* Admin Panel */
         .admin-panel{{padding:0 8px;margin:0 8px 100px 8px}}
-        .admin-panel h3{{color:#38bdf8;font-size:20px;margin-bottom:20px;display:flex;align-items:center;gap:10px;font-weight:700}}
+        .admin-panel h3{{color:#ff8fa3;font-size:20px;margin-bottom:20px;display:flex;align-items:center;gap:10px;font-weight:700}}
         .admin-stats-grid{{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}}
-        .stat-card{{background:rgba(14,165,233,0.06);border:1px solid rgba(14,165,233,0.15);border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;backdrop-filter:blur(10px)}}
-        .stat-icon{{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 15px rgba(14,165,233,0.3)}}
+        .stat-card{{background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.2);border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;backdrop-filter:blur(10px)}}
+        .stat-icon{{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 15px rgba(255,77,109,0.4)}}
         .stat-info h4{{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;font-weight:500}}
         .stat-info span{{font-size:22px;font-weight:800}}
         .admin-user-item{{display:flex;align-items:center;justify-content:space-between;padding:10px 8px;border-bottom:1px solid rgba(255,255,255,0.03);transition:background 0.2s;border-radius:8px}}
-        .admin-user-item:hover{{background:rgba(14,165,233,0.04)}}
+        .admin-user-item:hover{{background:rgba(255,77,109,0.05)}}
         .admin-user-info{{display:flex;align-items:center;gap:12px;flex:1;min-width:0}}
-        .admin-avatar{{width:40px;height:40px;border-radius:50%;overflow:hidden;border:2px solid rgba(14,165,233,0.3);flex-shrink:0}}
+        .admin-avatar{{width:40px;height:40px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,77,109,0.4);flex-shrink:0}}
         .admin-avatar img{{width:100%;height:100%;object-fit:cover}}
         .admin-user-details h4{{font-weight:600;font-size:15px}}
         .admin-user-details p{{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px}}
@@ -1855,7 +1898,7 @@ def build_profile():
         .admin-btn{{border:none;border-radius:20px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:5px}}
         .btn-ban{{background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.1)}}
         .btn-unban{{background:rgba(34,197,94,0.1);color:#4ade80;border:1px solid rgba(34,197,94,0.2)}}
-        .btn-verify{{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;box-shadow:0 4px 12px rgba(14,165,233,0.3)}}
+        .btn-verify{{background:linear-gradient(135deg,#ff4d6d,#c9184a);color:#fff;box-shadow:0 4px 12px rgba(255,77,109,0.4)}}
         .btn-delete-video{{background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.2)}}
         .btn-delete-video:hover{{background:rgba(239,68,68,0.3)}}
     </style>
@@ -1863,7 +1906,7 @@ def build_profile():
 <body>
 
 <div class="load-center" id="loader" style="display:flex;align-items:center;justify-content:center;min-height:80vh;flex-direction:column;gap:12px;color:rgba(255,255,255,0.5)">
-    <div class="spinner"></div><span>☁️ تحميل الملف...</span>
+    <div class="spinner"></div><span>🎀 تحميل الملف...</span>
 </div>
 
 <div id="content" style="display:none">
@@ -1917,7 +1960,7 @@ def build_profile():
 
 <div class="overlay-panel" id="overlayPanel" onclick="closeEditPanel()"></div>
 <div class="edit-panel" id="editPanel">
-    <h3>☁️ لوحة تعديل الملف الشخصي</h3>
+    <h3>🎀 لوحة تعديل الملف الشخصي</h3>
     <label>👤 اسم المستخدم</label>
     <input type="text" id="editUsername" placeholder="اسم المستخدم">
     <label>📝 السيرة الذاتية</label>
@@ -1984,8 +2027,8 @@ def build_profile():
     async function loadProfile() {{
         const u = allUsers[profileUserId];
         if(!u) {{ document.getElementById('content').innerHTML = '<div class="empty-state" style="padding-top:100px"><i class="fas fa-user-slash"></i><p>المستخدم غير موجود</p></div>'; return; }}
-        const skyVerifiedBadge = u.isVerified ? '<span class="badge-verified"><i class="fas fa-check"></i></span>' : '';
-        document.getElementById('nameDisplay').innerHTML = '@' + (u.username || 'مستخدم') + ' ' + skyVerifiedBadge;
+        const pinkVerifiedBadge = u.isVerified ? '<span class="badge-verified"><i class="fas fa-check"></i></span>' : '';
+        document.getElementById('nameDisplay').innerHTML = '@' + (u.username || 'مستخدم') + ' ' + pinkVerifiedBadge;
         document.getElementById('bioDisplay').innerText = u.bio || 'لم تتم إضافة سيرة ذاتية بعد';
         const contactInfo = document.getElementById('contactInfo');
         let contactHTML = '';
@@ -2025,7 +2068,7 @@ def build_profile():
                 d.innerHTML = `
                     ${{v.thumbnail ? `<img src="${{v.thumbnail}}" style="width:100%;height:100%;object-fit:cover">` : '<div style="width:100%;height:100%;background:#111;display:flex;align-items:center;justify-content:center"><i class="fas fa-play" style="color:#555;font-size:24px"></i></div>'}}
                     <div class="grid-play-icon"><i class="fas fa-play"></i></div>
-                    <div class="grid-views"><i class="fas fa-heart" style="color:var(--accent)"></i> ${{v.likes || 0}}</div>
+                    <div class="grid-views"><i class="fas fa-eye" style="color:var(--accent)"></i> ${{formatNumber(v.views || 0)}} · <i class="fas fa-heart" style="color:var(--accent)"></i> ${{v.likes || 0}}</div>
                 `;
                 grid.appendChild(d);
             }});
@@ -2094,7 +2137,7 @@ def build_profile():
     }}
     async function copyProfile() {{
         const u = allUsers[profileUserId];
-        const text = `👤 @${{u.username || 'مستخدم'}}\\n📝 ${{u.bio || ''}}\\n☁️ MNAENCA 2026`;
+        const text = `👤 @${{u.username || 'مستخدم'}}\\n📝 ${{u.bio || ''}}\\n🎀 BOMK 2026`;
         try {{ await navigator.clipboard.writeText(text); }} catch(e) {{ const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }}
         showToast('✅ تم نسخ معلومات الملف الشخصي');
     }}
@@ -2132,15 +2175,15 @@ def build_profile():
         adminDiv.innerHTML = `<h3><i class="fas fa-crown"></i> لوحة تحكم الأدمن</h3>
             <div class="admin-stats-grid">
                 <div class="stat-card"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-info"><h4>المستخدمين</h4><span>${{totalUsers}}</span></div></div>
-                <div class="stat-card"><div class="stat-icon" style="background:linear-gradient(135deg,#f59e0b,#0ea5e9)"><i class="fas fa-video"></i></div><div class="stat-info"><h4>فيديوهات</h4><span>${{totalVideos}}</span></div></div>
+                <div class="stat-card"><div class="stat-icon" style="background:linear-gradient(135deg,#f59e0b,#ff4d6d)"><i class="fas fa-video"></i></div><div class="stat-info"><h4>فيديوهات</h4><span>${{totalVideos}}</span></div></div>
                 <div class="stat-card"><div class="stat-icon"><i class="fas fa-check-circle"></i></div><div class="stat-info"><h4>موثقين</h4><span>${{totalVerified}}</span></div></div>
                 <div class="stat-card"><div class="stat-icon" style="background:linear-gradient(135deg,#ef4444,#dc2626)"><i class="fas fa-ban"></i></div><div class="stat-info"><h4>محظورين</h4><span>${{totalBanned}}</span></div></div>
             </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;color:rgba(255,255,255,0.6);font-size:13px;font-weight:600;border-bottom:1px solid rgba(14,165,233,0.1);padding-bottom:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;color:rgba(255,255,255,0.6);font-size:13px;font-weight:600;border-bottom:1px solid rgba(255,77,109,0.15);padding-bottom:8px">
                 <span>📋 قائمة المستخدمين</span><span style="font-size:11px">${{totalUsers}} إجمالي</span>
             </div>
             <div id="adminDynamicList"></div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;margin-bottom:14px;color:rgba(255,255,255,0.6);font-size:13px;font-weight:600;border-bottom:1px solid rgba(14,165,233,0.1);padding-bottom:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;margin-bottom:14px;color:rgba(255,255,255,0.6);font-size:13px;font-weight:600;border-bottom:1px solid rgba(255,77,109,0.15);padding-bottom:8px">
                 <span>🎬 جميع الفيديوهات</span><span style="font-size:11px">${{totalVideos}} إجمالي</span>
             </div>
             <div id="adminVideosList"></div>`;
@@ -2171,7 +2214,7 @@ def build_profile():
         listContainer.innerHTML = videosArray.map(v => {{
             const user = allUsers[v.sender] || {{username: v.senderName || 'مستخدم'}};
             const desc = (v.description || 'بدون وصف').substring(0, 40);
-            return `<div class="admin-user-item"><div class="admin-user-info"><div class="admin-avatar" style="border-radius:8px;width:50px;height:70px">${{v.thumbnail ? `<img src="${{v.thumbnail}}" style="object-fit:cover">` : ''}}</div><div class="admin-user-details"><p style="font-size:12px">${{desc}}</p><span style="font-size:10px;opacity:0.4">@${{user.username}} · ❤️ ${{v.likes || 0}}</span></div></div><div class="admin-user-actions"><button class="admin-btn btn-delete-video" onclick="deleteVideo('${{v.id}}')"><i class="fas fa-trash"></i> حذف</button></div></div>`;
+            return `<div class="admin-user-item"><div class="admin-user-info"><div class="admin-avatar" style="border-radius:8px;width:50px;height:70px">${{v.thumbnail ? `<img src="${{v.thumbnail}}" style="object-fit:cover">` : ''}}</div><div class="admin-user-details"><p style="font-size:12px">${{desc}}</p><span style="font-size:10px;opacity:0.4">@${{user.username}} · 👁️ ${{v.views || 0}} · ❤️ ${{v.likes || 0}}</span></div></div><div class="admin-user-actions"><button class="admin-btn btn-delete-video" onclick="deleteVideo('${{v.id}}')"><i class="fas fa-trash"></i> حذف</button></div></div>`;
         }}).join('');
     }}
 
@@ -2180,13 +2223,13 @@ def build_profile():
     window.toggleBanUser = async function(id) {{ const snap = await db.ref('users/' + id).once('value'); const data = snap.val(); if(!data) return; const newState = !data.banned; if(!confirm(`تأكيد ${{newState ? 'حظر' : 'إلغاء حظر'}} @${{data.username || 'المستخدم'}}؟`)) return; await db.ref('users/' + id).update({{banned: newState, bannedAt: newState ? Date.now() : null, bannedBy: newState ? currentUser.uid : null}}); await loadAll(); await loadProfile(); showToast(`✅ تم ${{newState ? 'حظر' : 'إلغاء حظر'}} المستخدم`); loadAdminUsersList(); }};
     window.openUserProfile = function(id) {{ if(id === currentUser?.uid) window.location.href = 'profile.html'; else window.location.href = 'profile.html?uid=' + id; }};
 
-    console.log('☁️ MNAENCA Profile Ready ✨');
+    console.log('🎀 BOMK Profile Ready 💖');
 </script>
 </body>
 </html>"""
 
 # ═══════════════════════════════════════════════════════════
-# ☁️ 6. upload.html - رفع فيديو مع أرباح
+# 🎀 6. upload.html - رفع فيديو
 # ═══════════════════════════════════════════════════════════
 
 def build_upload():
@@ -2195,7 +2238,7 @@ def build_upload():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>☁️ MNAENCA | رفع فيديو</title>
+    <title>🎀 BOMK | رفع فيديو</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
@@ -2203,26 +2246,26 @@ def build_upload():
     <style>
         {COMMON_CSS}
         body{{min-height:100vh;overflow-y:auto}}
-        .header{{display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--border);background:rgba(2,6,23,0.8);backdrop-filter:blur(20px);position:sticky;top:0;z-index:10}}
-        .btn-back{{background:rgba(14,165,233,0.1);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:16px;text-decoration:none}}
+        .header{{display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--border);background:rgba(10,0,5,0.85);backdrop-filter:blur(20px);position:sticky;top:0;z-index:10}}
+        .btn-back{{background:rgba(255,77,109,0.15);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:16px;text-decoration:none}}
         .container{{max-width:500px;margin:0 auto;padding:20px}}
         .earn-info{{
-            background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);
+            background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.4);
             border-radius:16px;padding:14px;text-align:center;margin-bottom:20px;
             color:var(--gold);font-size:13px;font-weight:600;
             animation:goldGlow 2s ease-in-out infinite;
         }}
-        .dropzone{{border:2px dashed rgba(14,165,233,0.3);border-radius:20px;padding:50px 20px;text-align:center;cursor:pointer;background:var(--glass);margin-bottom:20px}}
+        .dropzone{{border:2px dashed rgba(255,77,109,0.4);border-radius:20px;padding:50px 20px;text-align:center;cursor:pointer;background:var(--glass);margin-bottom:20px}}
         .dropzone i{{font-size:48px;color:var(--accent)}}
         .dropzone video{{width:100%;max-height:250px;object-fit:contain;margin-top:12px;border-radius:12px;display:none}}
-        .form-card{{background:rgba(14,165,233,0.03);border:1px solid var(--border);border-radius:20px;padding:20px}}
+        .form-card{{background:rgba(255,77,109,0.04);border:1px solid var(--border);border-radius:20px;padding:20px}}
         .form-card label{{display:block;font-size:13px;opacity:0.7;margin-bottom:6px;margin-top:12px}}
-        .form-card textarea,.form-card input{{width:100%;padding:14px 16px;border-radius:16px;background:rgba(14,165,233,0.04);border:1px solid var(--border);color:#fff;font-size:14px;outline:none;resize:none;font-family:'Segoe UI',sans-serif}}
+        .form-card textarea,.form-card input{{width:100%;padding:14px 16px;border-radius:16px;background:rgba(255,77,109,0.05);border:1px solid var(--border);color:#fff;font-size:14px;outline:none;resize:none;font-family:'Segoe UI',sans-serif}}
         .progress-wrap{{display:none;margin:16px 0}}
         .progress-bar{{background:rgba(255,255,255,0.1);border-radius:30px;height:6px;overflow:hidden}}
         .progress-fill{{background:linear-gradient(90deg,var(--accent),var(--accent2));height:100%;border-radius:30px;width:0%}}
         .progress-text{{text-align:center;font-size:12px;margin-top:6px;color:var(--accent2)}}
-        .btn-upload{{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:30px;color:#fff;font-weight:700;font-size:15px;cursor:pointer;margin-top:16px;box-shadow:0 10px 25px rgba(14,165,233,0.4)}}
+        .btn-upload{{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:30px;color:#fff;font-weight:700;font-size:15px;cursor:pointer;margin-top:16px;box-shadow:0 10px 25px rgba(255,77,109,0.5)}}
         .btn-upload:disabled{{opacity:0.5}}
         .status{{text-align:center;margin-top:12px;font-size:13px}}
     </style>
@@ -2297,7 +2340,7 @@ def build_upload():
 </html>"""
 
 # ═══════════════════════════════════════════════════════════
-# ☁️ 7. chat.html - دردشة مع إرسال صور محسن
+# 🎀 7. chat.html - دردشة مع صور
 # ═══════════════════════════════════════════════════════════
 
 def build_chat():
@@ -2306,7 +2349,7 @@ def build_chat():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>☁️ MNAENCA | دردشة</title>
+    <title>🎀 BOMK | دردشة</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
@@ -2314,35 +2357,35 @@ def build_chat():
     <style>
         {COMMON_CSS}
         body{{height:100vh;display:flex;flex-direction:column}}
-        .header{{display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--border);background:rgba(2,6,23,0.8);backdrop-filter:blur(20px)}}
-        .btn-back{{background:rgba(14,165,233,0.1);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:16px;text-decoration:none}}
+        .header{{display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--border);background:rgba(10,0,5,0.85);backdrop-filter:blur(20px)}}
+        .btn-back{{background:rgba(255,77,109,0.15);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:16px;text-decoration:none}}
         .msgs{{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px}}
         .bubble{{max-width:80%;padding:10px 16px;border-radius:20px;word-break:break-word;font-size:14px;position:relative;animation:msgIn 0.3s ease}}
         @keyframes msgIn{{from{{opacity:0;transform:translateY(10px)}}to{{opacity:1;transform:translateY(0)}}}}
         .bubble.sent{{background:linear-gradient(135deg,var(--accent),var(--accent2));align-self:flex-end;color:#fff}}
-        .bubble.received{{background:rgba(14,165,233,0.06);align-self:flex-start;border:1px solid rgba(14,165,233,0.1)}}
+        .bubble.received{{background:rgba(255,77,109,0.08);align-self:flex-start;border:1px solid rgba(255,77,109,0.15)}}
         .bubble img{{max-width:200px;border-radius:12px;cursor:pointer;margin-top:4px;display:block}}
         .bubble .time{{font-size:9px;opacity:0.6;margin-top:4px}}
-        .input-bar{{display:flex;gap:10px;padding:12px;background:rgba(2,6,23,0.95);backdrop-filter:blur(20px);border-top:1px solid var(--border);align-items:center}}
+        .input-bar{{display:flex;gap:10px;padding:12px;background:rgba(10,0,5,0.95);backdrop-filter:blur(20px);border-top:1px solid var(--border);align-items:center}}
         .input-bar input{{flex:1;padding:12px 16px;border-radius:30px;background:var(--glass);border:1px solid var(--border);color:#fff;font-size:14px;outline:none}}
-        .btn-icon{{width:42px;height:42px;background:rgba(14,165,233,0.1);border:1px solid var(--border);border-radius:50%;color:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all 0.3s}}
-        .btn-icon:hover{{background:rgba(14,165,233,0.25)}}
+        .btn-icon{{width:42px;height:42px;background:rgba(255,77,109,0.15);border:1px solid var(--border);border-radius:50%;color:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all 0.3s}}
+        .btn-icon:hover{{background:rgba(255,77,109,0.3)}}
         .btn-send{{width:42px;height:42px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:50%;color:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}}
         .conv-item{{display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid var(--border);cursor:pointer}}
-        .conv-item:hover{{background:rgba(14,165,233,0.04)}}
-        .chat-avatar{{width:40px;height:40px;border-radius:50%;overflow:hidden;border:2px solid rgba(14,165,233,0.3);flex-shrink:0}}
+        .conv-item:hover{{background:rgba(255,77,109,0.05)}}
+        .chat-avatar{{width:40px;height:40px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,77,109,0.4);flex-shrink:0}}
         .chat-avatar img{{width:100%;height:100%;object-fit:cover}}
         .online-indicator{{width:10px;height:10px;background:#22c55e;border-radius:50%;display:inline-block;margin-left:6px}}
         .image-upload-progress{{
             position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
-            background:rgba(2,6,23,0.95);padding:16px 24px;border-radius:20px;
+            background:rgba(10,0,5,0.95);padding:16px 24px;border-radius:20px;
             border:1px solid var(--accent);z-index:1000;text-align:center;
             display:none;
         }}
     </style>
 </head>
 <body>
-<div id="loader" style="flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px"><div class="spinner"></div><span>☁️ تحميل...</span></div>
+<div id="loader" style="flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px"><div class="spinner"></div><span>🎀 تحميل...</span></div>
 
 <div id="convView" style="display:none;flex:1;flex-direction:column;overflow:hidden">
     <div class="header">
@@ -2412,14 +2455,14 @@ def build_chat():
             if(other&&!found.has(other)&&allUsers[other])found.add(other)
         }});
         if(!found.size){{
-            cl.innerHTML='<div style="text-align:center;opacity:0.5;padding:40px"><i class="fas fa-comments" style="font-size:48px;color:#0ea5e9;margin-bottom:12px;display:block"></i><p>لا محادثات بعد</p></div>';
+            cl.innerHTML='<div style="text-align:center;opacity:0.5;padding:40px"><i class="fas fa-comments" style="font-size:48px;color:#ff4d6d;margin-bottom:12px;display:block"></i><p>لا محادثات بعد</p></div>';
             return
         }}
         found.forEach(uid=>{{
             const u=allUsers[uid];
             const d=document.createElement('div');
             d.className='conv-item';
-            d.innerHTML=`<div class="chat-avatar"><img src="${{u?.avatarUrl||(DICEBEAR_URL+'?seed='+uid)}}"></div><div style="flex:1"><div style="font-weight:600">@${{u?.username||'?'}} ${{u?.isVerified?'<span style="color:#38bdf8;font-size:12px"><i class="fas fa-check-circle"></i></span>':''}}</div></div><i class="fas fa-chevron-left" style="opacity:0.4;font-size:12px"></i>`;
+            d.innerHTML=`<div class="chat-avatar"><img src="${{u?.avatarUrl||(DICEBEAR_URL+'?seed='+uid)}}"></div><div style="flex:1"><div style="font-weight:600">@${{u?.username||'?'}} ${{u?.isVerified?'<span style="color:#ff8fa3;font-size:12px"><i class="fas fa-check-circle"></i></span>':''}}</div></div><i class="fas fa-chevron-left" style="opacity:0.4;font-size:12px"></i>`;
             d.onclick=()=>openChat(uid);
             cl.appendChild(d)
         }})
@@ -2440,7 +2483,6 @@ def build_chat():
         
         await loadMsgs();
         
-        // الاستماع للرسائل الجديدة
         if(messagesListener)db.ref('private_messages/'+getChatId()).off('value',messagesListener);
         messagesListener=db.ref('private_messages/'+getChatId()).on('value',async()=>{{
             await loadMsgs();
@@ -2460,7 +2502,7 @@ def build_chat():
         const msgsArray=Object.values(ms).sort((a,b)=>(a.timestamp||0)-(b.timestamp||0));
         
         if(!msgsArray.length){{
-            ml.innerHTML='<div style="text-align:center;opacity:0.4;padding:40px"><i class="fas fa-comment-dots" style="font-size:40px;color:#0ea5e9;margin-bottom:10px;display:block"></i><p>ابدأ المحادثة!</p></div>';
+            ml.innerHTML='<div style="text-align:center;opacity:0.4;padding:40px"><i class="fas fa-comment-dots" style="font-size:40px;color:#ff4d6d;margin-bottom:10px;display:block"></i><p>ابدأ المحادثة!</p></div>';
             return;
         }}
         
@@ -2502,13 +2544,11 @@ def build_chat():
             const file=e.target.files[0];
             if(!file)return;
             
-            // التحقق من حجم الصورة
             if(file.size>5*1024*1024){{
                 showToast('❌ حجم الصورة كبير جداً (الحد الأقصى 5MB)');
                 return;
             }}
             
-            // إظهار مؤشر التحميل
             document.getElementById('imageUploadProgress').style.display='block';
             
             try{{
@@ -2549,7 +2589,7 @@ def build_chat():
         if(!chatUserId)return;
         const snap=await db.ref('private_messages/'+getChatId()).once('value');
         const msgs=snap.val()||{{}};
-        let text='💬 محادثة MNAENCA\\n'+'─'.repeat(30)+'\\n';
+        let text='💬 محادثة BOMK\\n'+'─'.repeat(30)+'\\n';
         Object.values(msgs).sort((a,b)=>a.timestamp-b.timestamp).forEach(m=>{{
             const sender=m.senderId===currentUser.uid?'أنت':(allUsers[m.senderId]?.username||'مستخدم');
             const content=m.type==='image'?'[صورة 📷]':m.text;
@@ -2587,60 +2627,13 @@ def build_chat():
         return new Date(ts).toLocaleDateString('ar-SA');
     }}
     
-    console.log('💬 MNAENCA Chat Ready with Image Support');
+    console.log('💬 BOMK Chat Ready with Image Support');
 </script>
 </body>
 </html>"""
 
 # ═══════════════════════════════════════════════════════════
-# ☁️ 8. explore.html - استكشاف
-# ═══════════════════════════════════════════════════════════
-
-def build_explore():
-    return f"""<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>☁️ MNAENCA | استكشاف</title>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        {COMMON_CSS}
-        body{{min-height:100vh;overflow-y:auto}}
-        .header{{display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(2,6,23,0.8);backdrop-filter:blur(20px);z-index:10}}
-        .btn-back{{background:rgba(14,165,233,0.1);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:16px;text-decoration:none}}
-        .grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:2px 2px 80px}}
-        .thumb{{aspect-ratio:9/16;background:rgba(14,165,233,0.05);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden}}
-        .thumb img{{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}}
-        .thumb i{{position:absolute;font-size:24px;color:#fff;z-index:1;opacity:0;transition:opacity 0.3s}}
-        .thumb:hover i{{opacity:1}}
-        .thumb .views{{position:absolute;bottom:4px;left:4px;font-size:10px;background:rgba(0,0,0,0.6);padding:2px 6px;border-radius:10px}}
-    </style>
-</head>
-<body>
-<div class="header"><a href="index.html" class="btn-back"><i class="fas fa-arrow-right"></i></a><h2><i class="fas fa-globe"></i> استكشاف</h2></div>
-<div class="grid" id="exploreGrid"><div class="spinner" style="grid-column:1/-1"></div></div>
-<script src="firebase-config.js"></script>
-<script>
-    let currentUser=null;
-    auth.onAuthStateChanged(async u=>{{if(!u){{window.location.href='auth.html';return}}currentUser=u;loadExplore()}});
-    async function loadExplore(){{
-        const snap=await db.ref('videos').once('value');
-        const videos=snap.val()||{{}};
-        const allVids=Object.entries(videos).map(([k,v])=>({{id:k,...v}})).sort((a,b)=>(b.likes||0)-(a.likes||0));
-        const g=document.getElementById('exploreGrid');
-        if(!allVids.length){{g.innerHTML='<div style="text-align:center;padding:40px;grid-column:1/-1;opacity:0.5"><i class="fas fa-video-slash" style="font-size:48px;color:#0ea5e9;margin-bottom:12px;display:block"></i><p>لا توجد فيديوهات</p></div>';return}}
-        g.innerHTML=allVids.map(v=>`<div class="thumb" onclick="window.open('${{v.url}}','_blank')">${{v.thumbnail?`<img src="${{v.thumbnail}}">`:''}}<i class="fas fa-play"></i><span class="views"><i class="fas fa-heart"></i> ${{v.likes||0}}</span></div>`).join('');
-    }}
-</script>
-</body>
-</html>"""
-
-# ═══════════════════════════════════════════════════════════
-# ☁️ 9. notifications.html - إشعارات
+# 🎀 8. notifications.html
 # ═══════════════════════════════════════════════════════════
 
 def build_notifications():
@@ -2649,7 +2642,7 @@ def build_notifications():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>☁️ MNAENCA | إشعارات</title>
+    <title>🎀 BOMK | إشعارات</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
@@ -2657,10 +2650,10 @@ def build_notifications():
     <style>
         {COMMON_CSS}
         body{{min-height:100vh;overflow-y:auto}}
-        .header{{display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(2,6,23,0.8);backdrop-filter:blur(20px);z-index:10}}
-        .btn-back{{background:rgba(14,165,233,0.1);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:16px;text-decoration:none}}
+        .header{{display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(10,0,5,0.85);backdrop-filter:blur(20px);z-index:10}}
+        .btn-back{{background:rgba(255,77,109,0.15);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:16px;text-decoration:none}}
         .notif-item{{display:flex;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);align-items:center}}
-        .notif-icon{{width:40px;height:40px;border-radius:50%;background:rgba(14,165,233,0.1);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--accent);flex-shrink:0}}
+        .notif-icon{{width:40px;height:40px;border-radius:50%;background:rgba(255,77,109,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--accent);flex-shrink:0}}
     </style>
 </head>
 <body>
@@ -2675,7 +2668,7 @@ def build_notifications():
         const ns=snap.val()||{{}};
         const c=document.getElementById('notifsList');
         const items=Object.values(ns).reverse();
-        if(!items.length){{c.innerHTML='<div style="text-align:center;opacity:0.5;padding:40px"><i class="fas fa-bell" style="font-size:48px;color:#0ea5e9;margin-bottom:12px;display:block"></i><p>لا توجد إشعارات</p></div>';return}}
+        if(!items.length){{c.innerHTML='<div style="text-align:center;opacity:0.5;padding:40px"><i class="fas fa-bell" style="font-size:48px;color:#ff4d6d;margin-bottom:12px;display:block"></i><p>لا توجد إشعارات</p></div>';return}}
         c.innerHTML=items.map(n=>`<div class="notif-item"><div class="notif-icon"><i class="fas fa-bell"></i></div><div style="flex:1"><div style="font-weight:600">${{n.from||'مستخدم'}}</div><div style="font-size:12px;opacity:0.6;margin-top:2px">${{n.msg||''}}</div><div style="font-size:10px;opacity:0.3;margin-top:4px">${{new Date(n.timestamp).toLocaleString('ar-SA')}}</div></div></div>`).join('');
     }}
 </script>
@@ -2683,7 +2676,7 @@ def build_notifications():
 </html>"""
 
 # ═══════════════════════════════════════════════════════════
-# ☁️ 10. settings.html - إعدادات
+# 🎀 9. settings.html
 # ═══════════════════════════════════════════════════════════
 
 def build_settings():
@@ -2692,7 +2685,7 @@ def build_settings():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>☁️ MNAENCA | إعدادات</title>
+    <title>🎀 BOMK | إعدادات</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
@@ -2700,8 +2693,8 @@ def build_settings():
     <style>
         {COMMON_CSS}
         body{{min-height:100vh;overflow-y:auto}}
-        .header{{display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(2,6,23,0.8);backdrop-filter:blur(20px);z-index:10}}
-        .btn-back{{background:rgba(14,165,233,0.1);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:16px;text-decoration:none}}
+        .header{{display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(10,0,5,0.85);backdrop-filter:blur(20px);z-index:10}}
+        .btn-back{{background:rgba(255,77,109,0.15);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:16px;text-decoration:none}}
         .setting-item{{display:flex;justify-content:space-between;align-items:center;padding:16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.2s;text-decoration:none;color:#fff}}
         .setting-item:hover{{background:var(--glass)}}
         .setting-item i{{color:var(--accent);font-size:18px;width:30px}}
@@ -2713,9 +2706,7 @@ def build_settings():
 <div style="padding:8px 0">
     <a href="profile.html" class="setting-item"><div style="display:flex;align-items:center;gap:12px"><i class="fas fa-user"></i><span>تعديل الملف الشخصي</span></div><i class="fas fa-chevron-left" style="opacity:0.5"></i></a>
     <a href="wallet.html" class="setting-item"><div style="display:flex;align-items:center;gap:12px"><i class="fas fa-wallet" style="color:#fbbf24"></i><span>محفظة الأرباح</span></div><i class="fas fa-chevron-left" style="opacity:0.5"></i></a>
-    <div class="setting-item"><div style="display:flex;align-items:center;gap:12px"><i class="fas fa-lock"></i><span>الخصوصية</span></div><i class="fas fa-chevron-left" style="opacity:0.5"></i></div>
-    <div class="setting-item"><div style="display:flex;align-items:center;gap:12px"><i class="fas fa-globe"></i><span>اللغة</span></div><span style="opacity:0.5;font-size:13px">العربية</span></div>
-    <div class="setting-item"><div style="display:flex;align-items:center;gap:12px"><i class="fas fa-info-circle"></i><span>حول التطبيق</span></div><span style="opacity:0.5;font-size:13px">v2026.4 ☁️</span></div>
+    <div class="setting-item"><div style="display:flex;align-items:center;gap:12px"><i class="fas fa-info-circle"></i><span>حول التطبيق</span></div><span style="opacity:0.5;font-size:13px">v2026.5 🎀</span></div>
     <button class="btn-danger" onclick="if(confirm('تسجيل الخروج؟')){{auth.signOut();window.location.href='auth.html'}}"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
 </div>
 <script src="firebase-config.js"></script>
@@ -2724,30 +2715,25 @@ def build_settings():
 </html>"""
 
 # ═══════════════════════════════════════════════════════════
-# ☁️ MAIN
+# 🎀 MAIN
 # ═══════════════════════════════════════════════════════════
 
 def main():
     print("""
 ╔══════════════════════════════════════════════════════════════╗
 ║                                                              ║
-║  ☁️  MNAENCA 2026 - SKY BLUE LUXURY EDITION  ✨          ║
-║     Ultimate Generator - 10 Files - 3500+ Lines              ║
+║  🎀  BOMK 2026 - PINK LUXURY EDITION  💖                  ║
+║     Ultimate Generator - 9 Files                            ║
 ║                                                              ║
-║  💬 TikTok-Style Comments with Replies                    ║
-║  📤 Professional Share System                             ║
-║  👤 Enhanced Profile with Video Grid                      ║
-║  💰 Iraqi Dinar Earnings Wallet                           ║
-║  💧 Watermark on Videos                                   ║
-║  🔥 Firebase: muvg-42126                                  ║
-║  ☁️ Cloudinary: dmqyd0haj                                 ║
+║  🔥 Firebase: bomk-9f6ec                                  ║
+║  ☁️ Cloudinary: vt6hibdu / y66.ko                       ║
+║  👑 Admin: jasim28v@gmail.com                            ║
 ║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
     """)
     
     section("BUILDING FILES - إنشاء الملفات")
     
-    # Clean output directory
     if os.path.exists(OUTPUT_DIR):
         shutil.rmtree(OUTPUT_DIR)
     os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -2759,11 +2745,9 @@ def main():
     write("profile.html", build_profile())
     write("upload.html", build_upload())
     write("chat.html", build_chat())
-    write("explore.html", build_explore())
     write("notifications.html", build_notifications())
     write("settings.html", build_settings())
     
-    # Copy to root for GitHub Pages
     for f in os.listdir(OUTPUT_DIR):
         src = os.path.join(OUTPUT_DIR, f)
         dst = os.path.join('.', f)
@@ -2772,43 +2756,27 @@ def main():
     
     print(f"""
 {'='*60}
-  ☁️ BUILD COMPLETE - تم الإنشاء بنجاح! ✨
+  🎀 BUILD COMPLETE! 💖
 {'='*60}
 
-  📊 إحصائيات:
-     • {TOTAL_LINES} إجمالي عدد الأسطر
-     • 10 ملفات تم إنشاؤها
+  📊 {TOTAL_LINES} سطر - 9 ملفات
 
-  📁 الملفات:
-     1. firebase-config.js   → إعدادات Firebase + Cloudinary + أرباح
-     2. auth.html            → تسجيل دخول + اشتراك + مكافأة 5000 د.ع
-     3. index.html           → الرئيسية بدون بحث + محفظة مصغرة
-     4. wallet.html          → 💰 محفظة الأرباح بالدينار العراقي
-     5. profile.html         → ملف شخصي محترف + محفظة
-     6. upload.html          → رفع فيديو + مكافأة 1000 د.ع
-     7. chat.html            → دردشة مع إرسال صور محسن
-     8. explore.html         → استكشاف
-     9. notifications.html   → صفحة الإشعارات
-     10. settings.html       → إعدادات
+  ✨ المميزات:
+     • 💖 اللون الوردي في كل الواجهات
+     • 👁️ عداد مشاهدات على الفيديوهات
+     • 🔍 نظام بحث (بدون استكشاف)
+     • 💰 محفظة أرباح + رصيد ظاهر
+     • 💬 دردشة مع صور
+     • 🎥 مشغل فيديو داخلي
+     • 👤 ملف شخصي كامل
+     • 🔔 إشعارات
+     • 🗑️ لوحة أدمن
 
-  ✨ المميزات الجديدة:
-     • 💰 محفظة أرباح كاملة بالدينار العراقي
-     • 🎁 مكافأة ترحيبية 5000 د.ع عند التسجيل
-     • 🎬 مكافأة 1000 د.ع عند رفع فيديو
-     • 💵 سحب الأرباح (زين كاش، آسيا حوالة، كي كارد...)
-     • 📊 تتبع المشاهدات والأرباح
-     • 🔍 تم حذف البحث المتكرر من الرئيسية
-     • 💬 إصلاح إرسال الصور في الدردشة
-     • 📸 رفع صور حتى 5MB مع مؤشر تقدم
+  🔑 Firebase: bomk-9f6ec
+  ☁️ Cloudinary: vt6hibdu / y66.ko
+  👑 Admin: jasim28v@gmail.com
 
-  🔑 بيانات:
-     • Firebase: muvg-42126
-     • Cloudinary: dmqyd0haj / s3_gok
-     • Admin: jasim28v@gmail.com
-     • سعر المشاهدة: 100 د.ع
-     • الحد الأدنى للسحب: 10,000 د.ع
-
-  ☁️ MNAENCA SKY BLUE READY! ✨
+  🎀 BOMK READY! 💖
 {'='*60}
     """)
 
