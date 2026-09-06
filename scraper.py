@@ -3973,7 +3973,8 @@ def build_upload():
 </html>"""
 # ═══════════════════════════════════════════════════════════
 # ═══════════════════════════════════════════════════════════
-# ☁️ 7. chat.html - دردشة مع صور وصوت
+# ═══════════════════════════════════════════════════════════
+# ✨ 7. chat.html - دردشة مع صور وصوت
 # ═══════════════════════════════════════════════════════════
 
 def build_chat():
@@ -4208,7 +4209,8 @@ def build_chat():
                 fd.append('file',file);
                 fd.append('upload_preset',UPLOAD_PRESET);
                 
-                const res=await fetch(CLOUDINARY_IMAGE_UPLOAD_URL,{{
+                // ✅ تم الإصلاح
+                const res=await fetch('https://api.cloudinary.com/v1_1/'+CLOUD_NAME+'/image/upload',{{
                     method:'POST',
                     body:fd
                 }});
@@ -4243,14 +4245,12 @@ def build_chat():
         const btn=document.getElementById('btnRecord');
         
         if(mediaRecorder && mediaRecorder.state==='recording'){{
-            // Stop recording
             mediaRecorder.stop();
             btn.innerHTML='<i class="fas fa-microphone"></i>';
             btn.style.background='rgba(236,72,153,0.1)';
             document.getElementById('recordingIndicator').style.display='none';
             clearInterval(recordingTimer);
         }}else{{
-            // Start recording
             try{{
                 const stream=await navigator.mediaDevices.getUserMedia({{audio:true}});
                 mediaRecorder=new MediaRecorder(stream);
@@ -4272,7 +4272,8 @@ def build_chat():
                             fd.append('file',audioBlob,'voice-message.webm');
                             fd.append('upload_preset',UPLOAD_PRESET);
                             
-                            const res=await fetch(CLOUDINARY_AUDIO_UPLOAD_URL,{{
+                            // ✅ تم الإصلاح
+                            const res=await fetch('https://api.cloudinary.com/v1_1/'+CLOUD_NAME+'/video/upload',{{
                                 method:'POST',
                                 body:fd
                             }});
