@@ -2928,7 +2928,8 @@ def build_upload():
 # ═══════════════════════════════════════════════════════════
 
 def build_chat():
-    return f"""<!DOCTYPE html>
+
+   return f"""<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -2937,56 +2938,180 @@ def build_chat():
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
         {COMMON_CSS}
-        body{{height:100vh;display:flex;flex-direction:column}}
-        .header{{display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--border);background:rgba(2,6,23,0.8);backdrop-filter:blur(20px)}}
-        .btn-back{{background:rgba(236,72,153,0.1);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:16px;text-decoration:none}}
-        .msgs{{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px}}
-        .bubble{{max-width:80%;padding:10px 16px;border-radius:20px;word-break:break-word;font-size:14px;position:relative;animation:msgIn 0.3s ease}}
-        @keyframes msgIn{{from{{opacity:0;transform:translateY(10px)}}to{{opacity:1;transform:translateY(0)}}}}
-        .bubble.sent{{background:linear-gradient(135deg,var(--accent),var(--accent2));align-self:flex-end;color:#fff}}
-        .bubble.received{{background:rgba(236,72,153,0.06);align-self:flex-start;border:1px solid rgba(236,72,153,0.1)}}
-        .bubble img{{max-width:200px;border-radius:12px;cursor:pointer;margin-top:4px;display:block}}
-        .bubble audio{{max-width:200px;margin-top:4px}}
-        .bubble .time{{font-size:9px;opacity:0.6;margin-top:4px}}
-        .input-bar{{display:flex;gap:10px;padding:12px;background:rgba(2,6,23,0.95);backdrop-filter:blur(20px);border-top:1px solid var(--border);align-items:center}}
-        .input-bar input{{flex:1;padding:12px 16px;border-radius:30px;background:var(--glass);border:1px solid var(--border);color:#fff;font-size:14px;outline:none}}
-        .btn-icon{{width:42px;height:42px;background:rgba(236,72,153,0.1);border:1px solid var(--border);border-radius:50%;color:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all 0.3s;border:none}}
-        .btn-icon:hover{{background:rgba(236,72,153,0.25)}}
-        .btn-icon.recording{{background:rgba(239,68,68,0.3);border:1px solid #ef4444;animation:pulse 1.5s infinite}}
-        .btn-send{{width:42px;height:42px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:50%;color:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}}
-        .conv-item{{display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid var(--border);cursor:pointer}}
-        .conv-item:hover{{background:rgba(236,72,153,0.04)}}
-        .chat-avatar{{width:40px;height:40px;border-radius:50%;overflow:hidden;border:2px solid rgba(236,72,153,0.3);flex-shrink:0}}
-        .chat-avatar img{{width:100%;height:100%;object-fit:cover}}
-        .online-indicator{{width:10px;height:10px;background:#22c55e;border-radius:50%;display:inline-block;margin-left:6px}}
-        .upload-progress{{
+        body{height:100vh;display:flex;flex-direction:column;overflow:hidden}
+        
+        /* ✨ شاشة التحميل */
+        #loader{
+            flex:1;display:flex;align-items:center;justify-content:center;
+            flex-direction:column;gap:12px;
+            background:radial-gradient(ellipse at top, #1a0a14, #0d060c, #020617);
+        }
+        .spinner-big{
+            width:50px;height:50px;
+            border:4px solid rgba(236,72,153,0.2);
+            border-top-color:#ec4899;
+            border-radius:50%;
+            animation:spin 0.8s linear infinite;
+        }
+        
+        /* 🎨 الهيدر */
+        .header{
+            display:flex;align-items:center;gap:12px;padding:16px;
+            border-bottom:1px solid var(--border);
+            background:rgba(2,6,23,0.85);
+            backdrop-filter:blur(20px);
+            position:sticky;top:0;z-index:100;
+        }
+        .btn-back{
+            background:rgba(236,72,153,0.15);border:1px solid rgba(236,72,153,0.3);
+            width:40px;height:40px;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            color:#fff;cursor:pointer;font-size:18px;text-decoration:none;
+            transition:all 0.3s;
+        }
+        .btn-back:hover{background:rgba(236,72,153,0.3);box-shadow:0 0 20px rgba(236,72,153,0.3)}
+        
+        /* 📱 قائمة المحادثات */
+        .conv-item{
+            display:flex;align-items:center;gap:12px;padding:14px 16px;
+            border-bottom:1px solid rgba(236,72,153,0.08);
+            cursor:pointer;transition:all 0.3s;position:relative;
+        }
+        .conv-item:hover{background:rgba(236,72,153,0.06);transform:translateX(-4px)}
+        .chat-avatar{
+            width:48px;height:48px;border-radius:50%;overflow:hidden;
+            border:2px solid rgba(236,72,153,0.4);flex-shrink:0;
+            position:relative;
+        }
+        .chat-avatar img{width:100%;height:100%;object-fit:cover}
+        .online-dot{
+            position:absolute;bottom:2px;right:2px;
+            width:12px;height:12px;background:#22c55e;
+            border-radius:50%;border:2px solid #0d060c;
+        }
+        .conv-name{font-weight:700;font-size:15px}
+        .conv-last{font-size:12px;opacity:0.6;margin-top:2px}
+        
+        /* 💬 الرسائل */
+        .msgs{
+            flex:1;overflow-y:auto;padding:16px;
+            display:flex;flex-direction:column;gap:8px;
+            background:linear-gradient(to bottom, rgba(2,6,23,0.3), rgba(2,6,23,0.5));
+        }
+        .bubble{
+            max-width:75%;padding:12px 16px;border-radius:20px;
+            word-break:break-word;font-size:14px;position:relative;
+            animation:msgIn 0.3s cubic-bezier(0.16,1,0.3,1);
+            box-shadow:0 4px 15px rgba(0,0,0,0.2);
+        }
+        @keyframes msgIn{
+            from{opacity:0;transform:translateY(20px) scale(0.95)}
+            to{opacity:1;transform:translateY(0) scale(1)}
+        }
+        .bubble.sent{
+            background:linear-gradient(135deg,#ec4899,#f472b6);
+            align-self:flex-end;color:#fff;
+            border-bottom-left-radius:4px;
+        }
+        .bubble.received{
+            background:rgba(236,72,153,0.1);
+            align-self:flex-start;
+            border:1px solid rgba(236,72,153,0.2);
+            border-bottom-right-radius:4px;
+        }
+        .bubble img{
+            max-width:200px;border-radius:12px;cursor:pointer;
+            margin-top:4px;display:block;
+        }
+        .bubble audio{max-width:200px;margin-top:4px}
+        .bubble .time{font-size:9px;opacity:0.7;margin-top:4px;text-align:left}
+        
+        /* 📝 شريط الإدخال */
+        .input-bar{
+            display:flex;gap:8px;padding:12px;
+            background:rgba(2,6,23,0.95);
+            backdrop-filter:blur(20px);
+            border-top:1px solid var(--border);align-items:center;
+        }
+        .input-bar input{
+            flex:1;padding:12px 16px;border-radius:30px;
+            background:rgba(236,72,153,0.08);border:1px solid var(--border);
+            color:#fff;font-size:14px;outline:none;transition:all 0.3s;
+        }
+        .input-bar input:focus{border-color:#ec4899;box-shadow:0 0 15px rgba(236,72,153,0.2)}
+        .btn-icon{
+            width:42px;height:42px;background:rgba(236,72,153,0.15);
+            border:1px solid rgba(236,72,153,0.3);border-radius:50%;
+            color:#fff;cursor:pointer;font-size:18px;
+            display:flex;align-items:center;justify-content:center;
+            transition:all 0.3s;
+        }
+        .btn-icon:hover{background:rgba(236,72,153,0.3);transform:scale(1.1)}
+        .btn-send{
+            width:42px;height:42px;
+            background:linear-gradient(135deg,#ec4899,#f472b6);
+            border:none;border-radius:50%;color:#fff;cursor:pointer;
+            font-size:18px;display:flex;align-items:center;justify-content:center;
+            box-shadow:0 4px 15px rgba(236,72,153,0.4);
+            transition:all 0.3s;
+        }
+        .btn-send:hover{box-shadow:0 8px 25px rgba(236,72,153,0.7);transform:scale(1.1)}
+        
+        /* 📤 مؤشر الرفع */
+        .upload-progress{
             position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
             background:rgba(2,6,23,0.95);padding:16px 24px;border-radius:20px;
-            border:1px solid var(--accent);z-index:1000;text-align:center;
-            display:none;
-        }}
-        .recording-indicator{{
+            border:1px solid #ec4899;z-index:1000;text-align:center;
+            display:none;box-shadow:0 10px 30px rgba(236,72,153,0.3);
+        }
+        
+        /* 🎤 مؤشر التسجيل */
+        .recording-indicator{
             position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
             background:rgba(2,6,23,0.95);padding:16px 24px;border-radius:20px;
             border:1px solid #ef4444;z-index:1000;text-align:center;
             display:none;color:#ef4444;font-weight:700;
-        }}
-        .recording-indicator .rec-dot{{
+        }
+        .rec-dot{
             width:12px;height:12px;background:#ef4444;border-radius:50%;
             display:inline-block;animation:pulse 1s infinite;
-        }}
+        }
+        @keyframes pulse{
+            0%,100%{transform:scale(1);opacity:1}
+            50%{transform:scale(1.5);opacity:0.5}
+        }
+        
+        /* 🌟 أزرار التفاعل مع الرسائل */
+        .msg-actions{
+            display:none;position:absolute;top:-15px;
+            background:rgba(2,6,23,0.95);
+            border:1px solid var(--border);
+            border-radius:20px;padding:4px;
+            z-index:10;
+        }
+        .bubble:hover .msg-actions{display:flex}
+        .msg-action-btn{
+            background:none;border:none;color:#fff;
+            padding:4px 8px;cursor:pointer;font-size:12px;
+            transition:color 0.2s;
+        }
+        .msg-action-btn:hover{color:#ec4899}
     </style>
 </head>
 <body>
-<div id="loader" style="flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px"><div class="spinner"></div><span>💗 تحميل...</span></div>
+<div id="loader">
+    <div class="spinner-big"></div>
+    <span style="color:rgba(255,255,255,0.7)">💗 تحميل...</span>
+</div>
 
 <div id="convView" style="display:none;flex:1;flex-direction:column;overflow:hidden">
     <div class="header">
         <a href="index.html" class="btn-back"><i class="fas fa-arrow-right"></i></a>
-        <h2><i class="fas fa-comments"></i> المحادثات</h2>
+        <h2 style="font-weight:700;background:linear-gradient(to bottom,#fff,#fbcfe8);-webkit-background-clip:text;-webkit-text-fill-color:transparent"><i class="fas fa-comments"></i> المحادثات</h2>
+        <button class="btn-icon" onclick="refreshConvs()" style="margin-right:auto"><i class="fas fa-sync"></i></button>
     </div>
     <div id="convList" style="flex:1;overflow-y:auto"></div>
 </div>
@@ -2995,14 +3120,19 @@ def build_chat():
     <div class="header">
         <button class="btn-back" onclick="showConvs()"><i class="fas fa-arrow-right"></i></button>
         <div class="chat-avatar" id="chatAvatar"></div>
-        <h3 id="chatName">محادثة</h3>
-        <span id="chatOnline" style="font-size:11px;opacity:0.5;margin-right:8px"></span>
+        <div style="flex:1">
+            <h3 id="chatName" style="font-weight:700">محادثة</h3>
+            <span id="chatOnline" style="font-size:11px;opacity:0.6"></span>
+        </div>
+        <button class="btn-icon" onclick="callUser()" title="اتصال صوتي"><i class="fas fa-phone"></i></button>
+        <button class="btn-icon" onclick="videoCall()" title="مكالمة فيديو"><i class="fas fa-video"></i></button>
     </div>
     <div class="msgs" id="msgsList"></div>
     <div class="input-bar">
-        <button class="btn-icon" onclick="triggerImageUpload()" title="إرسال صورة"><i class="fas fa-image"></i></button>
+        <button class="btn-icon" onclick="sendImage()" title="إرسال صورة"><i class="fas fa-image"></i></button>
         <button class="btn-icon" id="btnRecord" onclick="toggleRecording()" title="تسجيل صوتي"><i class="fas fa-microphone"></i></button>
         <input type="text" id="msgInput" placeholder="اكتب رسالة..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="btn-icon" onclick="sendEmoji()" title="إيموجي"><i class="fas fa-smile"></i></button>
         <button class="btn-send" onclick="sendMsg()"><i class="fas fa-paper-plane"></i></button>
         <button class="btn-icon" onclick="copyChat()" title="نسخ المحادثة"><i class="fas fa-copy"></i></button>
     </div>
@@ -3010,7 +3140,7 @@ def build_chat():
 
 <div class="upload-progress" id="uploadProgress">
     <div class="spinner" style="margin:0 auto 10px"></div>
-    <span id="uploadProgressText">⏳ جاري الرفع...</span>
+    <span>⏳ جاري الرفع...</span>
 </div>
 
 <div class="recording-indicator" id="recordingIndicator">
@@ -3023,407 +3153,357 @@ def build_chat():
 
 <script src="firebase-config.js"></script>
 <script>
-    let currentUser = null;
-    let allUsers = {{}};
-    let chatUserId = null;
-    let messagesListener = null;
-    let mediaRecorder = null;
-    let audioChunks = [];
-    let recordingStartTime = null;
-    let recordingTimer = null;
-    let isRecording = false;
-
-    auth.onAuthStateChanged(async (u) => {{
-        if(!u) {{
-            window.location.href = 'auth.html';
+    let currentUser=null, allUsers={}, chatUserId=null, messagesListener=null;
+    let mediaRecorder=null, audioChunks=[], recordingStartTime=null, recordingTimer=null;
+    
+    auth.onAuthStateChanged(async u=>{
+        if(!u){window.location.href='auth.html';return}
+        currentUser=u;
+        const us=await db.ref('users').once('value');
+        allUsers=us.val()||{};
+        document.getElementById('loader').style.display='none';
+        const params=new URLSearchParams(window.location.search);
+        const targetUid=params.get('uid');
+        if(targetUid){openChat(targetUid)}else{showConvs()}
+        setInterval(()=>{if(currentUser)db.ref('users/'+currentUser.uid+'/lastSeen').set(Date.now())},60000)
+    });
+    
+    function showConvs(){
+        if(messagesListener){db.ref('private_messages/'+getChatId()).off('value',messagesListener);messagesListener=null}
+        document.getElementById('chatView').style.display='none';
+        document.getElementById('convView').style.display='flex';
+        chatUserId=null;
+        loadConvs()
+    }
+    
+    async function loadConvs(){
+        const cl=document.getElementById('convList');
+        cl.innerHTML='<div style="text-align:center;padding:20px"><div class="spinner" style="margin:0 auto"></div></div>';
+        const snap=await db.ref('private_messages').once('value');
+        const all=snap.val()||{};
+        const found=new Set();
+        Object.keys(all).forEach(cid=>{
+            const parts=cid.split('_');
+            const u1=parts[0], u2=parts[1];
+            const other=u1===currentUser.uid?u2:(u2===currentUser.uid?u1:null);
+            if(other&&!found.has(other)&&allUsers[other])found.add(other)
+        });
+        cl.innerHTML='';
+        if(!found.size){
+            cl.innerHTML='<div style="text-align:center;opacity:0.5;padding:40px"><i class="fas fa-comments" style="font-size:48px;color:#ec4899;margin-bottom:12px;display:block"></i><p>لا محادثات بعد</p><p style="font-size:12px;opacity:0.6">ابدأ محادثة من ملف المستخدمين</p></div>';
+            return
+        }
+        found.forEach(uid=>{
+            const u=allUsers[uid];
+            const d=document.createElement('div');
+            d.className='conv-item';
+            d.innerHTML=`
+                <div class="chat-avatar">
+                    <img src="${u?.avatarUrl||(DICEBEAR_URL+'?seed='+uid)}">
+                    ${u?.lastSeen && Date.now()-u.lastSeen<60000 ? '<div class="online-dot"></div>' : ''}
+                </div>
+                <div style="flex:1">
+                    <div class="conv-name">@${u?.username||'?'} ${u?.isVerified?'<span style="color:#f472b6;font-size:12px"><i class="fas fa-check-circle"></i></span>':''}</div>
+                    <div class="conv-last">اضغط للمحادثة</div>
+                </div>
+                <i class="fas fa-chevron-left" style="opacity:0.4;font-size:12px"></i>`;
+            d.onclick=()=>openChat(uid);
+            cl.appendChild(d)
+        })
+    }
+    
+    function refreshConvs(){loadConvs()}
+    
+    async function openChat(uid){
+        chatUserId=uid;
+        const u=allUsers[uid];
+        document.getElementById('chatName').innerText='@'+(u?.username||'مستخدم');
+        document.getElementById('chatAvatar').innerHTML=`<img src="${u?.avatarUrl||(DICEBEAR_URL+'?seed='+uid)}">`;
+        document.getElementById('convView').style.display='none';
+        document.getElementById('chatView').style.display='flex';
+        
+        db.ref('presence/'+uid).on('value',s=>{
+            const online=s.val();
+            document.getElementById('chatOnline').innerHTML=online?'<span style="color:#22c55e">● نشط الآن</span>':'آخر ظهور: '+formatTime(u?.lastSeen)
+        });
+        
+        await loadMsgs();
+        
+        if(messagesListener)db.ref('private_messages/'+getChatId()).off('value',messagesListener);
+        messagesListener=db.ref('private_messages/'+getChatId()).on('value',async()=>{
+            await loadMsgs();
+        });
+    }
+    
+    function getChatId(){
+        return [currentUser.uid,chatUserId].sort().join('_')
+    }
+    
+    async function loadMsgs(){
+        const ml=document.getElementById('msgsList');
+        if(!chatUserId)return;
+        const snap=await db.ref('private_messages/'+getChatId()).once('value');
+        const ms=snap.val()||{};
+        ml.innerHTML='';
+        const msgsArray=Object.values(ms).sort((a,b)=>(a.timestamp||0)-(b.timestamp||0));
+        
+        if(!msgsArray.length){
+            ml.innerHTML='<div style="text-align:center;opacity:0.4;padding:40px"><i class="fas fa-comment-dots" style="font-size:40px;color:#ec4899;margin-bottom:10px;display:block"></i><p>ابدأ المحادثة!</p></div>';
             return;
-        }}
-        currentUser = u;
+        }
         
-        try {{
-            const usersSnapshot = await db.ref('users').once('value');
-            allUsers = usersSnapshot.val() || {{}};
-        }} catch(e) {{
-            console.error('Error loading users:', e);
-        }}
-        
-        document.getElementById('loader').style.display = 'none';
-        
-        const params = new URLSearchParams(window.location.search);
-        const targetUid = params.get('uid');
-        if(targetUid) {{
-            openChat(targetUid);
-        }} else {{
-            showConvs();
-        }}
-        
-        setInterval(() => {{
-            if(currentUser) {{
-                db.ref('users/' + currentUser.uid + '/lastSeen').set(Date.now());
-            }}
-        }}, 60000);
-    }});
-
-    function showConvs() {{
-        if(messagesListener) {{
-            db.ref('private_messages/' + getChatId()).off('value', messagesListener);
-            messagesListener = null;
-        }}
-        document.getElementById('chatView').style.display = 'none';
-        document.getElementById('convView').style.display = 'flex';
-        chatUserId = null;
-        loadConvs();
-    }}
-
-    async function loadConvs() {{
-        const convList = document.getElementById('convList');
-        convList.innerHTML = '';
-        
-        try {{
-            const snapshot = await db.ref('private_messages').once('value');
-            const allMessages = snapshot.val() || {{}};
-            const foundUsers = new Set();
+        msgsArray.forEach(m=>{
+            const sent=m.senderId===currentUser.uid;
+            const d=document.createElement('div');
+            d.className='bubble '+(sent?'sent':'received');
             
-            Object.keys(allMessages).forEach(chatId => {{
-                const parts = chatId.split('_');
-                const user1 = parts[0];
-                const user2 = parts[1];
-                const otherUser = user1 === currentUser.uid ? user2 : (user2 === currentUser.uid ? user1 : null);
-                if(otherUser && !foundUsers.has(otherUser) && allUsers[otherUser]) {{
-                    foundUsers.add(otherUser);
-                }}
-            }});
+            let content = '';
+            if(m.type==='image' && m.imageUrl){
+                content = `<img src="${m.imageUrl}" onclick="window.open('${m.imageUrl}','_blank')" alt="صورة">`;
+            }else if(m.type==='audio' && m.audioUrl){
+                content = `<audio controls src="${m.audioUrl}"></audio>`;
+            }else{
+                content = m.text||'';
+            }
             
-            if(!foundUsers.size) {{
-                convList.innerHTML = '<div style="text-align:center;opacity:0.5;padding:40px"><i class="fas fa-comments" style="font-size:48px;color:#ec4899;margin-bottom:12px;display:block"></i><p>لا محادثات بعد</p></div>';
+            d.innerHTML=`
+                ${content}
+                <div class="time">${new Date(m.timestamp).toLocaleTimeString('ar-SA')}</div>
+                <div class="msg-actions">
+                    <button class="msg-action-btn" onclick="copyMsg(this)"><i class="fas fa-copy"></i></button>
+                    <button class="msg-action-btn" onclick="deleteMsg('${m.id}')"><i class="fas fa-trash"></i></button>
+                </div>`;
+            ml.appendChild(d);
+        });
+        ml.scrollTop=ml.scrollHeight;
+    }
+    
+    async function sendMsg(){
+        const inp=document.getElementById('msgInput');
+        const txt=inp.value.trim();
+        if(!txt||!chatUserId)return;
+        await db.ref('private_messages/'+getChatId()).push({
+            senderId:currentUser.uid,
+            text:txt,
+            type:'text',
+            timestamp:Date.now()
+        });
+        inp.value='';
+        await loadMsgs();
+    }
+    
+    function sendEmoji(){
+        const emojis=['😀','😍','😂','😊','😘','🤗','😎','🥳','😇','🤩','😜','🤔','😴','😭','😤','👍','👎','👏','🙏','💪','❤️','💔','💖','⭐','🔥','✨','🎉','🎊','🌹','💐']
+        const random=emojis[Math.floor(Math.random()*emojis.length)];
+        const inp=document.getElementById('msgInput');
+        inp.value+=random;
+        inp.focus();
+    }
+    
+    function sendImage(){
+        if(!chatUserId)return;
+        const inp=document.getElementById('imageInput');
+        inp.onchange=async(e=>{
+            const file=e.target.files[0];
+            if(!file)return;
+            
+            if(file.size>5*1024*1024){
+                showToast('❌ حجم الصورة كبير جداً (الحد الأقصى 5MB)');
                 return;
-            }}
+            }
             
-            foundUsers.forEach(uid => {{
-                const user = allUsers[uid];
-                const div = document.createElement('div');
-                div.className = 'conv-item';
-                div.innerHTML = `<div class="chat-avatar"><img src="${{user?.avatarUrl || (DICEBEAR_URL + '?seed=' + uid)}}"></div><div style="flex:1"><div style="font-weight:600">@${{user?.username || '?'}} ${{user?.isVerified ? '<span style="color:#f472b6;font-size:12px"><i class="fas fa-check-circle"></i></span>' : ''}}</div></div><i class="fas fa-chevron-left" style="opacity:0.4;font-size:12px"></i>`;
-                div.onclick = () => openChat(uid);
-                convList.appendChild(div);
-            }});
-        }} catch(e) {{
-            console.error('Error loading conversations:', e);
-        }}
-    }}
-
-    async function openChat(uid) {{
-        chatUserId = uid;
-        const user = allUsers[uid];
-        
-        document.getElementById('chatName').innerText = '@' + (user?.username || 'مستخدم');
-        document.getElementById('chatAvatar').innerHTML = `<img src="${{user?.avatarUrl || (DICEBEAR_URL + '?seed=' + uid)}}">`;
-        document.getElementById('convView').style.display = 'none';
-        document.getElementById('chatView').style.display = 'flex';
-        
-        db.ref('presence/' + uid).on('value', (snapshot) => {{
-            const isOnline = snapshot.val();
-            document.getElementById('chatOnline').innerHTML = isOnline ? 
-                '<span class="online-indicator"></span> نشط الآن' : 
-                'آخر ظهور: ' + formatTime(user?.lastSeen);
-        }});
-        
-        await loadMessages();
-        
-        if(messagesListener) {{
-            db.ref('private_messages/' + getChatId()).off('value', messagesListener);
-        }}
-        messagesListener = db.ref('private_messages/' + getChatId()).on('value', async () => {{
-            await loadMessages();
-        }});
-    }}
-
-    function getChatId() {{
-        return [currentUser.uid, chatUserId].sort().join('_');
-    }}
-
-    async function loadMessages() {{
-        const messagesList = document.getElementById('msgsList');
-        if(!chatUserId) return;
-        
-        try {{
-            const snapshot = await db.ref('private_messages/' + getChatId()).once('value');
-            const messages = snapshot.val() || {{}};
-            messagesList.innerHTML = '';
+            document.getElementById('uploadProgress').style.display='block';
             
-            const messagesArray = Object.values(messages).sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
-            
-            if(!messagesArray.length) {{
-                messagesList.innerHTML = '<div style="text-align:center;opacity:0.4;padding:40px"><i class="fas fa-comment-dots" style="font-size:40px;color:#ec4899;margin-bottom:10px;display:block"></i><p>ابدأ المحادثة!</p></div>';
-                return;
-            }}
-            
-            messagesArray.forEach(message => {{
-                const isSent = message.senderId === currentUser.uid;
-                const div = document.createElement('div');
-                div.className = 'bubble ' + (isSent ? 'sent' : 'received');
+            try{
+                const fd=new FormData();
+                fd.append('file',file);
+                fd.append('upload_preset',UPLOAD_PRESET);
                 
-                if(message.type === 'image' && message.imageUrl) {{
-                    div.innerHTML = `<img src="${{message.imageUrl}}" onclick="window.open('${{message.imageUrl}}','_blank')" alt="صورة" onerror="this.style.display='none'"><div class="time">${{new Date(message.timestamp).toLocaleTimeString('ar-SA')}}</div>`;
-                }} else if(message.type === 'audio' && message.audioUrl) {{
-                    div.innerHTML = `<audio controls src="${{message.audioUrl}}" style="max-width:200px"></audio><div class="time">${{new Date(message.timestamp).toLocaleTimeString('ar-SA')}}</div>`;
-                }} else {{
-                    div.innerHTML = `${{message.text || ''}}<div class="time">${{new Date(message.timestamp).toLocaleTimeString('ar-SA')}}</div>`;
-                }}
+                const res=await fetch(CLOUDINARY_IMAGE_UPLOAD_URL,{
+                    method:'POST',
+                    body:fd
+                });
                 
-                messagesList.appendChild(div);
-            }});
-            
-            messagesList.scrollTop = messagesList.scrollHeight;
-        }} catch(e) {{
-            console.error('Error loading messages:', e);
-        }}
-    }}
-
-    async function sendMsg() {{
-        const input = document.getElementById('msgInput');
-        const text = input.value.trim();
-        if(!text || !chatUserId) return;
+                const data=await res.json();
+                
+                if(data.secure_url){
+                    await db.ref('private_messages/'+getChatId()).push({
+                        senderId:currentUser.uid,
+                        type:'image',
+                        imageUrl:data.secure_url,
+                        timestamp:Date.now()
+                    });
+                    await loadMsgs();
+                    showToast('✅ تم إرسال الصورة');
+                }else{
+                    showToast('❌ فشل رفع الصورة');
+                }
+            }catch(err){
+                console.error('Image upload error:',err);
+                showToast('❌ خطأ في رفع الصورة');
+            }finally{
+                document.getElementById('uploadProgress').style.display='none';
+            }
+        };
+        inp.click();
+    }
+    
+    // 🎤 Voice Recording Functions
+    async function toggleRecording(){
+        if(!chatUserId)return;
+        const btn=document.getElementById('btnRecord');
         
-        try {{
-            await db.ref('private_messages/' + getChatId()).push({{
-                senderId: currentUser.uid,
-                text: text,
-                type: 'text',
-                timestamp: Date.now()
-            }});
-            input.value = '';
-            await loadMessages();
-        }} catch(e) {{
-            console.error('Error sending message:', e);
-            showToast('❌ فشل إرسال الرسالة');
-        }}
-    }}
-
-    function triggerImageUpload() {{
-        if(!chatUserId) {{
-            showToast('❌ اختر محادثة أولاً');
-            return;
-        }}
-        document.getElementById('imageInput').click();
-    }}
-
-    document.getElementById('imageInput').addEventListener('change', async function(e) {{
-        const file = e.target.files[0];
-        if(!file) return;
-        
-        // التحقق من نوع الملف
-        if(!file.type.startsWith('image/')) {{
-            showToast('❌ الرجاء اختيار صورة');
-            return;
-        }}
-        
-        // التحقق من الحجم (5MB)
-        if(file.size > 5 * 1024 * 1024) {{
-            showToast('❌ حجم الصورة كبير جداً (الحد الأقصى 5MB)');
-            return;
-        }}
-        
-        const uploadProgress = document.getElementById('uploadProgress');
-        const uploadProgressText = document.getElementById('uploadProgressText');
-        uploadProgress.style.display = 'block';
-        uploadProgressText.innerText = '⏳ جاري رفع الصورة...';
-        
-        try {{
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('upload_preset', UPLOAD_PRESET);
-            
-            console.log('Uploading image to Cloudinary...');
-            
-            const response = await fetch('https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/image/upload', {{
-                method: 'POST',
-                body: formData
-            }});
-            
-            const data = await response.json();
-            console.log('Cloudinary response:', data);
-            
-            if(data.secure_url) {{
-                await db.ref('private_messages/' + getChatId()).push({{
-                    senderId: currentUser.uid,
-                    type: 'image',
-                    imageUrl: data.secure_url,
-                    timestamp: Date.now()
-                }});
-                await loadMessages();
-                showToast('✅ تم إرسال الصورة');
-            }} else {{
-                console.error('Cloudinary error:', data);
-                showToast('❌ فشل رفع الصورة: ' + (data.error?.message || 'خطأ غير معروف'));
-            }}
-        }} catch(error) {{
-            console.error('Image upload error:', error);
-            showToast('❌ خطأ في رفع الصورة: ' + error.message);
-        }} finally {{
-            uploadProgress.style.display = 'none';
-            e.target.value = '';
-        }}
-    }});
-
-    async function toggleRecording() {{
-        if(!chatUserId) {{
-            showToast('❌ اختر محادثة أولاً');
-            return;
-        }}
-        
-        const recordBtn = document.getElementById('btnRecord');
-        
-        if(isRecording) {{
-            // إيقاف التسجيل
-            if(mediaRecorder && mediaRecorder.state === 'recording') {{
-                mediaRecorder.stop();
-            }}
-            isRecording = false;
-            recordBtn.classList.remove('recording');
-            document.getElementById('recordingIndicator').style.display = 'none';
+        if(mediaRecorder && mediaRecorder.state==='recording'){
+            mediaRecorder.stop();
+            btn.innerHTML='<i class="fas fa-microphone"></i>';
+            btn.style.background='rgba(236,72,153,0.15)';
+            document.getElementById('recordingIndicator').style.display='none';
             clearInterval(recordingTimer);
-        }} else {{
-            // بدء التسجيل
-            try {{
-                const stream = await navigator.mediaDevices.getUserMedia({{ audio: true }});
-                mediaRecorder = new MediaRecorder(stream);
-                audioChunks = [];
+        }else{
+            try{
+                const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+                mediaRecorder=new MediaRecorder(stream);
+                audioChunks=[];
                 
-                mediaRecorder.ondataavailable = (event) => {{
-                    if(event.data.size > 0) {{
-                        audioChunks.push(event.data);
-                    }}
-                }};
+                mediaRecorder.ondataavailable=e=>{
+                    if(e.data.size>0)audioChunks.push(e.data);
+                };
                 
-                mediaRecorder.onstop = async () => {{
-                    const audioBlob = new Blob(audioChunks, {{ type: 'audio/webm' }});
-                    stream.getTracks().forEach(track => track.stop());
+                mediaRecorder.onstop=async()=>{
+                    const audioBlob=new Blob(audioChunks,{type:'audio/webm'});
+                    stream.getTracks().forEach(track=>track.stop());
                     
-                    if(audioBlob.size > 0) {{
-                        const uploadProgress = document.getElementById('uploadProgress');
-                        const uploadProgressText = document.getElementById('uploadProgressText');
-                        uploadProgress.style.display = 'block';
-                        uploadProgressText.innerText = '⏳ جاري رفع الصوت...';
+                    if(audioBlob.size>0){
+                        document.getElementById('uploadProgress').style.display='block';
                         
-                        try {{
-                            const formData = new FormData();
-                            formData.append('file', audioBlob, 'voice-message.webm');
-                            formData.append('upload_preset', UPLOAD_PRESET);
+                        try{
+                            const fd=new FormData();
+                            fd.append('file',audioBlob,'voice-message.webm');
+                            fd.append('upload_preset',UPLOAD_PRESET);
                             
-                            console.log('Uploading audio to Cloudinary...');
+                            const res=await fetch(CLOUDINARY_AUDIO_UPLOAD_URL,{
+                                method:'POST',
+                                body:fd
+                            });
                             
-                            const response = await fetch('https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/auto/upload', {{
-                                method: 'POST',
-                                body: formData
-                            }});
+                            const data=await res.json();
                             
-                            const data = await response.json();
-                            console.log('Cloudinary audio response:', data);
-                            
-                            if(data.secure_url) {{
-                                await db.ref('private_messages/' + getChatId()).push({{
-                                    senderId: currentUser.uid,
-                                    type: 'audio',
-                                    audioUrl: data.secure_url,
-                                    timestamp: Date.now()
-                                }});
-                                await loadMessages();
+                            if(data.secure_url){
+                                await db.ref('private_messages/'+getChatId()).push({
+                                    senderId:currentUser.uid,
+                                    type:'audio',
+                                    audioUrl:data.secure_url,
+                                    timestamp:Date.now()
+                                });
+                                await loadMsgs();
                                 showToast('✅ تم إرسال الرسالة الصوتية');
-                            }} else {{
-                                console.error('Cloudinary audio error:', data);
-                                showToast('❌ فشل رفع الصوت: ' + (data.error?.message || 'خطأ غير معروف'));
-                            }}
-                        }} catch(error) {{
-                            console.error('Audio upload error:', error);
-                            showToast('❌ خطأ في رفع الصوت: ' + error.message);
-                        }} finally {{
-                            uploadProgress.style.display = 'none';
-                        }}
-                    }}
+                            }else{
+                                showToast('❌ فشل رفع الصوت');
+                            }
+                        }catch(err){
+                            console.error('Audio upload error:',err);
+                            showToast('❌ خطأ في رفع الصوت');
+                        }finally{
+                            document.getElementById('uploadProgress').style.display='none';
+                        }
+                    }
                     
-                    mediaRecorder = null;
-                    audioChunks = [];
-                }};
+                    mediaRecorder=null;
+                    audioChunks=[];
+                };
                 
                 mediaRecorder.start();
-                recordingStartTime = Date.now();
-                recordingTimer = setInterval(updateRecordingTime, 1000);
+                recordingStartTime=Date.now();
+                recordingTimer=setInterval(updateRecordingTime,1000);
                 
-                isRecording = true;
-                recordBtn.classList.add('recording');
-                recordBtn.innerHTML = '<i class="fas fa-stop"></i>';
-                document.getElementById('recordingIndicator').style.display = 'block';
+                btn.innerHTML='<i class="fas fa-stop"></i>';
+                btn.style.background='rgba(239,68,68,0.3)';
+                document.getElementById('recordingIndicator').style.display='block';
                 updateRecordingTime();
-                
-            }} catch(error) {{
-                console.error('Recording error:', error);
-                showToast('❌ لا يمكن الوصول للميكروفون: ' + error.message);
-            }}
-        }}
-    }}
-
-    function updateRecordingTime() {{
-        if(!recordingStartTime) return;
-        const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
-        const minutes = Math.floor(elapsed / 60);
-        const seconds = elapsed % 60;
-        document.getElementById('recordingTime').innerText = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-    }}
-
-    async function copyChat() {{
-        if(!chatUserId) return;
-        
-        const snapshot = await db.ref('private_messages/' + getChatId()).once('value');
-        const messages = snapshot.val() || {{}};
-        let text = '💬 محادثة MNAENCA\n' + '─'.repeat(30) + '\n';
-        
-        Object.values(messages).sort((a, b) => a.timestamp - b.timestamp).forEach(message => {{
-            const sender = message.senderId === currentUser.uid ? 'أنت' : (allUsers[message.senderId]?.username || 'مستخدم');
-            const content = message.type === 'image' ? '[صورة 📷]' : (message.type === 'audio' ? '[رسالة صوتية 🎤]' : message.text);
-            const time = new Date(message.timestamp).toLocaleTimeString('ar-SA');
-            text += `\n${{sender}} (${{time}}):\n${{content}}\n`;
-        }});
-        
-        try {{
-            await navigator.clipboard.writeText(text);
-        }} catch(e) {{
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
+            }catch(err){
+                console.error('Recording error:',err);
+                showToast('❌ لا يمكن الوصول للميكروفون');
+            }
+        }
+    }
+    
+    function updateRecordingTime(){
+        if(!recordingStartTime)return;
+        const elapsed=Math.floor((Date.now()-recordingStartTime)/1000);
+        const mins=Math.floor(elapsed/60);
+        const secs=elapsed%60;
+        document.getElementById('recordingTime').innerText=mins+':'+(secs<10?'0':'')+secs;
+    }
+    
+    async function copyChat(){
+        if(!chatUserId)return;
+        const snap=await db.ref('private_messages/'+getChatId()).once('value');
+        const msgs=snap.val()||{};
+        let text='💬 محادثة MNAENCA\n'+'─'.repeat(30)+'\n';
+        Object.values(msgs).sort((a,b)=>a.timestamp-b.timestamp).forEach(m=>{
+            const sender=m.senderId===currentUser.uid?'أنت':(allUsers[m.senderId]?.username||'مستخدم');
+            const content=m.type==='image'?'[صورة 📷]':(m.type==='audio'?'[رسالة صوتية 🎤]':m.text);
+            const time=new Date(m.timestamp).toLocaleTimeString('ar-SA');
+            text+=`\n${sender} (${time}):\n${content}\n`;
+        });
+        try{await navigator.clipboard.writeText(text)}catch(e){
+            const ta=document.createElement('textarea');
+            ta.value=text;
+            document.body.appendChild(ta);
+            ta.select();
             document.execCommand('copy');
-            document.body.removeChild(textarea);
-        }}
-        
+            document.body.removeChild(ta);
+        }
         showToast('✅ تم نسخ المحادثة');
-    }}
-
-    function showToast(msg) {{
-        const toast = document.getElementById('toastMsg');
-        toast.innerText = msg;
+    }
+    
+    function copyMsg(btn){
+        const bubble=btn.closest('.bubble');
+        const text=bubble.innerText.replace(/[\n].*$/,'');
+        navigator.clipboard.writeText(text).then(()=>{
+            showToast('✅ تم نسخ الرسالة');
+        });
+    }
+    
+    async function deleteMsg(msgId){
+        if(!confirm('حذف هذه الرسالة؟'))return;
+        await db.ref('private_messages/'+getChatId()+'/'+msgId).remove();
+        await loadMsgs();
+        showToast('🗑️ تم حذف الرسالة');
+    }
+    
+    function callUser(){
+        showToast('📞 خاصية الاتصال قريباً');
+    }
+    
+    function videoCall(){
+        showToast('📹 خاصية مكالمات الفيديو قريباً');
+    }
+    
+    function showToast(msg){
+        const toast=document.getElementById('toastMsg');
+        toast.innerText=msg;
         toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
-    }}
-
-    function formatTime(timestamp) {{
-        if(!timestamp) return 'غير معروف';
-        const diff = Date.now() - timestamp;
-        const minutes = Math.floor(diff / 60000);
-        const hours = Math.floor(diff / 3600000);
-        const days = Math.floor(diff / 86400000);
-        
-        if(minutes < 1) return 'الآن';
-        if(minutes < 60) return 'منذ ' + minutes + ' دقيقة';
-        if(hours < 24) return 'منذ ' + hours + ' ساعة';
-        if(days < 7) return 'منذ ' + days + ' يوم';
-        return new Date(timestamp).toLocaleDateString('ar-SA');
-    }}
-
-    console.log('💗 MNAENCA Chat Ready with Full Media Support');
+        setTimeout(()=>toast.classList.remove('show'),2500);
+    }
+    
+    function formatTime(ts){
+        if(!ts)return'غير معروف';
+        const diff=Date.now()-ts;
+        const mins=Math.floor(diff/60000);
+        const hours=Math.floor(diff/3600000);
+        const days=Math.floor(diff/86400000);
+        if(mins<1)return'الآن';
+        if(mins<60)return'منذ '+mins+' دقيقة';
+        if(hours<24)return'منذ '+hours+' ساعة';
+        if(days<7)return'منذ '+days+' يوم';
+        return new Date(ts).toLocaleDateString('ar-SA');
+    }
+    
+    console.log('💗 MNAENCA Chat Ready with Full Features');
 </script>
 </body>
-</html>"""
+</html>
 # ═══════════════════════════════════════════════════════════
 # ☁️ 8. search.html - صفحة البحث (جديدة)
 # ═══════════════════════════════════════════════════════════
