@@ -79,7 +79,7 @@
     .btn-close-overlay:hover{background:rgba(236,72,153,0.25);box-shadow:0 0 15px rgba(236,72,153,0.3)}
 
         body{min-height:100vh;overflow-y:auto;overflow-x:hidden;}
-        .cover-section{position:relative;width:100%;height:260px;overflow:hidden;cursor:pointer}
+        .cover-section{position:relative;width:100%;height:280px;overflow:hidden;cursor:pointer}
         .cover-img{width:100%;height:130%;object-fit:cover;transition:transform 0.1s linear;transform:translateY(0)}
         .cover-gradient{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(2,6,23,0.4) 60%,rgba(2,6,23,0.95) 100%);pointer-events:none;z-index:1}
         .cover-glow{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(236,72,153,0.15) 0%,transparent 70%);pointer-events:none;z-index:2}
@@ -102,29 +102,113 @@
         .last-seen{font-size:11px;opacity:0.5;display:flex;align-items:center;justify-content:center;gap:5px;margin-top:6px}
         .wallet-mini{
             display:flex;align-items:center;justify-content:center;gap:8px;
-            margin:10px 20px;padding:12px;
-            background:rgba(236,72,153,0.1);border:1px solid rgba(236,72,153,0.3);
-            border-radius:16px;cursor:pointer;font-size:13px;font-weight:700;color:var(--accent2);
+            margin:10px 20px;padding:14px;
+            background:linear-gradient(135deg,rgba(236,72,153,0.15),rgba(244,114,182,0.08));
+            border:1px solid rgba(236,72,153,0.4);
+            border-radius:16px;cursor:pointer;font-size:14px;font-weight:700;color:var(--accent2);
             animation:pinkGlow 2s ease-in-out infinite;
-            transition:all 0.3s;
+            transition:all 0.3s;position:relative;overflow:hidden;
         }
-        .wallet-mini:hover{background:rgba(236,72,153,0.2)}
+        .wallet-mini::before{
+            content:'';position:absolute;inset:0;
+            background:linear-gradient(90deg,transparent,rgba(236,72,153,0.2),transparent);
+            animation:shimmer 3s infinite;
+        }
+        @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+        .wallet-mini:hover{background:rgba(236,72,153,0.25);transform:translateY(-2px)}
         .stats-row{display:flex;justify-content:center;gap:30px;margin:15px 20px;padding:18px;background:rgba(236,72,153,0.04);backdrop-filter:blur(20px);border-radius:20px;border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,0.2)}
         .stat-item{text-align:center;cursor:pointer;transition:transform 0.2s}
-        .stat-item:hover{transform:scale(1.05)}
-        .stat-val{font-size:20px;font-weight:700;color:var(--accent2)}
+        .stat-item:hover{transform:scale(1.1)}
+        .stat-val{font-size:22px;font-weight:800;color:var(--accent2)}
         .stat-lbl{font-size:10px;opacity:0.6;margin-top:2px}
         .action-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:0 20px 20px}
         .btn{background:rgba(236,72,153,0.06);border:1px solid var(--border);padding:10px 20px;border-radius:25px;color:#fff;cursor:pointer;font-size:13px;transition:all 0.3s;display:flex;align-items:center;gap:6px;backdrop-filter:blur(10px);text-decoration:none}
         .btn:hover{background:rgba(236,72,153,0.15);border-color:var(--accent);box-shadow:0 0 20px rgba(236,72,153,0.2)}
         .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;font-weight:700;color:#fff;box-shadow:0 8px 25px rgba(236,72,153,0.4)}
         .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(236,72,153,0.6)}
+        .btn-follow{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;font-weight:700}
+        .btn-follow.following{background:rgba(34,197,94,0.2);border:1px solid rgba(34,197,94,0.3);color:#4ade80}
         .section-title{font-size:16px;font-weight:700;padding:0 20px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-        .videos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:0 8px 100px}
-        .video-grid-item{aspect-ratio:9/16;position:relative;overflow:hidden;cursor:pointer;background:#000;border-radius:4px}
-        .video-grid-item video{width:100%;height:100%;object-fit:cover}
-        .video-grid-item .grid-play-icon{position:absolute;bottom:4px;left:4px;font-size:14px;color:#fff;z-index:1;opacity:0.8}
-        .video-grid-item .grid-views{position:absolute;bottom:4px;right:4px;font-size:10px;color:#fff;z-index:1;display:flex;align-items:center;gap:3px;opacity:0.8}
+        
+        /* ═══ فيديوهات محسنة ═══ */
+        .videos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding:0 8px 100px}
+        .video-grid-item{
+            aspect-ratio:9/16;position:relative;overflow:hidden;cursor:pointer;
+            background:#000;border-radius:6px;transition:all 0.3s;
+        }
+        .video-grid-item:hover{transform:scale(1.03);box-shadow:0 0 20px rgba(236,72,153,0.4);z-index:10}
+        .video-grid-item video,.video-grid-item img{width:100%;height:100%;object-fit:cover}
+        .video-grid-item .grid-play-icon{
+            position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+            width:40px;height:40px;background:rgba(236,72,153,0.7);
+            border-radius:50%;display:flex;align-items:center;justify-content:center;
+            font-size:16px;color:#fff;z-index:2;backdrop-filter:blur(10px);
+            transition:all 0.3s;opacity:0;
+        }
+        .video-grid-item:hover .grid-play-icon{opacity:1;transform:translate(-50%,-50%) scale(1.2)}
+        .video-grid-item .grid-views{
+            position:absolute;bottom:8px;right:8px;font-size:11px;color:#fff;
+            z-index:2;display:flex;align-items:center;gap:3px;
+            background:rgba(0,0,0,0.6);padding:4px 8px;border-radius:12px;
+            backdrop-filter:blur(10px);
+        }
+        .video-grid-item .grid-likes{
+            position:absolute;bottom:8px;left:8px;font-size:11px;color:#ec4899;
+            z-index:2;display:flex;align-items:center;gap:3px;
+            background:rgba(0,0,0,0.6);padding:4px 8px;border-radius:12px;
+            backdrop-filter:blur(10px);
+        }
+        .video-grid-item .grid-overlay{
+            position:absolute;inset:0;
+            background:linear-gradient(to top,rgba(0,0,0,0.8) 0%,transparent 40%);
+            opacity:0;transition:all 0.3s;
+        }
+        .video-grid-item:hover .grid-overlay{opacity:1}
+
+        /* ═══ نافذة فيديو داخلية ═══ */
+        .video-modal{
+            position:fixed;inset:0;background:rgba(0,0,0,0.95);
+            z-index:500;display:none;align-items:center;justify-content:center;
+            backdrop-filter:blur(20px);
+        }
+        .video-modal.show{display:flex;animation:fadeIn 0.3s ease}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        .video-modal-content{
+            position:relative;max-width:480px;width:100%;max-height:90vh;
+            background:rgba(2,6,23,0.98);border-radius:24px;overflow:hidden;
+            border:1px solid rgba(236,72,153,0.4);
+            box-shadow:0 0 60px rgba(236,72,153,0.3);
+            animation:slideUp 0.3s ease;
+        }
+        @keyframes slideUp{from{transform:translateY(50px);opacity:0}to{transform:translateY(0);opacity:1}}
+        .video-modal-close{
+            position:absolute;top:12px;right:12px;
+            background:rgba(0,0,0,0.7);width:40px;height:40px;
+            border-radius:50%;display:flex;align-items:center;justify-content:center;
+            cursor:pointer;z-index:10;border:1px solid var(--border);
+            color:#fff;font-size:18px;transition:all 0.3s;
+        }
+        .video-modal-close:hover{background:var(--accent);transform:rotate(90deg)}
+        .video-modal video{width:100%;max-height:60vh;background:#000}
+        .video-modal-info{padding:20px}
+        .video-modal-title{font-size:15px;font-weight:700;margin-bottom:10px}
+        .video-modal-actions{display:flex;gap:15px;margin-top:15px;flex-wrap:wrap}
+        .video-action-btn{
+            display:flex;align-items:center;gap:8px;cursor:pointer;
+            transition:all 0.3s;font-size:14px;color:var(--text-secondary);
+            background:none;border:1px solid var(--border);padding:10px 18px;
+            border-radius:25px;
+        }
+        .video-action-btn:hover{
+            background:rgba(236,72,153,0.15);color:var(--accent2);
+            border-color:var(--accent);transform:translateY(-2px);
+            box-shadow:0 0 20px rgba(236,72,153,0.2);
+        }
+        .video-action-btn.liked{
+            background:rgba(236,72,153,0.2);color:var(--accent);
+            border-color:var(--accent);
+        }
+
         .empty-state{text-align:center;opacity:0.5;padding:40px 20px}
         .empty-state i{font-size:48px;color:var(--accent);margin-bottom:12px;display:block}
         .badge-verified{background:linear-gradient(135deg,#ec4899,#f472b6);color:#fff;font-size:12px;padding:3px 6px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;font-weight:bold;box-shadow:0 0 15px rgba(244,114,182,0.6);animation:verifyPinkGlow 2s ease-in-out infinite}
@@ -143,10 +227,11 @@
         .overlay-panel.show{display:block}
         
         /* Admin Panel */
-        .admin-panel{padding:0 8px;margin:0 8px 100px 8px}
+        .admin-panel{padding:20px;margin:0 8px 100px 8px;background:rgba(236,72,153,0.03);border:1px solid var(--border);border-radius:24px}
         .admin-panel h3{color:#f472b6;font-size:20px;margin-bottom:20px;display:flex;align-items:center;gap:10px;font-weight:700}
         .admin-stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
-        .stat-card{background:rgba(236,72,153,0.06);border:1px solid rgba(236,72,153,0.15);border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;backdrop-filter:blur(10px)}
+        .stat-card{background:rgba(236,72,153,0.06);border:1px solid rgba(236,72,153,0.15);border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;backdrop-filter:blur(10px);transition:all 0.3s}
+        .stat-card:hover{background:rgba(236,72,153,0.1);transform:translateY(-2px)}
         .stat-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 15px rgba(236,72,153,0.3)}
         .stat-info h4{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px;font-weight:500}
         .stat-info span{font-size:22px;font-weight:800}
@@ -159,7 +244,9 @@
         .admin-user-details p{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px}
         .admin-user-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
         .admin-btn{border:none;border-radius:20px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:5px}
+        .admin-btn:hover{transform:translateY(-2px)}
         .btn-ban{background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.1)}
+        .btn-ban:hover{background:rgba(239,68,68,0.2);border-color:rgba(239,68,68,0.3)}
         .btn-unban{background:rgba(34,197,94,0.1);color:#4ade80;border:1px solid rgba(34,197,94,0.2)}
         .btn-verify{background:linear-gradient(135deg,#ec4899,#f472b6);color:#fff;box-shadow:0 4px 12px rgba(236,72,153,0.3)}
         .btn-delete-video{background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.2)}
@@ -221,6 +308,28 @@
     <div class="videos-grid" id="videosGrid"></div>
 </div>
 
+<!-- ═══ نافذة الفيديو الداخلية ═══ -->
+<div class="video-modal" id="videoModal">
+    <div class="video-modal-content">
+        <div class="video-modal-close" onclick="closeVideoModal()"><i class="fas fa-times"></i></div>
+        <video id="modalVideo" controls autoplay loop></video>
+        <div class="video-modal-info">
+            <div class="video-modal-title" id="modalVideoTitle"></div>
+            <div class="video-modal-actions">
+                <button class="video-action-btn" id="modalLikeBtn" onclick="likeCurrentVideo()">
+                    <i class="fas fa-heart"></i> <span id="modalLikesCount">0</span>
+                </button>
+                <button class="video-action-btn" onclick="shareCurrentVideo()">
+                    <i class="fas fa-share"></i> مشاركة
+                </button>
+                <button class="video-action-btn" onclick="copyVideoLink()">
+                    <i class="fas fa-link"></i> نسخ الرابط
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="overlay-panel" id="overlayPanel" onclick="closeEditPanel()"></div>
 <div class="edit-panel" id="editPanel">
     <h3>💗 لوحة تعديل الملف الشخصي</h3>
@@ -244,7 +353,9 @@
 
 <script src="firebase-config.js"></script>
 <script>
-    let profileUserId = null, currentUser = null, currentUserData = null, allVideos = [], allUsers = {}, isOwnProfile = false, _selectedCover = null;
+    let profileUserId = null, currentUser = null, currentUserData = null;
+    let allVideos = [], allUsers = {}, isOwnProfile = false, _selectedCover = null;
+    let currentVideoId = null, currentVideoData = null;
 
     window.parallaxCover = function(event) {
         const img = document.getElementById('coverImg');
@@ -327,11 +438,13 @@
             uvs.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0)).forEach(v => {
                 const d = document.createElement('div');
                 d.className = 'video-grid-item';
-                d.onclick = () => window.open(v.url, '_blank');
+                d.onclick = () => openVideoModal(v.id);
                 d.innerHTML = `
                     ${v.thumbnail ? `<img src="${v.thumbnail}" style="width:100%;height:100%;object-fit:cover">` : '<div style="width:100%;height:100%;background:#111;display:flex;align-items:center;justify-content:center"><i class="fas fa-play" style="color:#555;font-size:24px"></i></div>'}
+                    <div class="grid-overlay"></div>
                     <div class="grid-play-icon"><i class="fas fa-play"></i></div>
-                    <div class="grid-views"><i class="fas fa-eye" style="color:var(--accent2)"></i> ${v.views || 0}</div>
+                    <div class="grid-views"><i class="fas fa-eye" style="color:var(--accent2)"></i> ${formatNumber(v.views || 0)}</div>
+                    <div class="grid-likes"><i class="fas fa-heart"></i> ${formatNumber(v.likes || 0)}</div>
                 `;
                 grid.appendChild(d);
             });
@@ -347,6 +460,89 @@
         if(isOwnProfile && ADMIN_EMAILS.includes(currentUser?.email)) { loadAdminPanel(); }
     }
 
+    /* ═══ وظائف الفيديو الداخلية ═══ */
+    async function openVideoModal(videoId) {
+        const video = allVideos.find(v => v.id === videoId);
+        if(!video) return;
+        currentVideoId = videoId;
+        currentVideoData = video;
+        
+        // زيادة المشاهدات
+        const newViews = (video.views || 0) + 1;
+        await db.ref('videos/' + videoId + '/views').set(newViews);
+        video.views = newViews;
+        
+        document.getElementById('modalVideo').src = video.url;
+        document.getElementById('modalVideoTitle').innerText = video.description || 'بدون وصف';
+        document.getElementById('modalLikesCount').innerText = formatNumber(video.likes || 0);
+        updateLikeButton();
+        document.getElementById('videoModal').classList.add('show');
+        
+        // تحديث الشبكة
+        await loadProfile();
+    }
+
+    function closeVideoModal() {
+        document.getElementById('videoModal').classList.remove('show');
+        document.getElementById('modalVideo').pause();
+        document.getElementById('modalVideo').src = '';
+        currentVideoId = null;
+        currentVideoData = null;
+    }
+
+    async function likeCurrentVideo() {
+        if(!currentVideoId || !currentUser) return;
+        const likeRef = db.ref('videos/' + currentVideoId + '/likes');
+        const userLikeRef = db.ref('videos/' + currentVideoId + '/likedBy/' + currentUser.uid);
+        const snap = await userLikeRef.get();
+        
+        if(snap.exists()) {
+            // إلغاء الإعجاب
+            await likeRef.set(Math.max(0, (currentVideoData.likes || 1) - 1));
+            await userLikeRef.remove();
+            currentVideoData.likes = Math.max(0, (currentVideoData.likes || 1) - 1);
+        } else {
+            // إضافة إعجاب
+            await likeRef.set((currentVideoData.likes || 0) + 1);
+            await userLikeRef.set(true);
+            currentVideoData.likes = (currentVideoData.likes || 0) + 1;
+        }
+        
+        document.getElementById('modalLikesCount').innerText = formatNumber(currentVideoData.likes);
+        updateLikeButton();
+        await loadProfile();
+    }
+
+    async function updateLikeButton() {
+        if(!currentVideoId || !currentUser) return;
+        const userLikeRef = await db.ref('videos/' + currentVideoId + '/likedBy/' + currentUser.uid).get();
+        const btn = document.getElementById('modalLikeBtn');
+        if(userLikeRef.exists()) {
+            btn.classList.add('liked');
+            btn.querySelector('i').style.color = '#ec4899';
+        } else {
+            btn.classList.remove('liked');
+            btn.querySelector('i').style.color = '';
+        }
+    }
+
+    function shareCurrentVideo() {
+        if(!currentVideoData) return;
+        const text = `شاهد هذا الفيديو 💗 ${currentVideoData.description || ''}`;
+        if(navigator.share) {
+            navigator.share({title: 'MNAENCA', text: text, url: currentVideoData.url});
+        } else {
+            copyVideoLink();
+        }
+    }
+
+    function copyVideoLink() {
+        if(!currentVideoData) return;
+        navigator.clipboard.writeText(currentVideoData.url);
+        showToast('✅ تم نسخ رابط الفيديو');
+    }
+
+    /* ═══ باقي الوظائف ═══ */
     function openEditPanel() {
         const u = allUsers[profileUserId] || currentUserData;
         document.getElementById('editUsername').value = u.username || '';
@@ -477,7 +673,7 @@
         listContainer.innerHTML = videosArray.map(v => {
             const user = allUsers[v.sender] || {username: v.senderName || 'مستخدم'};
             const desc = (v.description || 'بدون وصف').substring(0, 40);
-            return `<div class="admin-user-item"><div class="admin-user-info"><div class="admin-avatar" style="border-radius:8px;width:50px;height:70px">${v.thumbnail ? `<img src="${v.thumbnail}" style="object-fit:cover">` : ''}</div><div class="admin-user-details"><p style="font-size:12px">${desc}</p><span style="font-size:10px;opacity:0.4">@${user.username} · ❤️ ${v.likes || 0} · 👁️ ${v.views || 0}</span></div></div><div class="admin-user-actions"><button class="admin-btn btn-delete-video" onclick="deleteVideo('${v.id}')"><i class="fas fa-trash"></i> حذف</button></div></div>`;
+            return `<div class="admin-user-item"><div class="admin-user-info"><div class="admin-avatar" style="border-radius:8px;width:50px;height:70px">${v.thumbnail ? `<img src="${v.thumbnail}" style="object-fit:cover">` : ''}</div><div class="admin-user-details"><p style="font-size:12px">${desc}</p><span style="font-size:10px;opacity:0.4">@${user.username} · ❤️ ${formatNumber(v.likes || 0)} · 👁️ ${formatNumber(v.views || 0)}</span></div></div><div class="admin-user-actions"><button class="admin-btn btn-delete-video" onclick="deleteVideo('${v.id}')"><i class="fas fa-trash"></i> حذف</button></div></div>`;
         }).join('');
     }
 
