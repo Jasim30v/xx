@@ -3007,7 +3007,7 @@ def build_profile():
 </body>
 </html>"""
 # ═══════════════════════════════════════════════════════════
-# ☁️ 6. upload.html - رفع فيديو مع أرباح
+# ☁️ 6. upload.html - رفع فيديو مطور (بدون ذكر المبالغ)
 # ═══════════════════════════════════════════════════════════
 
 def build_upload():
@@ -3023,100 +3023,574 @@ def build_upload():
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         {COMMON_CSS}
-        body{{min-height:100vh;overflow-y:auto}}
-        .header{{display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--border);background:rgba(2,6,23,0.8);backdrop-filter:blur(20px);position:sticky;top:0;z-index:10}}
-        .btn-back{{background:rgba(236,72,153,0.1);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:16px;text-decoration:none}}
-        .container{{max-width:500px;margin:0 auto;padding:20px}}
-        .earn-info{{
-            background:rgba(236,72,153,0.1);border:1px solid rgba(236,72,153,0.3);
-            border-radius:16px;padding:14px;text-align:center;margin-bottom:20px;
-            color:var(--accent2);font-size:13px;font-weight:600;
-            animation:pinkGlow 2s ease-in-out infinite;
+        body{{min-height:100vh;overflow-y:auto;background:linear-gradient(180deg,#0a0118 0%,#1a0a2e 50%,#0a0118 100%)}}
+        
+        .header{{
+            display:flex;align-items:center;gap:12px;padding:16px 20px;
+            border-bottom:1px solid var(--border);
+            background:rgba(2,6,23,0.9);backdrop-filter:blur(30px);
+            position:sticky;top:0;z-index:100;
+            box-shadow:0 4px 30px rgba(0,0,0,0.3);
         }}
-        .dropzone{{border:2px dashed rgba(236,72,153,0.3);border-radius:20px;padding:50px 20px;text-align:center;cursor:pointer;background:var(--glass);margin-bottom:20px}}
-        .dropzone i{{font-size:48px;color:var(--accent)}}
-        .dropzone video{{width:100%;max-height:250px;object-fit:contain;margin-top:12px;border-radius:12px;display:none}}
-        .form-card{{background:rgba(236,72,153,0.03);border:1px solid var(--border);border-radius:20px;padding:20px}}
-        .form-card label{{display:block;font-size:13px;opacity:0.7;margin-bottom:6px;margin-top:12px}}
-        .form-card textarea,.form-card input{{width:100%;padding:14px 16px;border-radius:16px;background:rgba(236,72,153,0.04);border:1px solid var(--border);color:#fff;font-size:14px;outline:none;resize:none;font-family:'Segoe UI',sans-serif}}
-        .progress-wrap{{display:none;margin:16px 0}}
-        .progress-bar{{background:rgba(255,255,255,0.1);border-radius:30px;height:6px;overflow:hidden}}
-        .progress-fill{{background:linear-gradient(90deg,var(--accent),var(--accent2));height:100%;border-radius:30px;width:0%}}
-        .progress-text{{text-align:center;font-size:12px;margin-top:6px;color:var(--accent2)}}
-        .btn-upload{{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:30px;color:#fff;font-weight:700;font-size:15px;cursor:pointer;margin-top:16px;box-shadow:0 10px 25px rgba(236,72,153,0.4)}}
-        .btn-upload:disabled{{opacity:0.5}}
-        .status{{text-align:center;margin-top:12px;font-size:13px}}
+        .header h2{{
+            font-size:18px;font-weight:800;
+            background:linear-gradient(135deg,#ec4899,#f472b6);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+            background-clip:text;display:flex;align-items:center;gap:8px;
+        }}
+        .btn-back{{
+            background:rgba(236,72,153,0.1);border:1px solid var(--border);
+            width:40px;height:40px;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            color:#fff;cursor:pointer;font-size:16px;text-decoration:none;
+            transition:all 0.3s;
+        }}
+        .btn-back:hover{{
+            background:rgba(236,72,153,0.3);transform:scale(1.1);
+            box-shadow:0 0 20px rgba(236,72,153,0.4);
+        }}
+        
+        .container{{max-width:500px;margin:0 auto;padding:20px}}
+        
+        /* ═══ بطاقة تحفيزية ═══ */
+        .upload-banner{{
+            background:linear-gradient(135deg,rgba(236,72,153,0.15),rgba(244,114,182,0.05));
+            border:1px solid rgba(236,72,153,0.4);
+            border-radius:20px;padding:20px;text-align:center;margin-bottom:24px;
+            position:relative;overflow:hidden;
+            animation:bannerGlow 3s ease-in-out infinite;
+        }}
+        @keyframes bannerGlow{{
+            0%,100%{{box-shadow:0 0 30px rgba(236,72,153,0.2)}}
+            50%{{box-shadow:0 0 50px rgba(236,72,153,0.4)}}
+        }}
+        .upload-banner::before{{
+            content:'';position:absolute;inset:0;
+            background:linear-gradient(90deg,transparent,rgba(236,72,153,0.3),transparent);
+            animation:shimmer 3s infinite;
+        }}
+        @keyframes shimmer{{
+            0%{{transform:translateX(-100%)}}
+            100%{{transform:translateX(100%)}}
+        }}
+        .upload-banner i{{
+            font-size:40px;color:var(--accent2);
+            animation:float 2s ease-in-out infinite;
+            position:relative;z-index:2;
+        }}
+        @keyframes float{{
+            0%,100%{{transform:translateY(0)}}
+            50%{{transform:translateY(-10px)}}
+        }}
+        .upload-banner h3{{
+            font-size:16px;font-weight:800;color:var(--accent2);
+            margin-top:12px;position:relative;z-index:2;
+        }}
+        .upload-banner p{{
+            font-size:13px;color:var(--text-secondary);
+            margin-top:6px;position:relative;z-index:2;
+            line-height:1.6;
+        }}
+        
+        /* ═══ منطقة السحب والإفلات ═══ */
+        .dropzone{{
+            border:2px dashed rgba(236,72,153,0.4);
+            border-radius:24px;padding:50px 20px;text-align:center;
+            cursor:pointer;background:rgba(236,72,153,0.03);
+            margin-bottom:24px;transition:all 0.4s;
+            position:relative;overflow:hidden;
+        }}
+        .dropzone:hover{{
+            border-color:var(--accent);
+            background:rgba(236,72,153,0.08);
+            box-shadow:0 0 40px rgba(236,72,153,0.2);
+            transform:scale(1.01);
+        }}
+        .dropzone.dragover{{
+            border-color:var(--accent);
+            background:rgba(236,72,153,0.15);
+            box-shadow:0 0 60px rgba(236,72,153,0.4);
+            transform:scale(1.03);
+        }}
+        .dropzone i{{
+            font-size:56px;color:var(--accent);
+            animation:uploadPulse 2s ease-in-out infinite;
+        }}
+        @keyframes uploadPulse{{
+            0%,100%{{transform:scale(1);opacity:1}}
+            50%{{transform:scale(1.1);opacity:0.8}}
+        }}
+        .dropzone .upload-text{{
+            font-size:16px;font-weight:700;margin-top:16px;color:#fff;
+        }}
+        .dropzone .upload-hint{{
+            font-size:12px;opacity:0.5;margin-top:8px;
+            display:flex;align-items:center;justify-content:center;gap:8px;
+        }}
+        .dropzone .upload-hint span{{
+            background:rgba(236,72,153,0.1);padding:4px 12px;
+            border-radius:12px;border:1px solid var(--border);
+        }}
+        .dropzone video{{
+            width:100%;max-height:250px;object-fit:contain;
+            margin-top:16px;border-radius:16px;display:none;
+            box-shadow:0 8px 30px rgba(0,0,0,0.4);
+        }}
+        .dropzone .change-video-btn{{
+            display:none;margin-top:12px;
+            background:rgba(236,72,153,0.2);border:1px solid var(--accent);
+            padding:8px 20px;border-radius:20px;color:var(--accent2);
+            font-size:12px;cursor:pointer;font-weight:600;
+            transition:all 0.3s;
+        }}
+        .dropzone .change-video-btn:hover{{
+            background:rgba(236,72,153,0.3);
+        }}
+        
+        /* ═══ نموذج البيانات ═══ */
+        .form-card{{
+            background:rgba(236,72,153,0.03);
+            border:1px solid var(--border);
+            border-radius:24px;padding:24px;
+            backdrop-filter:blur(20px);
+            box-shadow:0 8px 32px rgba(0,0,0,0.2);
+        }}
+        .form-card label{{
+            display:flex;align-items:center;gap:8px;
+            font-size:13px;font-weight:600;color:var(--text-secondary);
+            margin-bottom:8px;margin-top:16px;
+        }}
+        .form-card label i{{
+            color:var(--accent);font-size:14px;
+        }}
+        .form-card textarea,.form-card input{{
+            width:100%;padding:14px 16px;border-radius:16px;
+            background:rgba(236,72,153,0.04);
+            border:1px solid var(--border);color:#fff;
+            font-size:14px;outline:none;resize:none;
+            font-family:'Segoe UI',sans-serif;
+            transition:all 0.3s;
+        }}
+        .form-card textarea:focus,.form-card input:focus{{
+            border-color:var(--accent);
+            box-shadow:0 0 20px rgba(236,72,153,0.15);
+            background:rgba(236,72,153,0.06);
+        }}
+        .form-card textarea{{
+            min-height:100px;
+        }}
+        .char-count{{
+            font-size:11px;color:var(--text-muted);
+            text-align:left;margin-top:4px;
+        }}
+        
+        /* ═══ شريط التقدم ═══ */
+        .progress-wrap{{
+            display:none;margin:20px 0;
+        }}
+        .progress-bar{{
+            background:rgba(255,255,255,0.1);
+            border-radius:30px;height:8px;overflow:hidden;
+            position:relative;
+        }}
+        .progress-fill{{
+            background:linear-gradient(90deg,var(--accent),var(--accent2));
+            height:100%;border-radius:30px;width:0%;
+            transition:width 0.3s ease;
+            position:relative;
+        }}
+        .progress-fill::after{{
+            content:'';position:absolute;inset:0;
+            background:linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent);
+            animation:shimmer 1.5s infinite;
+        }}
+        .progress-text{{
+            text-align:center;font-size:13px;margin-top:8px;
+            color:var(--accent2);font-weight:700;
+        }}
+        
+        /* ═══ زر الرفع ═══ */
+        .btn-upload{{
+            width:100%;padding:16px;
+            background:linear-gradient(135deg,var(--accent),var(--accent2));
+            border:none;border-radius:30px;color:#fff;
+            font-weight:800;font-size:16px;cursor:pointer;
+            margin-top:20px;box-shadow:0 10px 30px rgba(236,72,153,0.4);
+            transition:all 0.4s;display:flex;align-items:center;
+            justify-content:center;gap:10px;
+            position:relative;overflow:hidden;
+        }}
+        .btn-upload::before{{
+            content:'';position:absolute;inset:0;
+            background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);
+            animation:shimmer 2s infinite;
+        }}
+        .btn-upload:hover{{
+            transform:translateY(-3px);
+            box-shadow:0 15px 40px rgba(236,72,153,0.6);
+        }}
+        .btn-upload:active{{
+            transform:translateY(0);
+        }}
+        .btn-upload:disabled{{
+            opacity:0.5;cursor:not-allowed;transform:none;
+        }}
+        .btn-upload i{{
+            position:relative;z-index:2;
+        }}
+        .btn-upload span{{
+            position:relative;z-index:2;
+        }}
+        
+        /* ═══ حالة الرفع ═══ */
+        .status{{
+            text-align:center;margin-top:16px;font-size:14px;
+            font-weight:600;min-height:24px;
+            display:flex;align-items:center;justify-content:center;gap:8px;
+        }}
+        .status.success{{
+            color:#4ade80;
+        }}
+        .status.error{{
+            color:#f87171;
+        }}
+        .status.loading{{
+            color:var(--accent2);
+        }}
+        .status i{{
+            animation:spin 1s linear infinite;
+        }}
+        @keyframes spin{{
+            to{{transform:rotate(360deg)}}
+        }}
+        
+        /* ═══ تأثيرات إضافية ═══ */
+        .upload-success-animation{{
+            display:none;text-align:center;padding:40px 20px;
+        }}
+        .upload-success-animation.show{{
+            display:block;animation:fadeIn 0.5s ease;
+        }}
+        .upload-success-animation i{{
+            font-size:80px;color:#4ade80;
+            animation:successBounce 0.6s ease;
+        }}
+        @keyframes successBounce{{
+            0%{{transform:scale(0)}}
+            50%{{transform:scale(1.2)}}
+            100%{{transform:scale(1)}}
+        }}
+        
+        @media (max-width:480px){{
+            .container{{padding:12px}}
+            .dropzone{{padding:30px 16px}}
+            .form-card{{padding:18px}}
+        }}
     </style>
 </head>
 <body>
-<div class="header"><a href="index.html" class="btn-back"><i class="fas fa-arrow-right"></i></a><h2><i class="fas fa-cloud-upload-alt"></i> رفع فيديو جديد</h2></div>
+
+<div class="header">
+    <a href="index.html" class="btn-back"><i class="fas fa-arrow-right"></i></a>
+    <h2><i class="fas fa-cloud-upload-alt"></i> رفع فيديو جديد</h2>
+</div>
+
 <div class="container">
-    <div class="earn-info">
-        💰 اربح {VIEW_RATE_IQD} دينار عراقي لكل مشاهدة على فيديوهاتك!
+    <!-- ═══ بطاقة تحفيزية ═══ -->
+    <div class="upload-banner">
+        <i class="fas fa-rocket"></i>
+        <h3>🎬 شارك إبداعك مع العالم!</h3>
+        <p>ارفع فيديوهاتك واكسب المشاهدات والإعجابات<br>كل فيديو ترفعه يزيد من شهرتك 💗</p>
     </div>
-    <div class="dropzone" onclick="document.getElementById('videoFile').click()"><i class="fas fa-cloud-upload-alt"></i><p>اضغط لاختيار فيديو</p><span style="font-size:11px;opacity:0.5">MP4 - حتى 100MB</span><video id="preview" controls></video></div>
+
+    <!-- ═══ منطقة السحب والإفلات ═══ -->
+    <div class="dropzone" id="dropzone" onclick="document.getElementById('videoFile').click()">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <div class="upload-text">اضغط لاختيار فيديو أو اسحبه هنا</div>
+        <div class="upload-hint">
+            <span><i class="fas fa-video"></i> MP4</span>
+            <span><i class="fas fa-weight"></i> حتى 100MB</span>
+            <span><i class="fas fa-clock"></i> أي مدة</span>
+        </div>
+        <video id="preview" controls></video>
+        <button class="change-video-btn" id="changeVideoBtn" onclick="event.stopPropagation();document.getElementById('videoFile').click()">
+            <i class="fas fa-sync"></i> تغيير الفيديو
+        </button>
+    </div>
     <input type="file" id="videoFile" accept="video/*" style="display:none" onchange="onFilePick(this)">
+
+    <!-- ═══ نموذج البيانات ═══ -->
     <div class="form-card">
-        <label><i class="fas fa-pen"></i> وصف الفيديو</label><textarea id="vidDesc" placeholder="اكتب وصفاً... #هاشتاقات"></textarea>
-        <label><i class="fas fa-music"></i> الموسيقى</label><input type="text" id="vidMusic" placeholder="Original Sound">
-        <div class="progress-wrap" id="progressWrap"><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div class="progress-text" id="progressText">0%</div></div>
-        <button class="btn-upload" id="uploadBtn" onclick="upload()"><i class="fas fa-heart"></i> رفع الفيديو</button>
+        <label><i class="fas fa-pen"></i> وصف الفيديو</label>
+        <textarea id="vidDesc" placeholder="اكتب وصفاً جذاباً... #هاشتاقات" maxlength="150"></textarea>
+        <div class="char-count"><span id="charCount">0</span>/150</div>
+        
+        <label><i class="fas fa-music"></i> الموسيقى</label>
+        <input type="text" id="vidMusic" placeholder="Original Sound">
+        
+        <label><i class="fas fa-tag"></i> التصنيف</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <div class="category-tag" onclick="selectCategory(this)" data-category="عام">🎬 عام</div>
+            <div class="category-tag" onclick="selectCategory(this)" data-category="موسيقى">🎵 موسيقى</div>
+            <div class="category-tag" onclick="selectCategory(this)" data-category="كوميدي">😂 كوميدي</div>
+            <div class="category-tag" onclick="selectCategory(this)" data-category="تعليمي">📚 تعليمي</div>
+            <div class="category-tag" onclick="selectCategory(this)" data-category="رياضة">⚽ رياضة</div>
+            <div class="category-tag" onclick="selectCategory(this)" data-category="ألعاب">🎮 ألعاب</div>
+        </div>
+        
+        <!-- ═══ شريط التقدم ═══ -->
+        <div class="progress-wrap" id="progressWrap">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0%</div>
+        </div>
+        
+        <!-- ═══ زر الرفع ═══ -->
+        <button class="btn-upload" id="uploadBtn" onclick="upload()">
+            <i class="fas fa-heart"></i>
+            <span>رفع الفيديو</span>
+        </button>
+        
+        <!-- ═══ حالة الرفع ═══ -->
         <div class="status" id="status"></div>
     </div>
+    
+    <!-- ═══ نجاح الرفع ═══ -->
+    <div class="upload-success-animation" id="successAnimation">
+        <i class="fas fa-check-circle"></i>
+        <h3 style="font-size:22px;font-weight:800;margin-top:20px;color:#4ade80">تم الرفع بنجاح!</h3>
+        <p style="color:var(--text-secondary);margin-top:10px">سيتم توجيهك للصفحة الرئيسية...</p>
+    </div>
 </div>
+
 <script src="firebase-config.js"></script>
 <script>
-    let currentUser=null,currentUserData=null,selectedFile=null;
-    auth.onAuthStateChanged(async u=>{{if(!u)window.location.href='auth.html';currentUser=u;const snap=await db.ref('users/'+u.uid).get();if(snap.exists())currentUserData={{uid:u.uid,...snap.val()}}}});
-    function onFilePick(inp){{const f=inp.files[0];if(!f||!f.type.startsWith('video/')){{alert('اختر فيديو صحيح');return}}if(f.size>100*1024*1024){{alert('أقل من 100MB');return}}selectedFile=f;const r=new FileReader();r.onload=e=>{{const v=document.getElementById('preview');v.src=e.target.result;v.style.display='block'}};r.readAsDataURL(f)}}
-    async function upload(){{
-        if(!selectedFile){{alert('اختر فيديو');return}}if(!currentUser){{alert('سجل دخول');return}}
-        const desc=document.getElementById('vidDesc').value;const music=document.getElementById('vidMusic').value||'Original Sound';
-        const pw=document.getElementById('progressWrap');pw.style.display='block';const pf=document.getElementById('progressFill');pf.style.width='0%';const pt=document.getElementById('progressText');pt.innerText='0%';
-        const st=document.getElementById('status');st.innerHTML='';const btn=document.getElementById('uploadBtn');btn.disabled=true;
-        const fd=new FormData();fd.append('file',selectedFile);fd.append('upload_preset',UPLOAD_PRESET);
-        const xhr=new XMLHttpRequest();xhr.open('POST','https://api.cloudinary.com/v1_1/'+CLOUD_NAME+'/video/upload');
-        xhr.upload.onprogress=e=>{{if(e.lengthComputable){{const p=Math.round(e.loaded/e.total*100);pf.style.width=p+'%';pt.innerText=p+'%'}}}};
-        xhr.onload=async()=>{{
-            const r=JSON.parse(xhr.responseText);
-            await db.ref('videos/').push({{
-                url:r.secure_url,
-                thumbnail:r.secure_url.replace('.mp4','.jpg'),
-                description:desc,
-                music:music,
-                sender:currentUser.uid,
-                senderName:currentUserData?.username,
-                likes:0,
-                likedBy:{{}},
-                comments:{{}},
-                views:0,
-                timestamp:Date.now()
-            }});
-            // مكافأة رفع فيديو
-            const walletRef = db.ref('users/'+currentUser.uid+'/wallet');
-            const walletSnap = await walletRef.get();
-            const wallet = walletSnap.val() || {{balance:0,totalEarned:0,totalWithdrawn:0,pendingWithdrawal:0,totalViews:0}};
-            await walletRef.update({{
-                balance: (wallet.balance||0) + 1000,
-                totalEarned: (wallet.totalEarned||0) + 1000
-            }});
-            await db.ref('transactions/'+currentUser.uid).push({{
-                type:'bonus',
-                amount:1000,
-                description:'مكافأة رفع فيديو 🎬',
-                status:'completed',
-                timestamp:Date.now()
-            }});
-            st.innerHTML='✅ تم الرفع بنجاح! +1000 د.ع مكافأة 🎉';
-            st.style.color='#4ade80';
-            setTimeout(()=>window.location.href='index.html',2000)
-        }};
-        xhr.onerror=()=>{{st.innerHTML='❌ فشل الرفع';btn.disabled=false}};xhr.send(fd);
+    let currentUser = null, currentUserData = null;
+    let selectedFile = null, selectedCategory = 'عام';
+
+    auth.onAuthStateChanged(async u => {{
+        if(!u) {{ window.location.href = 'auth.html'; return; }}
+        currentUser = u;
+        const snap = await db.ref('users/' + u.uid).get();
+        if(snap.exists()) currentUserData = {{uid: u.uid, ...snap.val()}};
+    }});
+
+    // ═══ اختيار التصنيف ═══
+    window.selectCategory = function(el) {{
+        document.querySelectorAll('.category-tag').forEach(tag => {{
+            tag.style.background = 'rgba(236,72,153,0.05)';
+            tag.style.borderColor = 'var(--border)';
+            tag.style.color = 'var(--text-secondary)';
+        }});
+        el.style.background = 'rgba(236,72,153,0.2)';
+        el.style.borderColor = 'var(--accent)';
+        el.style.color = 'var(--accent2)';
+        selectedCategory = el.dataset.category;
+    }};
+
+    // ═══ عداد الأحرف ═══
+    document.getElementById('vidDesc').addEventListener('input', function() {{
+        document.getElementById('charCount').innerText = this.value.length;
+    }});
+
+    // ═══ سحب وإفلات ═══
+    const dropzone = document.getElementById('dropzone');
+    dropzone.addEventListener('dragover', (e) => {{
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+    }});
+    dropzone.addEventListener('dragleave', () => {{
+        dropzone.classList.remove('dragover');
+    }});
+    dropzone.addEventListener('drop', (e) => {{
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        if(files.length > 0) {{
+            handleFile(files[0]);
+        }}
+    }});
+
+    // ═══ اختيار الملف ═══
+    function onFilePick(inp) {{
+        const f = inp.files[0];
+        if(!f) return;
+        handleFile(f);
+        inp.value = '';
     }}
+
+    function handleFile(f) {{
+        if(!f.type.startsWith('video/')) {{
+            showStatus('❌ اختر ملف فيديو صحيح', 'error');
+            return;
+        }}
+        if(f.size > 100 * 1024 * 1024) {{
+            showStatus('❌ حجم الملف كبير - الحد الأقصى 100MB', 'error');
+            return;
+        }}
+        selectedFile = f;
+        const reader = new FileReader();
+        reader.onload = e => {{
+            const video = document.getElementById('preview');
+            video.src = e.target.result;
+            video.style.display = 'block';
+            document.getElementById('changeVideoBtn').style.display = 'inline-block';
+            document.querySelector('.upload-text').style.display = 'none';
+            document.querySelector('.upload-hint').style.display = 'none';
+            showStatus('✅ تم اختيار الفيديو: ' + f.name, 'success');
+        }};
+        reader.readAsDataURL(f);
+    }}
+
+    // ═══ رفع الفيديو ═══
+    async function upload() {{
+        if(!selectedFile) {{
+            showStatus('⚠️ اختر فيديو أولاً', 'error');
+            return;
+        }}
+        if(!currentUser) {{
+            showStatus('⚠️ سجل دخول أولاً', 'error');
+            return;
+        }}
+
+        const desc = document.getElementById('vidDesc').value.trim();
+        const music = document.getElementById('vidMusic').value.trim() || 'Original Sound';
+        
+        // إظهار شريط التقدم
+        const progressWrap = document.getElementById('progressWrap');
+        progressWrap.style.display = 'block';
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        progressFill.style.width = '0%';
+        progressText.innerText = '0%';
+        
+        const status = document.getElementById('status');
+        status.innerHTML = '<i class="fas fa-spinner"></i> جاري الرفع...';
+        status.className = 'status loading';
+        
+        const uploadBtn = document.getElementById('uploadBtn');
+        uploadBtn.disabled = true;
+        uploadBtn.innerHTML = '<i class="fas fa-spinner"></i><span>جاري الرفع...</span>';
+
+        const fd = new FormData();
+        fd.append('file', selectedFile);
+        fd.append('upload_preset', UPLOAD_PRESET);
+        
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/video/upload');
+        
+        xhr.upload.onprogress = e => {{
+            if(e.lengthComputable) {{
+                const percent = Math.round((e.loaded / e.total) * 100);
+                progressFill.style.width = percent + '%';
+                progressText.innerText = percent + '%';
+            }}
+        }};
+        
+        xhr.onload = async () => {{
+            try {{
+                const response = JSON.parse(xhr.responseText);
+                
+                // حفظ بيانات الفيديو
+                await db.ref('videos/').push({{
+                    url: response.secure_url,
+                    thumbnail: response.secure_url.replace('.mp4', '.jpg'),
+                    description: desc,
+                    music: music,
+                    category: selectedCategory,
+                    sender: currentUser.uid,
+                    senderName: currentUserData?.username || 'مستخدم',
+                    likes: 0,
+                    likedBy: {{}},
+                    comments: {{}},
+                    views: 0,
+                    timestamp: Date.now()
+                }});
+                
+                // تحديث محفظة المستخدم بدون ذكر المبلغ
+                const walletRef = db.ref('users/' + currentUser.uid + '/wallet');
+                const walletSnap = await walletRef.get();
+                const wallet = walletSnap.val() || {{balance: 0, totalEarned: 0, totalWithdrawn: 0, pendingWithdrawal: 0, totalViews: 0}};
+                
+                await walletRef.update({{
+                    balance: (wallet.balance || 0) + 1000,
+                    totalEarned: (wallet.totalEarned || 0) + 1000
+                }});
+                
+                // إضافة معاملة
+                await db.ref('transactions/' + currentUser.uid).push({{
+                    type: 'bonus',
+                    amount: 1000,
+                    description: 'مكافأة رفع فيديو 🎬',
+                    status: 'completed',
+                    timestamp: Date.now()
+                }});
+                
+                // إظهار نجاح الرفع
+                status.innerHTML = '';
+                status.className = 'status';
+                progressWrap.style.display = 'none';
+                
+                const successAnim = document.getElementById('successAnimation');
+                successAnim.classList.add('show');
+                document.querySelector('.form-card').style.display = 'none';
+                document.querySelector('.dropzone').style.display = 'none';
+                document.querySelector('.upload-banner').style.display = 'none';
+                
+                setTimeout(() => window.location.href = 'index.html', 2500);
+                
+            }} catch(e) {{
+                showStatus('❌ حدث خطأ في الرفع', 'error');
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = '<i class="fas fa-heart"></i><span>رفع الفيديو</span>';
+            }}
+        }};
+        
+        xhr.onerror = () => {{
+            showStatus('❌ فشل الاتصال بالخادم', 'error');
+            uploadBtn.disabled = false;
+            uploadBtn.innerHTML = '<i class="fas fa-heart"></i><span>رفع الفيديو</span>';
+        }};
+        
+        xhr.send(fd);
+    }}
+
+    // ═══ عرض الحالة ═══
+    function showStatus(msg, type) {{
+        const status = document.getElementById('status');
+        status.innerHTML = msg;
+        status.className = 'status ' + type;
+        setTimeout(() => {{
+            if(status.className.includes('success')) {{
+                status.innerHTML = '';
+                status.className = 'status';
+            }}
+        }}, 3000);
+    }}
+
+    console.log('💗 MNAENCA Upload Ready ✨');
 </script>
+
+<style>
+    /* ═══ تصنيفات ═══ */
+    .category-tag{{
+        background:rgba(236,72,153,0.05);
+        border:1px solid var(--border);
+        padding:8px 16px;border-radius:20px;
+        cursor:pointer;font-size:12px;font-weight:600;
+        transition:all 0.3s;color:var(--text-secondary);
+        user-select:none;
+    }}
+    .category-tag:hover{{
+        background:rgba(236,72,153,0.15);
+        border-color:var(--accent);
+        transform:translateY(-2px);
+    }}
+</style>
+
 </body>
 </html>"""
-
 # ═══════════════════════════════════════════════════════════
 # ═══════════════════════════════════════════════════════════
 # ☁️ 7. chat.html - دردشة مع صور وصوت
