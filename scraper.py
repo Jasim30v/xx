@@ -231,7 +231,8 @@ console.log('💰 %cEarnings System Active - '+VIEW_RATE_IQD+' IQD/View (Profile
 """
 
 # ═══════════════════════════════════════════════════════════
-# ☁️ 2. auth.html - تسجيل الدخول والاشتراك
+# ═══════════════════════════════════════════════════════════
+# ☁️ 2. auth.html - واجهة تسجيل دخول واشتراك فاخرة
 # ═══════════════════════════════════════════════════════════
 
 def build_auth():
@@ -247,118 +248,561 @@ def build_auth():
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         {COMMON_CSS}
-        body{{
-            min-height:100vh;
-            background:radial-gradient(ellipse at top, #1a0a14, #0d060c, #020617);
-            display:flex;align-items:center;justify-content:center;
-            overflow:hidden;position:relative;
+        
+        body {{
+            min-height: 100vh;
+            background: radial-gradient(ellipse at top, #1a0a14, #0d060c, #020617);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
         }}
-        .bg-orb{{
-            position:fixed;border-radius:50%;filter:blur(130px);opacity:0.25;
-            animation:orbFloat 20s infinite alternate;pointer-events:none;
+        
+        /* الخلفية المتحركة */
+        .bg-orb {{
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(130px);
+            opacity: 0.25;
+            animation: orbFloat 20s infinite alternate;
+            pointer-events: none;
         }}
-        .bg-orb:nth-child(1){{width:400px;height:400px;background:#ec4899;top:-100px;left:-100px}}
-        .bg-orb:nth-child(2){{width:350px;height:350px;background:#f472b6;bottom:-100px;right:-100px;animation-delay:5s}}
-        .bg-orb:nth-child(3){{width:300px;height:300px;background:#db2777;top:50%;left:50%;animation-delay:10s}}
-        @keyframes orbFloat{{0%{{transform:translate(0,0) scale(1)}}100%{{transform:translate(50px,-50px) scale(1.3)}}}}
-
-        .card{{
-            position:relative;z-index:1;width:90%;max-width:420px;
-            background:rgba(236,72,153,0.03);
-            backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);
-            border-radius:32px;padding:36px 24px;
-            border:1px solid rgba(236,72,153,0.2);
-            box-shadow:0 30px 70px rgba(236,72,153,0.1),inset 0 0 30px rgba(236,72,153,0.02);
-            animation:fadeUp 0.8s ease;
+        .bg-orb:nth-child(1) {{ width: 400px; height: 400px; background: #ec4899; top: -100px; left: -100px; }}
+        .bg-orb:nth-child(2) {{ width: 350px; height: 350px; background: #f472b6; bottom: -100px; right: -100px; animation-delay: 5s; }}
+        .bg-orb:nth-child(3) {{ width: 300px; height: 300px; background: #db2777; top: 50%; left: 50%; animation-delay: 10s; }}
+        
+        @keyframes orbFloat {{
+            0% {{ transform: translate(0, 0) scale(1); }}
+            100% {{ transform: translate(50px, -50px) scale(1.3); }}
         }}
-        .logo{{
-            width:70px;height:70px;margin:0 auto 20px;
-            background:linear-gradient(135deg, rgba(236,72,153,0.3), rgba(244,114,182,0.3));
-            border-radius:20px;display:flex;align-items:center;justify-content:center;
-            font-size:36px;border:1px solid rgba(236,72,153,0.2);
-            animation:pinkGlow 3s ease-in-out infinite;
+        
+        /* الجسيمات العائمة */
+        .particles {{
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
         }}
-        h1{{text-align:center;font-size:36px;font-weight:900;background:linear-gradient(to bottom, #fff, #fbcfe8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}}
-        .sub{{text-align:center;color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:20px}}
-        .earn-banner{{
-            text-align:center;margin-bottom:20px;padding:12px;
-            background:rgba(236,72,153,0.1);border:1px solid rgba(236,72,153,0.3);
-            border-radius:16px;font-size:12px;color:var(--accent2);
-            animation:pinkGlow 2s ease-in-out infinite;
+        .particle {{
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #f472b6;
+            border-radius: 50%;
+            animation: particleFloat 10s infinite linear;
+            opacity: 0.3;
         }}
-        .tabs{{display:flex;gap:4px;background:rgba(236,72,153,0.06);border-radius:40px;padding:4px;margin-bottom:24px}}
-        .tab{{flex:1;padding:12px;background:none;border:none;color:rgba(255,255,255,0.5);cursor:pointer;border-radius:40px;font-size:14px;transition:all 0.3s;font-weight:500}}
-        .tab.active{{background:linear-gradient(135deg, #ec4899, #f472b6);color:#fff;box-shadow:0 8px 20px rgba(236,72,153,0.4)}}
-
-        .form{{display:none;animation:fadeIn 0.4s ease}}
-        .form.active{{display:block}}
-
-        input{{
-            width:100%;padding:15px 18px;margin:8px 0;
-            border-radius:50px;background:rgba(236,72,153,0.04);
-            border:1px solid rgba(236,72,153,0.15);color:#fff;
-            font-size:14px;outline:none;transition:all 0.4s;
+        @keyframes particleFloat {{
+            0% {{ transform: translateY(100vh) rotate(0deg); opacity: 0; }}
+            10% {{ opacity: 0.3; }}
+            90% {{ opacity: 0.3; }}
+            100% {{ transform: translateY(-100vh) rotate(720deg); opacity: 0; }}
         }}
-        input:focus{{border-color:rgba(236,72,153,0.6);box-shadow:0 0 20px rgba(236,72,153,0.1);background:rgba(236,72,153,0.08)}}
-        input::placeholder{{color:rgba(255,255,255,0.3)}}
-
-        button{{
-            width:100%;padding:15px;margin-top:18px;
-            background:linear-gradient(135deg, #ec4899, #f472b6);
-            border:none;border-radius:50px;color:#fff;
-            font-weight:bold;font-size:15px;cursor:pointer;
-            transition:all 0.3s;box-shadow:0 10px 30px rgba(236,72,153,0.4);
+        
+        .card {{
+            position: relative;
+            z-index: 1;
+            width: 90%;
+            max-width: 440px;
+            background: rgba(236, 72, 153, 0.03);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-radius: 32px;
+            padding: 40px 28px;
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            box-shadow: 0 30px 70px rgba(236, 72, 153, 0.1), inset 0 0 30px rgba(236, 72, 153, 0.02);
+            animation: fadeUp 0.8s ease;
+            max-height: 90vh;
+            overflow-y: auto;
         }}
-        button:hover{{transform:translateY(-2px);box-shadow:0 20px 40px rgba(236,72,153,0.6)}}
-        button:active{{transform:scale(0.97)}}
-        button:disabled{{opacity:0.5;pointer-events:none}}
-
-        .msg{{text-align:center;color:#fca5a5;font-size:13px;margin-top:12px;min-height:20px}}
-        .msg.success{{color:#4ade80}}
+        
+        .card::-webkit-scrollbar {{
+            width: 4px;
+        }}
+        .card::-webkit-scrollbar-thumb {{
+            background: rgba(236, 72, 153, 0.3);
+            border-radius: 10px;
+        }}
+        
+        .logo-container {{
+            text-align: center;
+            margin-bottom: 24px;
+        }}
+        
+        .logo {{
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(244, 114, 182, 0.3));
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            animation: pinkGlow 3s ease-in-out infinite;
+            position: relative;
+        }}
+        
+        .logo::after {{
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 27px;
+            background: linear-gradient(135deg, #ec4899, #f472b6, #ec4899);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            z-index: -1;
+            opacity: 0.5;
+        }}
+        
+        @keyframes gradientShift {{
+            0%, 100% {{ background-position: 0% 50%; }}
+            50% {{ background-position: 100% 50%; }}
+        }}
+        
+        h1 {{
+            text-align: center;
+            font-size: 38px;
+            font-weight: 900;
+            background: linear-gradient(to bottom, #fff, #fbcfe8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+        }}
+        
+        .subtitle {{
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }}
+        
+        /* شريط الأرباح */
+        .earn-banner {{
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 14px;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(244, 114, 182, 0.05));
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 16px;
+            font-size: 13px;
+            color: #f472b6;
+            animation: pinkGlow 2s ease-in-out infinite;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }}
+        
+        .earn-banner::before {{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(244, 114, 182, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }}
+        
+        @keyframes shimmer {{
+            0% {{ left: -100%; }}
+            100% {{ left: 100%; }}
+        }}
+        
+        /* أزرار التواصل الاجتماعي */
+        .social-buttons {{
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }}
+        
+        .social-btn {{
+            width: 100%;
+            padding: 14px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }}
+        
+        .social-btn.google {{
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
+        }}
+        
+        .social-btn.google:hover {{
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }}
+        
+        .social-btn.facebook {{
+            background: rgba(24, 119, 242, 0.15);
+            color: #fff;
+            border-color: rgba(24, 119, 242, 0.3);
+        }}
+        
+        .social-btn.facebook:hover {{
+            background: rgba(24, 119, 242, 0.25);
+            border-color: rgba(24, 119, 242, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(24, 119, 242, 0.3);
+        }}
+        
+        .social-btn i {{
+            font-size: 20px;
+        }}
+        
+        .social-btn.google i {{
+            color: #EA4335;
+        }}
+        
+        .social-btn.facebook i {{
+            color: #1877F2;
+        }}
+        
+        /* الفاصل */
+        .divider {{
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 12px;
+        }}
+        
+        .divider::before,
+        .divider::after {{
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(236, 72, 153, 0.2);
+        }}
+        
+        /* التبويبات */
+        .tabs {{
+            display: flex;
+            gap: 4px;
+            background: rgba(236, 72, 153, 0.06);
+            border-radius: 40px;
+            padding: 4px;
+            margin-bottom: 24px;
+            position: relative;
+        }}
+        
+        .tab {{
+            flex: 1;
+            padding: 12px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            border-radius: 40px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }}
+        
+        .tab.active {{
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.4);
+        }}
+        
+        /* النماذج */
+        .form {{
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }}
+        
+        .form.active {{
+            display: block;
+        }}
+        
+        .input-group {{
+            position: relative;
+            margin-bottom: 16px;
+        }}
+        
+        .input-group .input-icon {{
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 16px;
+            transition: color 0.3s;
+        }}
+        
+        .input-group input {{
+            width: 100%;
+            padding: 15px 45px 15px 18px;
+            border-radius: 50px;
+            background: rgba(236, 72, 153, 0.04);
+            border: 1px solid rgba(236, 72, 153, 0.15);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.4s;
+            direction: rtl;
+        }}
+        
+        .input-group input:focus {{
+            border-color: rgba(236, 72, 153, 0.6);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.1);
+            background: rgba(236, 72, 153, 0.08);
+        }}
+        
+        .input-group input:focus + .input-icon,
+        .input-group input:focus ~ .input-icon {{
+            color: #ec4899;
+        }}
+        
+        .input-group input::placeholder {{
+            color: rgba(255, 255, 255, 0.3);
+        }}
+        
+        .input-group input[type="email"],
+        .input-group input[type="password"] {{
+            direction: rtl;
+            text-align: right;
+        }}
+        
+        .btn-submit {{
+            width: 100%;
+            padding: 15px;
+            margin-top: 8px;
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.4);
+            position: relative;
+            overflow: hidden;
+        }}
+        
+        .btn-submit::before {{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }}
+        
+        .btn-submit:hover {{
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.6);
+        }}
+        
+        .btn-submit:hover::before {{
+            left: 100%;
+        }}
+        
+        .btn-submit:active {{
+            transform: scale(0.97);
+        }}
+        
+        .btn-submit:disabled {{
+            opacity: 0.5;
+            pointer-events: none;
+        }}
+        
+        .msg {{
+            text-align: center;
+            color: #fca5a5;
+            font-size: 13px;
+            margin-top: 12px;
+            min-height: 20px;
+            transition: all 0.3s;
+        }}
+        
+        .msg.success {{
+            color: #4ade80;
+        }}
+        
+        /* إظهار/إخفاء كلمة المرور */
+        .toggle-password {{
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            font-size: 16px;
+            transition: color 0.3s;
+            background: none;
+            border: none;
+        }}
+        
+        .toggle-password:hover {{
+            color: #ec4899;
+        }}
+        
+        /* التحميل */
+        .loading-spinner {{
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin-left: 8px;
+        }}
     </style>
 </head>
 <body>
-    <div class="bg-orb"></div><div class="bg-orb"></div><div class="bg-orb"></div>
-
+    <div class="bg-orb"></div>
+    <div class="bg-orb"></div>
+    <div class="bg-orb"></div>
+    
+    <div class="particles" id="particles"></div>
+    
     <div class="card">
-        <div class="logo">💗</div>
-        <h1>MNAENCA</h1>
-        <p class="sub">Pink Luxury 2026 ✨</p>
+        <div class="logo-container">
+            <div class="logo">💗</div>
+            <h1>MNAENCA</h1>
+            <p class="subtitle">Pink Luxury 2026 ✨</p>
+        </div>
+        
         <div class="earn-banner">
             💰 اربح {VIEW_RATE_IQD} دينار عراقي لكل مشاهدة!
         </div>
-
+        
+        <!-- أزرار التواصل الاجتماعي -->
+        <div class="social-buttons">
+            <button class="social-btn google" onclick="signInWithGoogle()" id="btnGoogle">
+                <i class="fab fa-google"></i>
+                <span>المتابعة باستخدام Google</span>
+            </button>
+            <button class="social-btn facebook" onclick="signInWithFacebook()" id="btnFacebook">
+                <i class="fab fa-facebook-f"></i>
+                <span>المتابعة باستخدام Facebook</span>
+            </button>
+        </div>
+        
+        <div class="divider">
+            <span>أو</span>
+        </div>
+        
+        <!-- التبويبات -->
         <div class="tabs">
-            <button class="tab active" id="tabLogin" onclick="switchTab('login')"><i class="fas fa-sign-in-alt"></i> دخول</button>
-            <button class="tab" id="tabRegister" onclick="switchTab('register')"><i class="fas fa-user-plus"></i> اشتراك</button>
+            <button class="tab active" id="tabLogin" onclick="switchTab('login')">
+                <i class="fas fa-sign-in-alt"></i> دخول
+            </button>
+            <button class="tab" id="tabRegister" onclick="switchTab('register')">
+                <i class="fas fa-user-plus"></i> اشتراك
+            </button>
         </div>
-
+        
+        <!-- نموذج تسجيل الدخول -->
         <div id="formLogin" class="form active">
-            <input type="email" id="loginEmail" placeholder="📧 البريد الإلكتروني" autocomplete="email" dir="ltr">
-            <input type="password" id="loginPass" placeholder="🔒 كلمة المرور" autocomplete="current-password">
-            <button id="btnLogin" onclick="doLogin()"><i class="fas fa-arrow-right-to-bracket"></i> تسجيل الدخول</button>
+            <div class="input-group">
+                <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" autocomplete="email">
+                <i class="fas fa-envelope input-icon"></i>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" id="loginPass" placeholder="كلمة المرور" autocomplete="current-password">
+                <i class="fas fa-lock input-icon"></i>
+                <button class="toggle-password" onclick="togglePasswordVisibility('loginPass', this)">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            
+            <button id="btnLogin" onclick="doLogin()" class="btn-submit">
+                <i class="fas fa-arrow-right-to-bracket"></i> تسجيل الدخول
+            </button>
+            
             <div class="msg" id="loginMsg"></div>
+            
+            <div style="text-align: center; margin-top: 16px;">
+                <a href="#" style="color: rgba(255,255,255,0.4); font-size: 12px; text-decoration: none;" onclick="event.preventDefault(); alert('سيتم إضافة هذه الميزة قريباً')">
+                    نسيت كلمة المرور؟
+                </a>
+            </div>
         </div>
-
+        
+        <!-- نموذج الاشتراك -->
         <div id="formRegister" class="form">
-            <input type="text" id="regName" placeholder="👤 اسم المستخدم" autocomplete="username">
-            <input type="email" id="regEmail" placeholder="📧 البريد الإلكتروني" autocomplete="email" dir="ltr">
-            <input type="password" id="regPass" placeholder="🔒 كلمة المرور (6 أحرف على الأقل)" autocomplete="new-password">
-            <button id="btnRegister" onclick="doRegister()"><i class="fas fa-heart"></i> إنشاء حساب</button>
+            <div class="input-group">
+                <input type="text" id="regName" placeholder="اسم المستخدم" autocomplete="username">
+                <i class="fas fa-user input-icon"></i>
+            </div>
+            
+            <div class="input-group">
+                <input type="email" id="regEmail" placeholder="البريد الإلكتروني" autocomplete="email">
+                <i class="fas fa-envelope input-icon"></i>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" id="regPass" placeholder="كلمة المرور (6 أحرف على الأقل)" autocomplete="new-password">
+                <i class="fas fa-lock input-icon"></i>
+                <button class="toggle-password" onclick="togglePasswordVisibility('regPass', this)">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            
+            <button id="btnRegister" onclick="doRegister()" class="btn-submit">
+                <i class="fas fa-heart"></i> إنشاء حساب
+            </button>
+            
             <div class="msg" id="regMsg"></div>
         </div>
     </div>
-
+    
     <script src="firebase-config.js"></script>
     <script>
-        function switchTab(type){{
+        // إنشاء الجسيمات العائمة
+        function createParticles() {{
+            const container = document.getElementById('particles');
+            for(let i = 0; i < 20; i++) {{
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particle.style.width = (Math.random() * 4 + 2) + 'px';
+                particle.style.height = particle.style.width;
+                container.appendChild(particle);
+            }}
+        }}
+        createParticles();
+        
+        function switchTab(type) {{
             document.getElementById('tabLogin').classList.remove('active');
             document.getElementById('tabRegister').classList.remove('active');
             document.getElementById('formLogin').classList.remove('active');
             document.getElementById('formRegister').classList.remove('active');
             document.getElementById('loginMsg').innerText = '';
             document.getElementById('regMsg').innerText = '';
-            if(type === 'login'){{
+            
+            if(type === 'login') {{
                 document.getElementById('tabLogin').classList.add('active');
                 document.getElementById('formLogin').classList.add('active');
             }} else {{
@@ -366,98 +810,286 @@ def build_auth():
                 document.getElementById('formRegister').classList.add('active');
             }}
         }}
-
-        async function doLogin(){{
+        
+        function togglePasswordVisibility(inputId, btn) {{
+            const input = document.getElementById(inputId);
+            if(input.type === 'password') {{
+                input.type = 'text';
+                btn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            }} else {{
+                input.type = 'password';
+                btn.innerHTML = '<i class="fas fa-eye"></i>';
+            }}
+        }}
+        
+        // تسجيل الدخول عبر Google
+        async function signInWithGoogle() {{
+            const btn = document.getElementById('btnGoogle');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-spinner"></span> جاري الاتصال...';
+            
+            try {{
+                const provider = new firebase.auth.GoogleAuthProvider();
+                provider.addScope('email');
+                provider.addScope('profile');
+                
+                const result = await auth.signInWithPopup(provider);
+                const user = result.user;
+                
+                // حفظ بيانات المستخدم إذا لم تكن موجودة
+                const userSnap = await db.ref('users/' + user.uid).once('value');
+                if(!userSnap.exists()) {{
+                    await createUserProfile(user, {{
+                        username: user.displayName || 'مستخدم',
+                        email: user.email,
+                        avatarUrl: user.photoURL || (DICEBEAR_URL + '?seed=' + user.uid),
+                        hasCustomAvatar: !!user.photoURL
+                    }});
+                }}
+                
+                window.location.replace('index.html');
+            }} catch(error) {{
+                console.error('Google sign-in error:', error);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fab fa-google"></i> المتابعة باستخدام Google';
+                
+                if(error.code === 'auth/popup-closed-by-user') {{
+                    showToast('❌ تم إغلاق نافذة تسجيل الدخول');
+                }} else {{
+                    showToast('❌ خطأ في تسجيل الدخول: ' + error.message);
+                }}
+            }}
+        }}
+        
+        // تسجيل الدخول عبر Facebook
+        async function signInWithFacebook() {{
+            const btn = document.getElementById('btnFacebook');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-spinner"></span> جاري الاتصال...';
+            
+            try {{
+                const provider = new firebase.auth.FacebookAuthProvider();
+                provider.addScope('email');
+                provider.addScope('public_profile');
+                
+                const result = await auth.signInWithPopup(provider);
+                const user = result.user;
+                
+                // حفظ بيانات المستخدم إذا لم تكن موجودة
+                const userSnap = await db.ref('users/' + user.uid).once('value');
+                if(!userSnap.exists()) {{
+                    await createUserProfile(user, {{
+                        username: user.displayName || 'مستخدم',
+                        email: user.email,
+                        avatarUrl: user.photoURL || (DICEBEAR_URL + '?seed=' + user.uid),
+                        hasCustomAvatar: !!user.photoURL
+                    }});
+                }}
+                
+                window.location.replace('index.html');
+            }} catch(error) {{
+                console.error('Facebook sign-in error:', error);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fab fa-facebook-f"></i> المتابعة باستخدام Facebook';
+                
+                if(error.code === 'auth/popup-closed-by-user') {{
+                    showToast('❌ تم إغلاق نافذة تسجيل الدخول');
+                }} else if(error.code === 'auth/account-exists-with-different-credential') {{
+                    showToast('❌ يوجد حساب بنفس البريد الإلكتروني');
+                }} else {{
+                    showToast('❌ خطأ في تسجيل الدخول: ' + error.message);
+                }}
+            }}
+        }}
+        
+        // إنشاء ملف تعريف للمستخدم
+        async function createUserProfile(user, additionalData = {{}}) {{
+            const coverColor = COVER_COLORS[Math.floor(Math.random() * COVER_COLORS.length)];
+            const userData = {{
+                username: additionalData.username || 'مستخدم',
+                email: user.email || '',
+                bio: '',
+                website: '',
+                location: '',
+                contactEmail: user.email || '',
+                avatarUrl: additionalData.avatarUrl || (DICEBEAR_URL + '?seed=' + user.uid),
+                hasCustomAvatar: additionalData.hasCustomAvatar || false,
+                coverImageUrl: '',
+                hasCustomCover: false,
+                coverColor: coverColor,
+                followers: {{}},
+                following: {{}},
+                totalLikes: 0,
+                isVerified: false,
+                verifiedAt: null,
+                verifiedBy: null,
+                banned: false,
+                createdAt: Date.now(),
+                lastSeen: Date.now(),
+                wallet: {{
+                    balance: 5000,
+                    totalEarned: 5000,
+                    totalWithdrawn: 0,
+                    pendingWithdrawal: 0,
+                    totalViews: 0,
+                    lastWithdrawal: null
+                }}
+            }};
+            
+            await db.ref('users/' + user.uid).set(userData);
+        }}
+        
+        // تسجيل الدخول التقليدي
+        async function doLogin() {{
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPass').value;
             const msg = document.getElementById('loginMsg');
             const btn = document.getElementById('btnLogin');
-            if(!email || !password){{ msg.innerText = '❌ الرجاء ملء جميع الحقول'; return; }}
-            btn.disabled = true; btn.innerHTML = '⏳ جاري الدخول...'; msg.innerText = ''; msg.className = 'msg';
+            
+            if(!email || !password) {{
+                msg.innerText = '❌ الرجاء ملء جميع الحقول';
+                return;
+            }}
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-spinner"></span> جاري الدخول...';
+            msg.innerText = '';
+            msg.className = 'msg';
+            
             try {{
                 await auth.signInWithEmailAndPassword(email, password);
                 window.location.replace('index.html');
             }} catch(error) {{
-                btn.disabled = false; btn.innerHTML = '<i class="fas fa-arrow-right-to-bracket"></i> تسجيل الدخول';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-arrow-right-to-bracket"></i> تسجيل الدخول';
+                
                 switch(error.code) {{
-                    case 'auth/user-not-found': msg.innerText = '❌ لا يوجد حساب بهذا البريد'; break;
-                    case 'auth/wrong-password': case 'auth/invalid-credential': msg.innerText = '❌ كلمة المرور غير صحيحة'; break;
-                    case 'auth/invalid-email': msg.innerText = '❌ بريد إلكتروني غير صالح'; break;
-                    case 'auth/too-many-requests': msg.innerText = '❌ محاولات كثيرة، حاول لاحقاً'; break;
-                    default: msg.innerText = '❌ خطأ: ' + error.message;
+                    case 'auth/user-not-found':
+                        msg.innerText = '❌ لا يوجد حساب بهذا البريد';
+                        break;
+                    case 'auth/wrong-password':
+                    case 'auth/invalid-credential':
+                        msg.innerText = '❌ كلمة المرور غير صحيحة';
+                        break;
+                    case 'auth/invalid-email':
+                        msg.innerText = '❌ بريد إلكتروني غير صالح';
+                        break;
+                    case 'auth/too-many-requests':
+                        msg.innerText = '❌ محاولات كثيرة، حاول لاحقاً';
+                        break;
+                    default:
+                        msg.innerText = '❌ خطأ: ' + error.message;
                 }}
             }}
         }}
-
-        async function doRegister(){{
+        
+        // التسجيل التقليدي
+        async function doRegister() {{
             const username = document.getElementById('regName').value.trim();
             const email = document.getElementById('regEmail').value.trim();
             const password = document.getElementById('regPass').value;
             const msg = document.getElementById('regMsg');
             const btn = document.getElementById('btnRegister');
-            if(!username || !email || !password){{ msg.innerText = '❌ الرجاء ملء جميع الحقول'; return; }}
-            if(username.length < 3){{ msg.innerText = '❌ اسم المستخدم 3 أحرف على الأقل'; return; }}
-            if(password.length < 6){{ msg.innerText = '❌ كلمة المرور 6 أحرف على الأقل'; return; }}
-            if(!email.includes('@') || !email.includes('.')){{ msg.innerText = '❌ بريد إلكتروني غير صالح'; return; }}
-            btn.disabled = true; btn.innerHTML = '⏳ جاري إنشاء الحساب...'; msg.innerText = ''; msg.className = 'msg';
+            
+            if(!username || !email || !password) {{
+                msg.innerText = '❌ الرجاء ملء جميع الحقول';
+                return;
+            }}
+            if(username.length < 3) {{
+                msg.innerText = '❌ اسم المستخدم 3 أحرف على الأقل';
+                return;
+            }}
+            if(password.length < 6) {{
+                msg.innerText = '❌ كلمة المرور 6 أحرف على الأقل';
+                return;
+            }}
+            if(!email.includes('@') || !email.includes('.')) {{
+                msg.innerText = '❌ بريد إلكتروني غير صالح';
+                return;
+            }}
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-spinner"></span> جاري إنشاء الحساب...';
+            msg.innerText = '';
+            msg.className = 'msg';
+            
             try {{
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const uid = userCredential.user.uid;
-                const avatarUrl = DICEBEAR_URL + '?seed=' + uid;
-                const coverColor = COVER_COLORS[Math.floor(Math.random() * COVER_COLORS.length)];
-                const userData = {{
-                    username: username, email: email, bio: '',
-                    website: '', location: '', contactEmail: '',
-                    avatarUrl: avatarUrl, hasCustomAvatar: false,
-                    coverImageUrl: '', hasCustomCover: false,
-                    coverColor: coverColor, followers: {{}}, following: {{}},
-                    totalLikes: 0, isVerified: false, verifiedAt: null, verifiedBy: null,
-                    banned: false, createdAt: Date.now(), lastSeen: Date.now(),
-                    // 💰 Wallet Data
-                    wallet: {{
-                        balance: 5000, // مكافأة ترحيبية 5000 دينار
-                        totalEarned: 5000,
-                        totalWithdrawn: 0,
-                        pendingWithdrawal: 0,
-                        totalViews: 0,
-                        lastWithdrawal: null
-                    }}
-                }};
-                await db.ref('users/' + uid).set(userData);
+                const user = userCredential.user;
+                
+                await createUserProfile(user, {{
+                    username: username,
+                    email: email
+                }});
+                
                 msg.innerText = '✅ تم إنشاء الحساب! +5000 دينار مكافأة ترحيبية 🎉';
                 msg.className = 'msg success';
-                setTimeout(() => {{ window.location.replace('index.html'); }}, 1500);
+                
+                setTimeout(() => {{
+                    window.location.replace('index.html');
+                }}, 1500);
+                
             }} catch(error) {{
-                btn.disabled = false; btn.innerHTML = '<i class="fas fa-heart"></i> إنشاء حساب'; msg.className = 'msg';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-heart"></i> إنشاء حساب';
+                msg.className = 'msg';
+                
                 switch(error.code) {{
-                    case 'auth/email-already-in-use': msg.innerText = '❌ البريد الإلكتروني مستخدم بالفعل'; break;
-                    case 'auth/weak-password': msg.innerText = '❌ كلمة المرور ضعيفة جداً'; break;
-                    case 'auth/invalid-email': msg.innerText = '❌ بريد إلكتروني غير صالح'; break;
-                    case 'auth/operation-not-allowed': msg.innerText = '❌ التسجيل غير مفعل، راجع إعدادات Firebase'; break;
-                    default: msg.innerText = '❌ خطأ: ' + (error.message || 'غير معروف');
+                    case 'auth/email-already-in-use':
+                        msg.innerText = '❌ البريد الإلكتروني مستخدم بالفعل';
+                        break;
+                    case 'auth/weak-password':
+                        msg.innerText = '❌ كلمة المرور ضعيفة جداً';
+                        break;
+                    case 'auth/invalid-email':
+                        msg.innerText = '❌ بريد إلكتروني غير صالح';
+                        break;
+                    case 'auth/operation-not-allowed':
+                        msg.innerText = '❌ التسجيل غير مفعل، راجع إعدادات Firebase';
+                        break;
+                    default:
+                        msg.innerText = '❌ خطأ: ' + (error.message || 'غير معروف');
                 }}
             }}
         }}
-
+        
+        // إدخال بالضغط على Enter
         document.querySelectorAll('input').forEach(input => {{
             input.addEventListener('keydown', function(e) {{
                 if(e.key === 'Enter') {{
                     e.preventDefault();
-                    if(document.getElementById('formLogin').classList.contains('active')) {{ doLogin(); }}
-                    else {{ doRegister(); }}
+                    if(document.getElementById('formLogin').classList.contains('active')) {{
+                        doLogin();
+                    }} else {{
+                        doRegister();
+                    }}
                 }}
             }});
         }});
-
+        
+        // التحقق من حالة المستخدم
         auth.onAuthStateChanged(user => {{
-            if(user) {{ window.location.replace('index.html'); }}
+            if(user) {{
+                window.location.replace('index.html');
+            }}
         }});
-
-        console.log('💗 MNAENCA Auth Ready + Wallet System');
+        
+        function showToast(message) {{
+            const toast = document.createElement('div');
+            toast.className = 'toast-msg show';
+            toast.innerText = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {{
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }}, 3000);
+        }}
+        
+        console.log('💗 MNAENCA Auth Ready with Google & Facebook');
     </script>
 </body>
 </html>"""
-
 # ═══════════════════════════════════════════════════════════
 # ☁️ 3. index.html - الرئيسية مع بحث بدون محفظة
 # ═══════════════════════════════════════════════════════════
