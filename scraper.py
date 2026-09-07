@@ -232,7 +232,7 @@ console.log('💰 %cEarnings System Active - '+VIEW_RATE_IQD+' IQD/View (Profile
 
 # ═══════════════════════════════════════════════════════════
 # ═══════════════════════════════════════════════════════════
-# ☁️ 2. auth.html - واجهة تسجيل دخول واشتراك فاخرة
+# ☁️ 2. auth.html - واجهة تسجيل دخول فاخرة مع Google وFacebook
 # ═══════════════════════════════════════════════════════════
 
 def build_auth():
@@ -241,7 +241,7 @@ def build_auth():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>💗 MNAENCA | دخول</title>
+    <title>💗 لحظة | تسجيل الدخول</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
@@ -249,36 +249,44 @@ def build_auth():
     <style>
         {COMMON_CSS}
         
+        * {{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }}
+        
         body {{
             min-height: 100vh;
-            background: radial-gradient(ellipse at top, #1a0a14, #0d060c, #020617);
+            background: radial-gradient(ellipse at top, #1a0a2e, #0d060c, #020617);
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow-y: auto;
             position: relative;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Segoe UI', 'Tajawal', -apple-system, sans-serif;
+            padding: 20px;
         }}
         
-        /* الخلفية المتحركة */
+        /* ═══ الخلفية المتحركة ═══ */
         .bg-orb {{
             position: fixed;
             border-radius: 50%;
-            filter: blur(130px);
-            opacity: 0.25;
+            filter: blur(120px);
+            opacity: 0.3;
             animation: orbFloat 20s infinite alternate;
             pointer-events: none;
+            z-index: 0;
         }}
-        .bg-orb:nth-child(1) {{ width: 400px; height: 400px; background: #ec4899; top: -100px; left: -100px; }}
-        .bg-orb:nth-child(2) {{ width: 350px; height: 350px; background: #f472b6; bottom: -100px; right: -100px; animation-delay: 5s; }}
-        .bg-orb:nth-child(3) {{ width: 300px; height: 300px; background: #db2777; top: 50%; left: 50%; animation-delay: 10s; }}
+        .bg-orb:nth-child(1) {{ width: 400px; height: 400px; background: #ec4899; top: -100px; right: -100px; }}
+        .bg-orb:nth-child(2) {{ width: 350px; height: 350px; background: #f472b6; bottom: -100px; left: -100px; animation-delay: 5s; }}
+        .bg-orb:nth-child(3) {{ width: 300px; height: 300px; background: #a855f7; top: 50%; left: 50%; animation-delay: 10s; }}
         
         @keyframes orbFloat {{
             0% {{ transform: translate(0, 0) scale(1); }}
             100% {{ transform: translate(50px, -50px) scale(1.3); }}
         }}
         
-        /* الجسيمات العائمة */
+        /* ═══ الجسيمات ═══ */
         .particles {{
             position: fixed;
             inset: 0;
@@ -296,137 +304,140 @@ def build_auth():
         }}
         @keyframes particleFloat {{
             0% {{ transform: translateY(100vh) rotate(0deg); opacity: 0; }}
-            10% {{ opacity: 0.3; }}
-            90% {{ opacity: 0.3; }}
+            10% {{ opacity: 0.4; }}
+            90% {{ opacity: 0.4; }}
             100% {{ transform: translateY(-100vh) rotate(720deg); opacity: 0; }}
         }}
         
-        .card {{
+        /* ═══ البطاقة الرئيسية ═══ */
+        .auth-card {{
             position: relative;
-            z-index: 1;
-            width: 90%;
+            z-index: 10;
+            width: 100%;
             max-width: 440px;
-            background: rgba(236, 72, 153, 0.03);
+            background: rgba(2, 6, 23, 0.85);
             backdrop-filter: blur(40px);
             -webkit-backdrop-filter: blur(40px);
             border-radius: 32px;
             padding: 40px 28px;
-            border: 1px solid rgba(236, 72, 153, 0.2);
-            box-shadow: 0 30px 70px rgba(236, 72, 153, 0.1), inset 0 0 30px rgba(236, 72, 153, 0.02);
-            animation: fadeUp 0.8s ease;
+            border: 1px solid rgba(236, 72, 153, 0.25);
+            box-shadow: 0 30px 70px rgba(236, 72, 153, 0.15), 0 0 50px rgba(236, 72, 153, 0.05);
+            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             max-height: 90vh;
             overflow-y: auto;
         }}
         
-        .card::-webkit-scrollbar {{
+        .auth-card::-webkit-scrollbar {{
             width: 4px;
         }}
-        .card::-webkit-scrollbar-thumb {{
+        .auth-card::-webkit-scrollbar-thumb {{
             background: rgba(236, 72, 153, 0.3);
             border-radius: 10px;
         }}
         
-        .logo-container {{
-            text-align: center;
-            margin-bottom: 24px;
+        @keyframes fadeUp {{
+            from {{ transform: translateY(50px); opacity: 0; }}
+            to {{ transform: translateY(0); opacity: 1; }}
         }}
         
-        .logo {{
+        /* ═══ الشعار ═══ */
+        .logo-section {{
+            text-align: center;
+            margin-bottom: 28px;
+        }}
+        .logo-icon {{
             width: 80px;
             height: 80px;
             margin: 0 auto 16px;
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(244, 114, 182, 0.3));
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(244, 114, 182, 0.2));
             border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
-            border: 1px solid rgba(236, 72, 153, 0.2);
-            animation: pinkGlow 3s ease-in-out infinite;
-            position: relative;
-        }}
-        
-        .logo::after {{
-            content: '';
-            position: absolute;
-            inset: -3px;
-            border-radius: 27px;
-            background: linear-gradient(135deg, #ec4899, #f472b6, #ec4899);
-            background-size: 200% 200%;
-            animation: gradientShift 3s ease infinite;
-            z-index: -1;
-            opacity: 0.5;
-        }}
-        
-        @keyframes gradientShift {{
-            0%, 100% {{ background-position: 0% 50%; }}
-            50% {{ background-position: 100% 50%; }}
-        }}
-        
-        h1 {{
-            text-align: center;
             font-size: 38px;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            animation: logoGlow 3s ease-in-out infinite;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }}
+        .logo-icon:hover {{
+            transform: scale(1.05) rotate(5deg);
+        }}
+        @keyframes logoGlow {{
+            0%, 100% {{ box-shadow: 0 0 30px rgba(236, 72, 153, 0.4); }}
+            50% {{ box-shadow: 0 0 60px rgba(236, 72, 153, 0.7); }}
+        }}
+        .logo-title {{
+            font-size: 32px;
             font-weight: 900;
-            background: linear-gradient(to bottom, #fff, #fbcfe8);
+            background: linear-gradient(135deg, #ec4899, #f472b6, #fbcfe8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 4px;
+            background-clip: text;
             letter-spacing: 1px;
+            margin-bottom: 4px;
         }}
-        
-        .subtitle {{
-            text-align: center;
+        .logo-subtitle {{
             color: rgba(255, 255, 255, 0.4);
-            font-size: 14px;
-            margin-bottom: 20px;
-            font-weight: 300;
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }}
         
-        /* شريط الأرباح */
-        .earn-banner {{
+        /* ═══ رسالة ترحيب ═══ */
+        .welcome-msg {{
             text-align: center;
             margin-bottom: 24px;
             padding: 14px;
             background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(244, 114, 182, 0.05));
-            border: 1px solid rgba(236, 72, 153, 0.3);
+            border: 1px solid rgba(236, 72, 153, 0.25);
             border-radius: 16px;
             font-size: 13px;
             color: #f472b6;
-            animation: pinkGlow 2s ease-in-out infinite;
+            animation: softGlow 2s ease-in-out infinite;
             font-weight: 500;
             position: relative;
             overflow: hidden;
         }}
-        
-        .earn-banner::before {{
+        .welcome-msg::before {{
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(244, 114, 182, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(244, 114, 182, 0.15), transparent);
             animation: shimmer 3s infinite;
         }}
-        
         @keyframes shimmer {{
             0% {{ left: -100%; }}
             100% {{ left: 100%; }}
         }}
-        
-        /* أزرار التواصل الاجتماعي */
-        .social-buttons {{
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 24px;
+        @keyframes softGlow {{
+            0%, 100% {{ box-shadow: 0 0 20px rgba(236, 72, 153, 0.2); }}
+            50% {{ box-shadow: 0 0 40px rgba(236, 72, 153, 0.4); }}
         }}
         
+        /* ═══ أزرار التواصل ═══ */
+        .social-section {{
+            margin-bottom: 24px;
+        }}
+        .social-label {{
+            text-align: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 12px;
+        }}
+        .social-buttons {{
+            display: flex;
+            gap: 12px;
+        }}
         .social-btn {{
-            width: 100%;
+            flex: 1;
             padding: 14px;
-            border-radius: 50px;
-            border: 1px solid var(--border);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
@@ -434,50 +445,36 @@ def build_auth():
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             position: relative;
             overflow: hidden;
-        }}
-        
-        .social-btn.google {{
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
             color: #fff;
-            border-color: rgba(255, 255, 255, 0.2);
         }}
-        
         .social-btn.google:hover {{
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(234, 67, 53, 0.15);
+            border-color: rgba(234, 67, 53, 0.4);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(234, 67, 53, 0.2);
         }}
-        
-        .social-btn.facebook {{
-            background: rgba(24, 119, 242, 0.15);
-            color: #fff;
-            border-color: rgba(24, 119, 242, 0.3);
-        }}
-        
         .social-btn.facebook:hover {{
-            background: rgba(24, 119, 242, 0.25);
-            border-color: rgba(24, 119, 242, 0.5);
+            background: rgba(24, 119, 242, 0.15);
+            border-color: rgba(24, 119, 242, 0.4);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(24, 119, 242, 0.3);
+            box-shadow: 0 10px 30px rgba(24, 119, 242, 0.2);
         }}
-        
         .social-btn i {{
             font-size: 20px;
         }}
-        
-        .social-btn.google i {{
-            color: #EA4335;
+        .social-btn.google i {{ color: #EA4335; }}
+        .social-btn.facebook i {{ color: #1877F2; }}
+        .social-btn:disabled {{
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
         }}
         
-        .social-btn.facebook i {{
-            color: #1877F2;
-        }}
-        
-        /* الفاصل */
+        /* ═══ الفاصل ═══ */
         .divider {{
             display: flex;
             align-items: center;
@@ -486,7 +483,6 @@ def build_auth():
             color: rgba(255, 255, 255, 0.3);
             font-size: 12px;
         }}
-        
         .divider::before,
         .divider::after {{
             content: '';
@@ -495,7 +491,7 @@ def build_auth():
             background: rgba(236, 72, 153, 0.2);
         }}
         
-        /* التبويبات */
+        /* ═══ التبويبات ═══ */
         .tabs {{
             display: flex;
             gap: 4px;
@@ -505,7 +501,6 @@ def build_auth():
             margin-bottom: 24px;
             position: relative;
         }}
-        
         .tab {{
             flex: 1;
             padding: 12px;
@@ -516,33 +511,41 @@ def build_auth():
             border-radius: 40px;
             font-size: 14px;
             transition: all 0.3s;
-            font-weight: 500;
+            font-weight: 600;
             position: relative;
             z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }}
-        
         .tab.active {{
             background: linear-gradient(135deg, #ec4899, #f472b6);
             color: #fff;
             box-shadow: 0 8px 20px rgba(236, 72, 153, 0.4);
         }}
-        
-        /* النماذج */
-        .form {{
-            display: none;
-            animation: fadeIn 0.4s ease;
+        .tab:hover:not(.active) {{
+            color: rgba(255, 255, 255, 0.8);
         }}
         
+        /* ═══ النماذج ═══ */
+        .form {{
+            display: none;
+            animation: formFade 0.4s ease;
+        }}
         .form.active {{
             display: block;
+        }}
+        @keyframes formFade {{
+            from {{ opacity: 0; transform: translateY(10px); }}
+            to {{ opacity: 1; transform: translateY(0); }}
         }}
         
         .input-group {{
             position: relative;
             margin-bottom: 16px;
         }}
-        
-        .input-group .input-icon {{
+        .input-icon {{
             position: absolute;
             right: 16px;
             top: 50%;
@@ -550,12 +553,12 @@ def build_auth():
             color: rgba(255, 255, 255, 0.3);
             font-size: 16px;
             transition: color 0.3s;
+            pointer-events: none;
         }}
-        
         .input-group input {{
             width: 100%;
             padding: 15px 45px 15px 18px;
-            border-radius: 50px;
+            border-radius: 16px;
             background: rgba(236, 72, 153, 0.04);
             border: 1px solid rgba(236, 72, 153, 0.15);
             color: #fff;
@@ -563,46 +566,59 @@ def build_auth():
             outline: none;
             transition: all 0.4s;
             direction: rtl;
+            font-family: 'Segoe UI', sans-serif;
         }}
-        
         .input-group input:focus {{
             border-color: rgba(236, 72, 153, 0.6);
             box-shadow: 0 0 20px rgba(236, 72, 153, 0.1);
-            background: rgba(236, 72, 153, 0.08);
+            background: rgba(236, 72, 153, 0.06);
         }}
-        
-        .input-group input:focus + .input-icon,
         .input-group input:focus ~ .input-icon {{
             color: #ec4899;
         }}
-        
         .input-group input::placeholder {{
             color: rgba(255, 255, 255, 0.3);
         }}
         
-        .input-group input[type="email"],
-        .input-group input[type="password"] {{
-            direction: rtl;
-            text-align: right;
+        /* ═══ زر إظهار كلمة المرور ═══ */
+        .toggle-password {{
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            font-size: 15px;
+            transition: color 0.3s;
+            background: none;
+            border: none;
+            padding: 4px;
+        }}
+        .toggle-password:hover {{
+            color: #ec4899;
         }}
         
+        /* ═══ زر الإرسال ═══ */
         .btn-submit {{
             width: 100%;
             padding: 15px;
             margin-top: 8px;
             background: linear-gradient(135deg, #ec4899, #f472b6);
             border: none;
-            border-radius: 50px;
+            border-radius: 16px;
             color: #fff;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 15px;
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 10px 30px rgba(236, 72, 153, 0.4);
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }}
-        
         .btn-submit::before {{
             content: '';
             position: absolute;
@@ -613,25 +629,23 @@ def build_auth():
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.5s;
         }}
-        
         .btn-submit:hover {{
             transform: translateY(-2px);
             box-shadow: 0 20px 40px rgba(236, 72, 153, 0.6);
         }}
-        
         .btn-submit:hover::before {{
             left: 100%;
         }}
-        
         .btn-submit:active {{
             transform: scale(0.97);
         }}
-        
         .btn-submit:disabled {{
             opacity: 0.5;
-            pointer-events: none;
+            cursor: not-allowed;
+            transform: none !important;
         }}
         
+        /* ═══ رسائل ═══ */
         .msg {{
             text-align: center;
             color: #fca5a5;
@@ -639,455 +653,492 @@ def build_auth():
             margin-top: 12px;
             min-height: 20px;
             transition: all 0.3s;
+            font-weight: 500;
         }}
-        
         .msg.success {{
             color: #4ade80;
         }}
         
-        /* إظهار/إخفاء كلمة المرور */
-        .toggle-password {{
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            font-size: 16px;
-            transition: color 0.3s;
-            background: none;
-            border: none;
+        /* ═══ رابط نسيت كلمة المرور ═══ */
+        .forgot-link {{
+            text-align: center;
+            margin-top: 16px;
         }}
-        
-        .toggle-password:hover {{
+        .forgot-link a {{
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 12px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }}
+        .forgot-link a:hover {{
             color: #ec4899;
         }}
         
-        /* التحميل */
+        /* ═══ Spinner ═══ */
         .loading-spinner {{
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-top-color: #fff;
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
-            margin-left: 8px;
+        }}
+        @keyframes spin {{
+            to {{ transform: rotate(360deg); }}
+        }}
+        
+        /* ═══ Toast ═══ */
+        .toast-msg {{
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(236, 72, 153, 0.4);
+            padding: 14px 24px;
+            border-radius: 30px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(236, 72, 153, 0.2);
+        }}
+        .toast-msg.show {{
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
         }}
     </style>
 </head>
 <body>
-    <div class="bg-orb"></div>
-    <div class="bg-orb"></div>
-    <div class="bg-orb"></div>
+
+<!-- ═══ الخلفية المتحركة ═══ -->
+<div class="bg-orb"></div>
+<div class="bg-orb"></div>
+<div class="bg-orb"></div>
+<div class="particles" id="particles"></div>
+
+<!-- ═══ البطاقة الرئيسية ═══ -->
+<div class="auth-card">
+    <!-- الشعار -->
+    <div class="logo-section">
+        <div class="logo-icon">💗</div>
+        <div class="logo-title">لحظة</div>
+        <div class="logo-subtitle">Lahza ✨</div>
+    </div>
     
-    <div class="particles" id="particles"></div>
+    <!-- رسالة ترحيب -->
+    <div class="welcome-msg">
+        💗 شارك لحظاتك الجميلة مع العالم
+    </div>
     
-    <div class="card">
-        <div class="logo-container">
-            <div class="logo">💗</div>
-            <h1>MNAENCA</h1>
-            <p class="subtitle">Pink Luxury 2026 ✨</p>
-        </div>
-        
-        <div class="earn-banner">
-            💰 اربح {VIEW_RATE_IQD} دينار عراقي لكل مشاهدة!
-        </div>
-        
-        <!-- أزرار التواصل الاجتماعي -->
+    <!-- أزرار التواصل الاجتماعي -->
+    <div class="social-section">
+        <div class="social-label">المتابعة السريعة</div>
         <div class="social-buttons">
             <button class="social-btn google" onclick="signInWithGoogle()" id="btnGoogle">
                 <i class="fab fa-google"></i>
-                <span>المتابعة باستخدام Google</span>
+                <span>Google</span>
             </button>
             <button class="social-btn facebook" onclick="signInWithFacebook()" id="btnFacebook">
                 <i class="fab fa-facebook-f"></i>
-                <span>المتابعة باستخدام Facebook</span>
+                <span>Facebook</span>
             </button>
-        </div>
-        
-        <div class="divider">
-            <span>أو</span>
-        </div>
-        
-        <!-- التبويبات -->
-        <div class="tabs">
-            <button class="tab active" id="tabLogin" onclick="switchTab('login')">
-                <i class="fas fa-sign-in-alt"></i> دخول
-            </button>
-            <button class="tab" id="tabRegister" onclick="switchTab('register')">
-                <i class="fas fa-user-plus"></i> اشتراك
-            </button>
-        </div>
-        
-        <!-- نموذج تسجيل الدخول -->
-        <div id="formLogin" class="form active">
-            <div class="input-group">
-                <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" autocomplete="email">
-                <i class="fas fa-envelope input-icon"></i>
-            </div>
-            
-            <div class="input-group">
-                <input type="password" id="loginPass" placeholder="كلمة المرور" autocomplete="current-password">
-                <i class="fas fa-lock input-icon"></i>
-                <button class="toggle-password" onclick="togglePasswordVisibility('loginPass', this)">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
-            
-            <button id="btnLogin" onclick="doLogin()" class="btn-submit">
-                <i class="fas fa-arrow-right-to-bracket"></i> تسجيل الدخول
-            </button>
-            
-            <div class="msg" id="loginMsg"></div>
-            
-            <div style="text-align: center; margin-top: 16px;">
-                <a href="#" style="color: rgba(255,255,255,0.4); font-size: 12px; text-decoration: none;" onclick="event.preventDefault(); alert('سيتم إضافة هذه الميزة قريباً')">
-                    نسيت كلمة المرور؟
-                </a>
-            </div>
-        </div>
-        
-        <!-- نموذج الاشتراك -->
-        <div id="formRegister" class="form">
-            <div class="input-group">
-                <input type="text" id="regName" placeholder="اسم المستخدم" autocomplete="username">
-                <i class="fas fa-user input-icon"></i>
-            </div>
-            
-            <div class="input-group">
-                <input type="email" id="regEmail" placeholder="البريد الإلكتروني" autocomplete="email">
-                <i class="fas fa-envelope input-icon"></i>
-            </div>
-            
-            <div class="input-group">
-                <input type="password" id="regPass" placeholder="كلمة المرور (6 أحرف على الأقل)" autocomplete="new-password">
-                <i class="fas fa-lock input-icon"></i>
-                <button class="toggle-password" onclick="togglePasswordVisibility('regPass', this)">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
-            
-            <button id="btnRegister" onclick="doRegister()" class="btn-submit">
-                <i class="fas fa-heart"></i> إنشاء حساب
-            </button>
-            
-            <div class="msg" id="regMsg"></div>
         </div>
     </div>
     
-    <script src="firebase-config.js"></script>
-    <script>
-        // إنشاء الجسيمات العائمة
-        function createParticles() {{
-            const container = document.getElementById('particles');
-            for(let i = 0; i < 20; i++) {{
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 10 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                particle.style.width = (Math.random() * 4 + 2) + 'px';
-                particle.style.height = particle.style.width;
-                container.appendChild(particle);
-            }}
-        }}
-        createParticles();
+    <!-- الفاصل -->
+    <div class="divider">
+        <span>أو بالبريد الإلكتروني</span>
+    </div>
+    
+    <!-- التبويبات -->
+    <div class="tabs">
+        <button class="tab active" id="tabLogin" onclick="switchTab('login')">
+            <i class="fas fa-sign-in-alt"></i> دخول
+        </button>
+        <button class="tab" id="tabRegister" onclick="switchTab('register')">
+            <i class="fas fa-user-plus"></i> اشتراك
+        </button>
+    </div>
+    
+    <!-- نموذج تسجيل الدخول -->
+    <div id="formLogin" class="form active">
+        <div class="input-group">
+            <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" autocomplete="email">
+            <i class="fas fa-envelope input-icon"></i>
+        </div>
         
-        function switchTab(type) {{
-            document.getElementById('tabLogin').classList.remove('active');
-            document.getElementById('tabRegister').classList.remove('active');
-            document.getElementById('formLogin').classList.remove('active');
-            document.getElementById('formRegister').classList.remove('active');
-            document.getElementById('loginMsg').innerText = '';
-            document.getElementById('regMsg').innerText = '';
-            
-            if(type === 'login') {{
-                document.getElementById('tabLogin').classList.add('active');
-                document.getElementById('formLogin').classList.add('active');
-            }} else {{
-                document.getElementById('tabRegister').classList.add('active');
-                document.getElementById('formRegister').classList.add('active');
-            }}
-        }}
+        <div class="input-group">
+            <input type="password" id="loginPass" placeholder="كلمة المرور" autocomplete="current-password">
+            <i class="fas fa-lock input-icon"></i>
+            <button class="toggle-password" onclick="togglePasswordVisibility('loginPass', this)" type="button">
+                <i class="fas fa-eye"></i>
+            </button>
+        </div>
         
-        function togglePasswordVisibility(inputId, btn) {{
-            const input = document.getElementById(inputId);
-            if(input.type === 'password') {{
-                input.type = 'text';
-                btn.innerHTML = '<i class="fas fa-eye-slash"></i>';
-            }} else {{
-                input.type = 'password';
-                btn.innerHTML = '<i class="fas fa-eye"></i>';
-            }}
-        }}
+        <button id="btnLogin" onclick="doLogin()" class="btn-submit">
+            <i class="fas fa-arrow-right-to-bracket"></i> تسجيل الدخول
+        </button>
         
-        // تسجيل الدخول عبر Google
-        async function signInWithGoogle() {{
-            const btn = document.getElementById('btnGoogle');
-            btn.disabled = true;
-            btn.innerHTML = '<span class="loading-spinner"></span> جاري الاتصال...';
-            
-            try {{
-                const provider = new firebase.auth.GoogleAuthProvider();
-                provider.addScope('email');
-                provider.addScope('profile');
-                
-                const result = await auth.signInWithPopup(provider);
-                const user = result.user;
-                
-                // حفظ بيانات المستخدم إذا لم تكن موجودة
-                const userSnap = await db.ref('users/' + user.uid).once('value');
-                if(!userSnap.exists()) {{
-                    await createUserProfile(user, {{
-                        username: user.displayName || 'مستخدم',
-                        email: user.email,
-                        avatarUrl: user.photoURL || (DICEBEAR_URL + '?seed=' + user.uid),
-                        hasCustomAvatar: !!user.photoURL
-                    }});
-                }}
-                
-                window.location.replace('index.html');
-            }} catch(error) {{
-                console.error('Google sign-in error:', error);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fab fa-google"></i> المتابعة باستخدام Google';
-                
-                if(error.code === 'auth/popup-closed-by-user') {{
-                    showToast('❌ تم إغلاق نافذة تسجيل الدخول');
-                }} else {{
-                    showToast('❌ خطأ في تسجيل الدخول: ' + error.message);
-                }}
-            }}
-        }}
+        <div class="msg" id="loginMsg"></div>
         
-        // تسجيل الدخول عبر Facebook
-        async function signInWithFacebook() {{
-            const btn = document.getElementById('btnFacebook');
-            btn.disabled = true;
-            btn.innerHTML = '<span class="loading-spinner"></span> جاري الاتصال...';
-            
-            try {{
-                const provider = new firebase.auth.FacebookAuthProvider();
-                provider.addScope('email');
-                provider.addScope('public_profile');
-                
-                const result = await auth.signInWithPopup(provider);
-                const user = result.user;
-                
-                // حفظ بيانات المستخدم إذا لم تكن موجودة
-                const userSnap = await db.ref('users/' + user.uid).once('value');
-                if(!userSnap.exists()) {{
-                    await createUserProfile(user, {{
-                        username: user.displayName || 'مستخدم',
-                        email: user.email,
-                        avatarUrl: user.photoURL || (DICEBEAR_URL + '?seed=' + user.uid),
-                        hasCustomAvatar: !!user.photoURL
-                    }});
-                }}
-                
-                window.location.replace('index.html');
-            }} catch(error) {{
-                console.error('Facebook sign-in error:', error);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fab fa-facebook-f"></i> المتابعة باستخدام Facebook';
-                
-                if(error.code === 'auth/popup-closed-by-user') {{
-                    showToast('❌ تم إغلاق نافذة تسجيل الدخول');
-                }} else if(error.code === 'auth/account-exists-with-different-credential') {{
-                    showToast('❌ يوجد حساب بنفس البريد الإلكتروني');
-                }} else {{
-                    showToast('❌ خطأ في تسجيل الدخول: ' + error.message);
-                }}
-            }}
-        }}
+        <div class="forgot-link">
+            <a href="#" onclick="event.preventDefault(); showToast('🔜 سيتم إضافة هذه الميزة قريباً')">
+                نسيت كلمة المرور؟
+            </a>
+        </div>
+    </div>
+    
+    <!-- نموذج الاشتراك -->
+    <div id="formRegister" class="form">
+        <div class="input-group">
+            <input type="text" id="regName" placeholder="اسم المستخدم" autocomplete="username">
+            <i class="fas fa-user input-icon"></i>
+        </div>
         
-        // إنشاء ملف تعريف للمستخدم
-        async function createUserProfile(user, additionalData = {{}}) {{
-            const coverColor = COVER_COLORS[Math.floor(Math.random() * COVER_COLORS.length)];
-            const userData = {{
-                username: additionalData.username || 'مستخدم',
-                email: user.email || '',
-                bio: '',
-                website: '',
-                location: '',
-                contactEmail: user.email || '',
-                avatarUrl: additionalData.avatarUrl || (DICEBEAR_URL + '?seed=' + user.uid),
-                hasCustomAvatar: additionalData.hasCustomAvatar || false,
-                coverImageUrl: '',
-                hasCustomCover: false,
-                coverColor: coverColor,
-                followers: {{}},
-                following: {{}},
-                totalLikes: 0,
-                isVerified: false,
-                verifiedAt: null,
-                verifiedBy: null,
-                banned: false,
-                createdAt: Date.now(),
-                lastSeen: Date.now(),
-                wallet: {{
-                    balance: 5000,
-                    totalEarned: 5000,
-                    totalWithdrawn: 0,
-                    pendingWithdrawal: 0,
-                    totalViews: 0,
-                    lastWithdrawal: null
-                }}
-            }};
-            
-            await db.ref('users/' + user.uid).set(userData);
-        }}
+        <div class="input-group">
+            <input type="email" id="regEmail" placeholder="البريد الإلكتروني" autocomplete="email">
+            <i class="fas fa-envelope input-icon"></i>
+        </div>
         
-        // تسجيل الدخول التقليدي
-        async function doLogin() {{
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPass').value;
-            const msg = document.getElementById('loginMsg');
-            const btn = document.getElementById('btnLogin');
-            
-            if(!email || !password) {{
-                msg.innerText = '❌ الرجاء ملء جميع الحقول';
-                return;
-            }}
-            
-            btn.disabled = true;
-            btn.innerHTML = '<span class="loading-spinner"></span> جاري الدخول...';
-            msg.innerText = '';
-            msg.className = 'msg';
-            
-            try {{
-                await auth.signInWithEmailAndPassword(email, password);
-                window.location.replace('index.html');
-            }} catch(error) {{
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-arrow-right-to-bracket"></i> تسجيل الدخول';
-                
-                switch(error.code) {{
-                    case 'auth/user-not-found':
-                        msg.innerText = '❌ لا يوجد حساب بهذا البريد';
-                        break;
-                    case 'auth/wrong-password':
-                    case 'auth/invalid-credential':
-                        msg.innerText = '❌ كلمة المرور غير صحيحة';
-                        break;
-                    case 'auth/invalid-email':
-                        msg.innerText = '❌ بريد إلكتروني غير صالح';
-                        break;
-                    case 'auth/too-many-requests':
-                        msg.innerText = '❌ محاولات كثيرة، حاول لاحقاً';
-                        break;
-                    default:
-                        msg.innerText = '❌ خطأ: ' + error.message;
-                }}
-            }}
-        }}
+        <div class="input-group">
+            <input type="password" id="regPass" placeholder="كلمة المرور (6 أحرف على الأقل)" autocomplete="new-password">
+            <i class="fas fa-lock input-icon"></i>
+            <button class="toggle-password" onclick="togglePasswordVisibility('regPass', this)" type="button">
+                <i class="fas fa-eye"></i>
+            </button>
+        </div>
         
-        // التسجيل التقليدي
-        async function doRegister() {{
-            const username = document.getElementById('regName').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
-            const password = document.getElementById('regPass').value;
-            const msg = document.getElementById('regMsg');
-            const btn = document.getElementById('btnRegister');
+        <button id="btnRegister" onclick="doRegister()" class="btn-submit">
+            <i class="fas fa-heart"></i> إنشاء حساب
+        </button>
+        
+        <div class="msg" id="regMsg"></div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-msg" id="toastMsg">✅ تم</div>
+
+<script src="firebase-config.js"></script>
+<script>
+    // ═══ إنشاء الجسيمات ═══
+    function createParticles() {{
+        const container = document.getElementById('particles');
+        for(let i = 0; i < 25; i++) {{
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particle.style.animationDuration = (Math.random() * 8 + 8) + 's';
+            particle.style.width = (Math.random() * 4 + 2) + 'px';
+            particle.style.height = particle.style.width;
+            container.appendChild(particle);
+        }}
+    }}
+    createParticles();
+    
+    // ═══ تبديل التبويبات ═══
+    function switchTab(type) {{
+        document.getElementById('tabLogin').classList.remove('active');
+        document.getElementById('tabRegister').classList.remove('active');
+        document.getElementById('formLogin').classList.remove('active');
+        document.getElementById('formRegister').classList.remove('active');
+        document.getElementById('loginMsg').innerText = '';
+        document.getElementById('regMsg').innerText = '';
+        
+        if(type === 'login') {{
+            document.getElementById('tabLogin').classList.add('active');
+            document.getElementById('formLogin').classList.add('active');
+        }} else {{
+            document.getElementById('tabRegister').classList.add('active');
+            document.getElementById('formRegister').classList.add('active');
+        }}
+    }}
+    
+    // ═══ إظهار/إخفاء كلمة المرور ═══
+    function togglePasswordVisibility(inputId, btn) {{
+        const input = document.getElementById(inputId);
+        if(input.type === 'password') {{
+            input.type = 'text';
+            btn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+        }} else {{
+            input.type = 'password';
+            btn.innerHTML = '<i class="fas fa-eye"></i>';
+        }}
+    }}
+    
+    // ═══ تسجيل الدخول عبر Google ═══
+    async function signInWithGoogle() {{
+        const btn = document.getElementById('btnGoogle');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span>';
+        
+        try {{
+            const provider = new firebase.auth.GoogleAuthProvider();
+            provider.addScope('email');
+            provider.addScope('profile');
             
-            if(!username || !email || !password) {{
-                msg.innerText = '❌ الرجاء ملء جميع الحقول';
-                return;
-            }}
-            if(username.length < 3) {{
-                msg.innerText = '❌ اسم المستخدم 3 أحرف على الأقل';
-                return;
-            }}
-            if(password.length < 6) {{
-                msg.innerText = '❌ كلمة المرور 6 أحرف على الأقل';
-                return;
-            }}
-            if(!email.includes('@') || !email.includes('.')) {{
-                msg.innerText = '❌ بريد إلكتروني غير صالح';
-                return;
-            }}
+            const result = await auth.signInWithPopup(provider);
+            const user = result.user;
             
-            btn.disabled = true;
-            btn.innerHTML = '<span class="loading-spinner"></span> جاري إنشاء الحساب...';
-            msg.innerText = '';
-            msg.className = 'msg';
-            
-            try {{
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-                
+            // حفظ بيانات المستخدم إذا لم تكن موجودة
+            const userSnap = await db.ref('users/' + user.uid).once('value');
+            if(!userSnap.exists()) {{
                 await createUserProfile(user, {{
-                    username: username,
-                    email: email
+                    username: user.displayName || 'مستخدم',
+                    email: user.email,
+                    avatarUrl: user.photoURL || (DICEBEAR_URL + '?seed=' + user.uid),
+                    hasCustomAvatar: !!user.photoURL
                 }});
-                
-                msg.innerText = '✅ تم إنشاء الحساب! +5000 دينار مكافأة ترحيبية 🎉';
-                msg.className = 'msg success';
-                
-                setTimeout(() => {{
-                    window.location.replace('index.html');
-                }}, 1500);
-                
-            }} catch(error) {{
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-heart"></i> إنشاء حساب';
-                msg.className = 'msg';
-                
-                switch(error.code) {{
-                    case 'auth/email-already-in-use':
-                        msg.innerText = '❌ البريد الإلكتروني مستخدم بالفعل';
-                        break;
-                    case 'auth/weak-password':
-                        msg.innerText = '❌ كلمة المرور ضعيفة جداً';
-                        break;
-                    case 'auth/invalid-email':
-                        msg.innerText = '❌ بريد إلكتروني غير صالح';
-                        break;
-                    case 'auth/operation-not-allowed':
-                        msg.innerText = '❌ التسجيل غير مفعل، راجع إعدادات Firebase';
-                        break;
-                    default:
-                        msg.innerText = '❌ خطأ: ' + (error.message || 'غير معروف');
-                }}
+            }}
+            
+            window.location.replace('index.html');
+        }} catch(error) {{
+            console.error('Google sign-in error:', error);
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fab fa-google"></i><span>Google</span>';
+            
+            if(error.code === 'auth/popup-closed-by-user') {{
+                showToast('❌ تم إغلاق نافذة تسجيل الدخول');
+            }} else if(error.code === 'auth/popup-blocked') {{
+                showToast('❌ الرجاء السماح بالنوافذ المنبثقة');
+            }} else {{
+                showToast('❌ خطأ في تسجيل الدخول');
             }}
         }}
+    }}
+    
+    // ═══ تسجيل الدخول عبر Facebook ═══
+    async function signInWithFacebook() {{
+        const btn = document.getElementById('btnFacebook');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span>';
         
-        // إدخال بالضغط على Enter
-        document.querySelectorAll('input').forEach(input => {{
-            input.addEventListener('keydown', function(e) {{
-                if(e.key === 'Enter') {{
-                    e.preventDefault();
-                    if(document.getElementById('formLogin').classList.contains('active')) {{
-                        doLogin();
-                    }} else {{
-                        doRegister();
-                    }}
-                }}
-            }});
-        }});
-        
-        // التحقق من حالة المستخدم
-        auth.onAuthStateChanged(user => {{
-            if(user) {{
-                window.location.replace('index.html');
+        try {{
+            const provider = new firebase.auth.FacebookAuthProvider();
+            provider.addScope('email');
+            provider.addScope('public_profile');
+            
+            const result = await auth.signInWithPopup(provider);
+            const user = result.user;
+            
+            // حفظ بيانات المستخدم إذا لم تكن موجودة
+            const userSnap = await db.ref('users/' + user.uid).once('value');
+            if(!userSnap.exists()) {{
+                await createUserProfile(user, {{
+                    username: user.displayName || 'مستخدم',
+                    email: user.email,
+                    avatarUrl: user.photoURL || (DICEBEAR_URL + '?seed=' + user.uid),
+                    hasCustomAvatar: !!user.photoURL
+                }});
             }}
-        }});
+            
+            window.location.replace('index.html');
+        }} catch(error) {{
+            console.error('Facebook sign-in error:', error);
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fab fa-facebook-f"></i><span>Facebook</span>';
+            
+            if(error.code === 'auth/popup-closed-by-user') {{
+                showToast('❌ تم إغلاق نافذة تسجيل الدخول');
+            }} else if(error.code === 'auth/account-exists-with-different-credential') {{
+                showToast('❌ يوجد حساب بنفس البريد الإلكتروني');
+            }} else if(error.code === 'auth/popup-blocked') {{
+                showToast('❌ الرجاء السماح بالنوافذ المنبثقة');
+            }} else {{
+                showToast('❌ خطأ في تسجيل الدخول');
+            }}
+        }}
+    }}
+    
+    // ═══ إنشاء ملف تعريف المستخدم ═══
+    async function createUserProfile(user, additionalData = {{}}) {{
+        const coverColor = COVER_COLORS[Math.floor(Math.random() * COVER_COLORS.length)];
+        const userData = {{
+            username: additionalData.username || 'مستخدم',
+            email: user.email || '',
+            bio: '',
+            website: '',
+            location: '',
+            contactEmail: user.email || '',
+            avatarUrl: additionalData.avatarUrl || (DICEBEAR_URL + '?seed=' + user.uid),
+            hasCustomAvatar: additionalData.hasCustomAvatar || false,
+            coverImageUrl: '',
+            hasCustomCover: false,
+            coverColor: coverColor,
+            followers: {{}},
+            following: {{}},
+            totalLikes: 0,
+            isVerified: false,
+            verifiedAt: null,
+            verifiedBy: null,
+            banned: false,
+            createdAt: Date.now(),
+            lastSeen: Date.now(),
+            wallet: {{
+                balance: 5000,
+                totalEarned: 5000,
+                totalWithdrawn: 0,
+                pendingWithdrawal: 0,
+                totalViews: 0,
+                lastWithdrawal: null
+            }}
+        }};
         
-        function showToast(message) {{
-            const toast = document.createElement('div');
-            toast.className = 'toast-msg show';
-            toast.innerText = message;
-            document.body.appendChild(toast);
+        await db.ref('users/' + user.uid).set(userData);
+    }}
+    
+    // ═══ تسجيل الدخول التقليدي ═══
+    async function doLogin() {{
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPass').value;
+        const msg = document.getElementById('loginMsg');
+        const btn = document.getElementById('btnLogin');
+        
+        if(!email || !password) {{
+            msg.innerText = '❌ الرجاء ملء جميع الحقول';
+            return;
+        }}
+        
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span> جاري الدخول...';
+        msg.innerText = '';
+        
+        try {{
+            await auth.signInWithEmailAndPassword(email, password);
+            window.location.replace('index.html');
+        }} catch(error) {{
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-arrow-right-to-bracket"></i> تسجيل الدخول';
+            
+            switch(error.code) {{
+                case 'auth/user-not-found':
+                    msg.innerText = '❌ لا يوجد حساب بهذا البريد';
+                    break;
+                case 'auth/wrong-password':
+                case 'auth/invalid-credential':
+                    msg.innerText = '❌ كلمة المرور غير صحيحة';
+                    break;
+                case 'auth/invalid-email':
+                    msg.innerText = '❌ بريد إلكتروني غير صالح';
+                    break;
+                case 'auth/too-many-requests':
+                    msg.innerText = '❌ محاولات كثيرة، حاول لاحقاً';
+                    break;
+                default:
+                    msg.innerText = '❌ خطأ: ' + error.message;
+            }}
+        }}
+    }}
+    
+    // ═══ التسجيل التقليدي ═══
+    async function doRegister() {{
+        const username = document.getElementById('regName').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const password = document.getElementById('regPass').value;
+        const msg = document.getElementById('regMsg');
+        const btn = document.getElementById('btnRegister');
+        
+        if(!username || !email || !password) {{
+            msg.innerText = '❌ الرجاء ملء جميع الحقول';
+            return;
+        }}
+        if(username.length < 3) {{
+            msg.innerText = '❌ اسم المستخدم 3 أحرف على الأقل';
+            return;
+        }}
+        if(password.length < 6) {{
+            msg.innerText = '❌ كلمة المرور 6 أحرف على الأقل';
+            return;
+        }}
+        if(!email.includes('@') || !email.includes('.')) {{
+            msg.innerText = '❌ بريد إلكتروني غير صالح';
+            return;
+        }}
+        
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span> جاري الإنشاء...';
+        msg.innerText = '';
+        
+        try {{
+            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+            const user = userCredential.user;
+            
+            await createUserProfile(user, {{
+                username: username,
+                email: email
+            }});
+            
+            msg.innerText = '✅ تم إنشاء الحساب بنجاح! 🎉';
+            msg.className = 'msg success';
             
             setTimeout(() => {{
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }}, 3000);
+                window.location.replace('index.html');
+            }}, 1500);
+            
+        }} catch(error) {{
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-heart"></i> إنشاء حساب';
+            msg.className = 'msg';
+            
+            switch(error.code) {{
+                case 'auth/email-already-in-use':
+                    msg.innerText = '❌ البريد الإلكتروني مستخدم بالفعل';
+                    break;
+                case 'auth/weak-password':
+                    msg.innerText = '❌ كلمة المرور ضعيفة جداً';
+                    break;
+                case 'auth/invalid-email':
+                    msg.innerText = '❌ بريد إلكتروني غير صالح';
+                    break;
+                case 'auth/operation-not-allowed':
+                    msg.innerText = '❌ التسجيل غير مفعل، راجع إعدادات Firebase';
+                    break;
+                default:
+                    msg.innerText = '❌ خطأ: ' + (error.message || 'غير معروف');
+            }}
         }}
-        
-        console.log('💗 MNAENCA Auth Ready with Google & Facebook');
-    </script>
+    }}
+    
+    // ═══ الإدخال بزر Enter ═══
+    document.querySelectorAll('input').forEach(input => {{
+        input.addEventListener('keydown', function(e) {{
+            if(e.key === 'Enter') {{
+                e.preventDefault();
+                if(document.getElementById('formLogin').classList.contains('active')) {{
+                    doLogin();
+                }} else {{
+                    doRegister();
+                }}
+            }}
+        }});
+    }});
+    
+    // ═══ التحقق من حالة المستخدم ═══
+    auth.onAuthStateChanged(user => {{
+        if(user) {{
+            window.location.replace('index.html');
+        }}
+    }});
+    
+    // ═══ Toast ═══
+    function showToast(message) {{
+        const toast = document.getElementById('toastMsg');
+        toast.innerText = message;
+        toast.classList.add('show');
+        setTimeout(() => {{
+            toast.classList.remove('show');
+        }}, 3000);
+    }}
+    
+    console.log('💗 لحظة | Auth Ready with Google & Facebook ✨');
+</script>
 </body>
 </html>"""
 # ═══════════════════════════════════════════════════════════
@@ -3973,8 +4024,7 @@ def build_upload():
 </html>"""
 # ═══════════════════════════════════════════════════════════
 # ═══════════════════════════════════════════════════════════
-# ═══════════════════════════════════════════════════════════
-# ✨ 7. chat.html - دردشة مع صور وصوت
+# ☁️ 7. chat.html - دردشة مع صور وصوت
 # ═══════════════════════════════════════════════════════════
 
 def build_chat():
@@ -4209,8 +4259,7 @@ def build_chat():
                 fd.append('file',file);
                 fd.append('upload_preset',UPLOAD_PRESET);
                 
-                // ✅ تم الإصلاح
-                const res=await fetch('https://api.cloudinary.com/v1_1/'+CLOUD_NAME+'/image/upload',{{
+                const res=await fetch(CLOUDINARY_IMAGE_UPLOAD_URL,{{
                     method:'POST',
                     body:fd
                 }});
@@ -4245,12 +4294,14 @@ def build_chat():
         const btn=document.getElementById('btnRecord');
         
         if(mediaRecorder && mediaRecorder.state==='recording'){{
+            // Stop recording
             mediaRecorder.stop();
             btn.innerHTML='<i class="fas fa-microphone"></i>';
             btn.style.background='rgba(236,72,153,0.1)';
             document.getElementById('recordingIndicator').style.display='none';
             clearInterval(recordingTimer);
         }}else{{
+            // Start recording
             try{{
                 const stream=await navigator.mediaDevices.getUserMedia({{audio:true}});
                 mediaRecorder=new MediaRecorder(stream);
@@ -4272,8 +4323,7 @@ def build_chat():
                             fd.append('file',audioBlob,'voice-message.webm');
                             fd.append('upload_preset',UPLOAD_PRESET);
                             
-                            // ✅ تم الإصلاح
-                            const res=await fetch('https://api.cloudinary.com/v1_1/'+CLOUD_NAME+'/video/upload',{{
+                            const res=await fetch(CLOUDINARY_AUDIO_UPLOAD_URL,{{
                                 method:'POST',
                                 body:fd
                             }});
