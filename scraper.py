@@ -4024,402 +4024,1015 @@ def build_upload():
 </html>"""
 # ═══════════════════════════════════════════════════════════
 # ═══════════════════════════════════════════════════════════
-# ☁️ 7. chat.html - دردشة مع صور وصوت
+# ☁️ 4. chat.html - دردشة مطورة مع صور وتسجيل صوتي
 # ═══════════════════════════════════════════════════════════
 
 def build_chat():
-    return f"""<!DOCTYPE html>
+    return """<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>💗 MNAENCA | دردشة</title>
+    <title>💗 لحظة | المحادثات</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         {COMMON_CSS}
-        body{{height:100vh;display:flex;flex-direction:column}}
-        .header{{display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--border);background:rgba(2,6,23,0.8);backdrop-filter:blur(20px)}}
-        .btn-back{{background:rgba(236,72,153,0.1);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:16px;text-decoration:none}}
-        .msgs{{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px}}
-        .bubble{{max-width:80%;padding:10px 16px;border-radius:20px;word-break:break-word;font-size:14px;position:relative;animation:msgIn 0.3s ease}}
-        @keyframes msgIn{{from{{opacity:0;transform:translateY(10px)}}to{{opacity:1;transform:translateY(0)}}}}
-        .bubble.sent{{background:linear-gradient(135deg,var(--accent),var(--accent2));align-self:flex-end;color:#fff}}
-        .bubble.received{{background:rgba(236,72,153,0.06);align-self:flex-start;border:1px solid rgba(236,72,153,0.1)}}
-        .bubble img{{max-width:200px;border-radius:12px;cursor:pointer;margin-top:4px;display:block}}
-        .bubble audio{{max-width:200px;margin-top:4px}}
-        .bubble .time{{font-size:9px;opacity:0.6;margin-top:4px}}
-        .input-bar{{display:flex;gap:10px;padding:12px;background:rgba(2,6,23,0.95);backdrop-filter:blur(20px);border-top:1px solid var(--border);align-items:center}}
-        .input-bar input{{flex:1;padding:12px 16px;border-radius:30px;background:var(--glass);border:1px solid var(--border);color:#fff;font-size:14px;outline:none}}
-        .btn-icon{{width:42px;height:42px;background:rgba(236,72,153,0.1);border:1px solid var(--border);border-radius:50%;color:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all 0.3s}}
-        .btn-icon:hover{{background:rgba(236,72,153,0.25)}}
-        .btn-send{{width:42px;height:42px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:50%;color:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}}
-        .conv-item{{display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid var(--border);cursor:pointer}}
-        .conv-item:hover{{background:rgba(236,72,153,0.04)}}
-        .chat-avatar{{width:40px;height:40px;border-radius:50%;overflow:hidden;border:2px solid rgba(236,72,153,0.3);flex-shrink:0}}
-        .chat-avatar img{{width:100%;height:100%;object-fit:cover}}
-        .online-indicator{{width:10px;height:10px;background:#22c55e;border-radius:50%;display:inline-block;margin-left:6px}}
-        .image-upload-progress{{
-            position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
-            background:rgba(2,6,23,0.95);padding:16px 24px;border-radius:20px;
-            border:1px solid var(--accent);z-index:1000;text-align:center;
-            display:none;
+        
+        * {{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }}
-        .recording-indicator{{
-            position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
-            background:rgba(2,6,23,0.95);padding:16px 24px;border-radius:20px;
-            border:1px solid #ef4444;z-index:1000;text-align:center;
-            display:none;color:#ef4444;font-weight:700;
+        
+        body {{
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: radial-gradient(ellipse at top, #1a0a2e, #0d060c, #020617);
+            font-family: 'Segoe UI', 'Tajawal', -apple-system, sans-serif;
+            overflow: hidden;
         }}
-        .recording-indicator .rec-dot{{
-            width:12px;height:12px;background:#ef4444;border-radius:50%;
-            display:inline-block;animation:pulse 1s infinite;
+        
+        /* ═══ شاشة التحميل ═══ */
+        .loader-screen {{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+            color: rgba(255, 255, 255, 0.5);
+        }}
+        .loader-logo {{
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            animation: pulse 1.5s ease-in-out infinite;
+            box-shadow: 0 0 30px rgba(236, 72, 153, 0.5);
+        }}
+        @keyframes pulse {{
+            0%, 100% {{ transform: scale(1); box-shadow: 0 0 30px rgba(236, 72, 153, 0.5); }}
+            50% {{ transform: scale(1.1); box-shadow: 0 0 50px rgba(236, 72, 153, 0.8); }}
+        }}
+        .loader-spinner {{
+            width: 36px;
+            height: 36px;
+            border: 3px solid rgba(236, 72, 153, 0.2);
+            border-top-color: #ec4899;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }}
+        @keyframes spin {{ to {{ transform: rotate(360deg); }} }}
+        
+        /* ═══ الهيدر ═══ */
+        .header {{
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(236, 72, 153, 0.15);
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            z-index: 10;
+            flex-shrink: 0;
+        }}
+        .header h2 {{
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }}
+        .btn-back {{
+            background: rgba(236, 72, 153, 0.1);
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            cursor: pointer;
+            font-size: 15px;
+            text-decoration: none;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }}
+        .btn-back:hover {{
+            background: rgba(236, 72, 153, 0.25);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+        }}
+        
+        /* ═══ قائمة المحادثات ═══ */
+        .conversations-list {{
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }}
+        .conversations-list::-webkit-scrollbar {{
+            width: 4px;
+        }}
+        .conversations-list::-webkit-scrollbar-thumb {{
+            background: rgba(236, 72, 153, 0.3);
+            border-radius: 10px;
+        }}
+        .conv-item {{
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 4px;
+            border: 1px solid transparent;
+        }}
+        .conv-item:hover {{
+            background: rgba(236, 72, 153, 0.06);
+            border-color: rgba(236, 72, 153, 0.15);
+            transform: translateX(-4px);
+        }}
+        .chat-avatar {{
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 2px solid rgba(236, 72, 153, 0.4);
+            position: relative;
+            background: linear-gradient(135deg, #ec4899, #f472b6, #fbcfe8);
+            padding: 2px;
+        }}
+        .chat-avatar img {{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #0a0118;
+        }}
+        .conv-info {{
+            flex: 1;
+            min-width: 0;
+        }}
+        .conv-name {{
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }}
+        .conv-last-msg {{
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }}
+        .conv-time {{
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            flex-shrink: 0;
+        }}
+        .online-dot {{
+            width: 10px;
+            height: 10px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+            animation: onlinePulse 2s infinite;
+        }}
+        @keyframes onlinePulse {{
+            0%, 100% {{ box-shadow: 0 0 10px rgba(34, 197, 94, 0.6); }}
+            50% {{ box-shadow: 0 0 20px rgba(34, 197, 94, 1); }}
+        }}
+        
+        /* ═══ منطقة الرسائل ═══ */
+        .messages-area {{
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }}
+        .messages-area::-webkit-scrollbar {{
+            width: 4px;
+        }}
+        .messages-area::-webkit-scrollbar-thumb {{
+            background: rgba(236, 72, 153, 0.3);
+            border-radius: 10px;
+        }}
+        .bubble {{
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 20px;
+            word-break: break-word;
+            font-size: 14px;
+            position: relative;
+            animation: msgIn 0.3s ease;
+            line-height: 1.5;
+        }}
+        @keyframes msgIn {{
+            from {{ opacity: 0; transform: translateY(15px) scale(0.95); }}
+            to {{ opacity: 1; transform: translateY(0) scale(1); }}
+        }}
+        .bubble.sent {{
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            align-self: flex-end;
+            color: #fff;
+            border-bottom-left-radius: 6px;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+        }}
+        .bubble.received {{
+            background: rgba(236, 72, 153, 0.08);
+            align-self: flex-start;
+            border: 1px solid rgba(236, 72, 153, 0.15);
+            color: #fff;
+            border-bottom-right-radius: 6px;
+        }}
+        .bubble img {{
+            max-width: 220px;
+            max-height: 300px;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 4px 0;
+            display: block;
+            transition: all 0.3s;
+        }}
+        .bubble img:hover {{
+            opacity: 0.85;
+            transform: scale(0.98);
+        }}
+        .bubble audio {{
+            max-width: 220px;
+            margin: 4px 0;
+            border-radius: 20px;
+        }}
+        .bubble .msg-time {{
+            font-size: 9px;
+            opacity: 0.6;
+            margin-top: 4px;
+            display: block;
+        }}
+        .bubble.sent .msg-time {{
+            text-align: left;
+        }}
+        .bubble.received .msg-time {{
+            text-align: right;
+        }}
+        
+        /* ═══ شريط الإدخال ═══ */
+        .input-bar {{
+            display: flex;
+            gap: 8px;
+            padding: 12px;
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-top: 1px solid rgba(236, 72, 153, 0.15);
+            align-items: center;
+            flex-shrink: 0;
+            z-index: 10;
+        }}
+        .input-bar input {{
+            flex: 1;
+            padding: 12px 18px;
+            border-radius: 30px;
+            background: rgba(236, 72, 153, 0.05);
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+            font-family: 'Segoe UI', sans-serif;
+        }}
+        .input-bar input:focus {{
+            border-color: rgba(236, 72, 153, 0.5);
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.1);
+            background: rgba(236, 72, 153, 0.08);
+        }}
+        .input-bar input::placeholder {{
+            color: rgba(255, 255, 255, 0.3);
+        }}
+        .btn-icon {{
+            width: 42px;
+            height: 42px;
+            background: rgba(236, 72, 153, 0.1);
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }}
+        .btn-icon:hover {{
+            background: rgba(236, 72, 153, 0.25);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+        }}
+        .btn-icon.recording {{
+            background: rgba(239, 68, 68, 0.3);
+            border-color: rgba(239, 68, 68, 0.5);
+            animation: recPulse 1s infinite;
+        }}
+        @keyframes recPulse {{
+            0%, 100% {{ box-shadow: 0 0 10px rgba(239, 68, 68, 0.4); }}
+            50% {{ box-shadow: 0 0 25px rgba(239, 68, 68, 0.8); }}
+        }}
+        .btn-send {{
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+        }}
+        .btn-send:hover {{
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.6);
+        }}
+        .btn-send:active {{
+            transform: scale(0.95);
+        }}
+        
+        /* ═══ مؤشرات ═══ */
+        .upload-progress {{
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 16px 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            z-index: 1000;
+            text-align: center;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }}
+        .upload-progress .spinner {{
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(236, 72, 153, 0.2);
+            border-top-color: #ec4899;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 8px;
+        }}
+        .upload-progress span {{
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }}
+        
+        .recording-indicator {{
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 14px 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            z-index: 1000;
+            text-align: center;
+            display: none;
+            color: #ef4444;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }}
+        .recording-indicator .rec-dot {{
+            width: 10px;
+            height: 10px;
+            background: #ef4444;
+            border-radius: 50%;
+            display: inline-block;
+            animation: recPulse 1s infinite;
+            margin-left: 8px;
+        }}
+        
+        /* ═══ Toast ═══ */
+        .toast-msg {{
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(236, 72, 153, 0.4);
+            padding: 12px 24px;
+            border-radius: 30px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s;
+        }}
+        .toast-msg.show {{
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
+        }}
+        
+        /* ═══ عارض الصور ═══ */
+        .image-viewer {{
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+        }}
+        .image-viewer.show {{
+            display: flex;
+        }}
+        .image-viewer img {{
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(236, 72, 153, 0.3);
         }}
     </style>
 </head>
 <body>
-<div id="loader" style="flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px"><div class="spinner"></div><span>💗 تحميل...</span></div>
 
-<div id="convView" style="display:none;flex:1;flex-direction:column;overflow:hidden">
+<!-- ═══ شاشة التحميل ═══ -->
+<div class="loader-screen" id="loaderScreen">
+    <div class="loader-logo">💗</div>
+    <span>لحظة | المحادثات</span>
+    <div class="loader-spinner"></div>
+</div>
+
+<!-- ═══ قائمة المحادثات ═══ -->
+<div id="conversationsView" style="display:none;flex:1;flex-direction:column;overflow:hidden">
     <div class="header">
         <a href="index.html" class="btn-back"><i class="fas fa-arrow-right"></i></a>
         <h2><i class="fas fa-comments"></i> المحادثات</h2>
     </div>
-    <div id="convList" style="flex:1;overflow-y:auto"></div>
+    <div class="conversations-list" id="conversationsList"></div>
 </div>
 
+<!-- ═══ نافذة المحادثة ═══ -->
 <div id="chatView" style="display:none;flex:1;flex-direction:column;overflow:hidden">
     <div class="header">
-        <button class="btn-back" onclick="showConvs()"><i class="fas fa-arrow-right"></i></button>
-        <div class="chat-avatar" id="chatAvatar"></div>
-        <h3 id="chatName">محادثة</h3>
-        <span id="chatOnline" style="font-size:11px;opacity:0.5;margin-right:8px"></span>
+        <button class="btn-back" onclick="showConversations()"><i class="fas fa-arrow-right"></i></button>
+        <div class="chat-avatar" id="chatAvatarDisplay"></div>
+        <div style="flex:1">
+            <div style="font-weight:700;font-size:15px" id="chatNameDisplay">محادثة</div>
+            <div style="font-size:11px;opacity:0.5" id="chatStatusDisplay"></div>
+        </div>
+        <button class="btn-icon" onclick="copyChat()" title="نسخ المحادثة" style="width:34px;height:34px;font-size:13px">
+            <i class="fas fa-copy"></i>
+        </button>
     </div>
-    <div class="msgs" id="msgsList"></div>
+    <div class="messages-area" id="messagesList"></div>
     <div class="input-bar">
-        <button class="btn-icon" onclick="sendImage()" title="إرسال صورة"><i class="fas fa-image"></i></button>
-        <button class="btn-icon" id="btnRecord" onclick="toggleRecording()" title="تسجيل صوتي"><i class="fas fa-microphone"></i></button>
-        <input type="text" id="msgInput" placeholder="اكتب رسالة..." onkeydown="if(event.key==='Enter')sendMsg()">
-        <button class="btn-send" onclick="sendMsg()"><i class="fas fa-paper-plane"></i></button>
-        <button class="btn-icon" onclick="copyChat()" title="نسخ المحادثة"><i class="fas fa-copy"></i></button>
+        <button class="btn-icon" onclick="sendImage()" title="إرسال صورة">
+            <i class="fas fa-image"></i>
+        </button>
+        <button class="btn-icon" id="btnRecord" onclick="toggleRecording()" title="تسجيل صوتي">
+            <i class="fas fa-microphone"></i>
+        </button>
+        <input type="text" id="messageInput" placeholder="اكتب رسالتك..." onkeydown="if(event.key==='Enter')sendTextMessage()">
+        <button class="btn-send" onclick="sendTextMessage()">
+            <i class="fas fa-paper-plane"></i>
+        </button>
     </div>
 </div>
 
-<div class="image-upload-progress" id="imageUploadProgress">
-    <div class="spinner" style="margin:0 auto 10px"></div>
-    <span>⏳ جاري رفع الصورة...</span>
+<!-- ═══ مؤشر الرفع ═══ -->
+<div class="upload-progress" id="uploadProgress">
+    <div class="spinner"></div>
+    <span>⏳ جاري الرفع...</span>
 </div>
 
+<!-- ═══ مؤشر التسجيل ═══ -->
 <div class="recording-indicator" id="recordingIndicator">
-    <span class="rec-dot"></span> جاري التسجيل... <span id="recordingTime">0:00</span>
+    <span class="rec-dot"></span>
+    <span>جاري التسجيل...</span>
+    <span id="recordingTime" style="margin-right:8px">0:00</span>
 </div>
+
+<!-- ═══ عارض الصور ═══ -->
+<div class="image-viewer" id="imageViewer" onclick="closeImageViewer()">
+    <img src="" alt="صورة" id="viewerImage">
+</div>
+
+<!-- ═══ Toast ═══ -->
+<div class="toast-msg" id="toastMsg">✅ تم</div>
 
 <input type="file" id="imageInput" accept="image/*" style="display:none">
 
-<div class="toast-msg" id="toastMsg">✅ تم</div>
-
-<script src="firebase-config.js"></script>
 <script>
-    let currentUser=null, allUsers={{}}, chatUserId=null, messagesListener=null;
-    let mediaRecorder=null, audioChunks=[], recordingStartTime=null, recordingTimer=null;
+    // ═══ إعدادات Firebase ═══
+    const firebaseConfig = {{
+        apiKey: "AIzaSyAAiH5kBtNBfuRbXddoCuLet9IGMG2U7q0",
+        authDomain: "bomk-9f6ec.firebaseapp.com",
+        databaseURL: "https://bomk-9f6ec-default-rtdb.firebaseio.com",
+        projectId: "bomk-9f6ec",
+        storageBucket: "bomk-9f6ec.firebasestorage.app",
+        messagingSenderId: "743058000945",
+        appId: "1:743058000945:web:a862e1eecf7d3d98925910",
+        measurementId: "G-7F4W2H5Z3Y"
+    }};
     
-    auth.onAuthStateChanged(async u=>{{
-        if(!u){{window.location.href='auth.html';return}}
-        currentUser=u;
-        const us=await db.ref('users').once('value');
-        allUsers=us.val()||{{}};
-        document.getElementById('loader').style.display='none';
-        const params=new URLSearchParams(window.location.search);
-        const targetUid=params.get('uid');
-        if(targetUid){{openChat(targetUid)}}else{{showConvs()}}
-        setInterval(()=>{{if(currentUser)db.ref('users/'+currentUser.uid+'/lastSeen').set(Date.now())}},60000)
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const auth = firebase.auth();
+    
+    // ═══ إعدادات Cloudinary ═══
+    const CLOUD_NAME = 'vt6hibdu';
+    const UPLOAD_PRESET = 'mnaenca_upload';
+    
+    // ═══ إعدادات DiceBear ═══
+    const DICEBEAR_URL = 'https://api.dicebear.com/7.x/avataaars/svg';
+    
+    let currentUser = null;
+    let allUsers = {{}};
+    let chatUserId = null;
+    let messagesListener = null;
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let recordingStartTime = null;
+    let recordingTimer = null;
+    
+    // ═══ المصادقة ═══
+    auth.onAuthStateChanged(async user => {{
+        if(!user) {{
+            window.location.href = 'auth.html';
+            return;
+        }}
+        currentUser = user;
+        
+        const usersSnap = await db.ref('users').once('value');
+        allUsers = usersSnap.val() || {{}};
+        
+        document.getElementById('loaderScreen').style.display = 'none';
+        
+        const params = new URLSearchParams(window.location.search);
+        const targetUid = params.get('uid');
+        
+        if(targetUid) {{
+            openChat(targetUid);
+        }} else {{
+            showConversations();
+        }}
+        
+        // تحديث آخر ظهور
+        setInterval(() => {{
+            if(currentUser) {{
+                db.ref('users/' + currentUser.uid + '/lastSeen').set(Date.now());
+            }}
+        }}, 60000);
     }});
     
-    function showConvs(){{
-        if(messagesListener){{db.ref('private_messages/'+getChatId()).off('value',messagesListener);messagesListener=null}}
-        document.getElementById('chatView').style.display='none';
-        document.getElementById('convView').style.display='flex';
-        chatUserId=null;
-        loadConvs()
-    }}
-    
-    async function loadConvs(){{
-        const cl=document.getElementById('convList');
-        cl.innerHTML='';
-        const snap=await db.ref('private_messages').once('value');
-        const all=snap.val()||{{}};
-        const found=new Set();
-        Object.keys(all).forEach(cid=>{{
-            const parts=cid.split('_');
-            const u1=parts[0], u2=parts[1];
-            const other=u1===currentUser.uid?u2:(u2===currentUser.uid?u1:null);
-            if(other&&!found.has(other)&&allUsers[other])found.add(other)
-        }});
-        if(!found.size){{
-            cl.innerHTML='<div style="text-align:center;opacity:0.5;padding:40px"><i class="fas fa-comments" style="font-size:48px;color:#ec4899;margin-bottom:12px;display:block"></i><p>لا محادثات بعد</p></div>';
-            return
+    // ═══ عرض قائمة المحادثات ═══
+    function showConversations() {{
+        if(messagesListener) {{
+            db.ref('private_messages/' + getChatId()).off('value', messagesListener);
+            messagesListener = null;
         }}
-        found.forEach(uid=>{{
-            const u=allUsers[uid];
-            const d=document.createElement('div');
-            d.className='conv-item';
-            d.innerHTML=`<div class="chat-avatar"><img src="${{u?.avatarUrl||(DICEBEAR_URL+'?seed='+uid)}}"></div><div style="flex:1"><div style="font-weight:600">@${{u?.username||'?'}} ${{u?.isVerified?'<span style="color:#f472b6;font-size:12px"><i class="fas fa-check-circle"></i></span>':''}}</div></div><i class="fas fa-chevron-left" style="opacity:0.4;font-size:12px"></i>`;
-            d.onclick=()=>openChat(uid);
-            cl.appendChild(d)
-        }})
+        
+        document.getElementById('chatView').style.display = 'none';
+        document.getElementById('conversationsView').style.display = 'flex';
+        chatUserId = null;
+        loadConversations();
     }}
     
-    async function openChat(uid){{
-        chatUserId=uid;
-        const u=allUsers[uid];
-        document.getElementById('chatName').innerText='@'+(u?.username||'مستخدم');
-        document.getElementById('chatAvatar').innerHTML=`<img src="${{u?.avatarUrl||(DICEBEAR_URL+'?seed='+uid)}}">`;
-        document.getElementById('convView').style.display='none';
-        document.getElementById('chatView').style.display='flex';
+    async function loadConversations() {{
+        const list = document.getElementById('conversationsList');
+        list.innerHTML = '';
         
-        db.ref('presence/'+uid).on('value',s=>{{
-            const online=s.val();
-            document.getElementById('chatOnline').innerHTML=online?'<span class="online-indicator"></span> نشط الآن':'آخر ظهور: '+formatTime(u?.lastSeen)
+        const snap = await db.ref('private_messages').once('value');
+        const allMessages = snap.val() || {{}};
+        const foundUsers = new Set();
+        
+        Object.keys(allMessages).forEach(chatId => {{
+            const parts = chatId.split('_');
+            const u1 = parts[0];
+            const u2 = parts[1];
+            const otherUser = u1 === currentUser.uid ? u2 : (u2 === currentUser.uid ? u1 : null);
+            if(otherUser && !foundUsers.has(otherUser) && allUsers[otherUser]) {{
+                foundUsers.add(otherUser);
+            }}
         }});
         
-        await loadMsgs();
-        
-        if(messagesListener)db.ref('private_messages/'+getChatId()).off('value',messagesListener);
-        messagesListener=db.ref('private_messages/'+getChatId()).on('value',async()=>{{
-            await loadMsgs();
-        }});
-    }}
-    
-    function getChatId(){{
-        return [currentUser.uid,chatUserId].sort().join('_')
-    }}
-    
-    async function loadMsgs(){{
-        const ml=document.getElementById('msgsList');
-        if(!chatUserId)return;
-        const snap=await db.ref('private_messages/'+getChatId()).once('value');
-        const ms=snap.val()||{{}};
-        ml.innerHTML='';
-        const msgsArray=Object.values(ms).sort((a,b)=>(a.timestamp||0)-(b.timestamp||0));
-        
-        if(!msgsArray.length){{
-            ml.innerHTML='<div style="text-align:center;opacity:0.4;padding:40px"><i class="fas fa-comment-dots" style="font-size:40px;color:#ec4899;margin-bottom:10px;display:block"></i><p>ابدأ المحادثة!</p></div>';
+        if(!foundUsers.size) {{
+            list.innerHTML = `
+                <div style="text-align:center;opacity:0.5;padding:60px 20px">
+                    <i class="fas fa-comments" style="font-size:56px;color:#ec4899;margin-bottom:16px;display:block;animation:float 2s infinite"></i>
+                    <p style="font-size:16px;font-weight:600">لا توجد محادثات بعد</p>
+                    <p style="font-size:12px;margin-top:8px">ابدأ محادثة مع مستخدم من ملفه الشخصي</p>
+                </div>`;
             return;
         }}
         
-        msgsArray.forEach(m=>{{
-            const sent=m.senderId===currentUser.uid;
-            const d=document.createElement('div');
-            d.className='bubble '+(sent?'sent':'received');
+        foundUsers.forEach(uid => {{
+            const user = allUsers[uid];
+            if(!user) return;
             
-            if(m.type==='image' && m.imageUrl){{
-                d.innerHTML=`<img src="${{m.imageUrl}}" onclick="window.open('${{m.imageUrl}}','_blank')" alt="صورة"><div class="time">${{new Date(m.timestamp).toLocaleTimeString('ar-SA')}}</div>`;
-            }}else if(m.type==='audio' && m.audioUrl){{
-                d.innerHTML=`<audio controls src="${{m.audioUrl}}"></audio><div class="time">${{new Date(m.timestamp).toLocaleTimeString('ar-SA')}}</div>`;
-            }}else{{
-                d.innerHTML=`${{m.text||''}}<div class="time">${{new Date(m.timestamp).toLocaleTimeString('ar-SA')}}</div>`;
+            const item = document.createElement('div');
+            item.className = 'conv-item';
+            item.innerHTML = `
+                <div class="chat-avatar">
+                    <img src="${{user.avatarUrl || (DICEBEAR_URL + '?seed=' + uid)}}" alt="${{user.username}}">
+                </div>
+                <div class="conv-info">
+                    <div class="conv-name">
+                        @${{user.username || 'مستخدم'}}
+                        ${{user.isVerified ? '<span style="color:#ec4899;font-size:12px"><i class="fas fa-check-circle"></i></span>' : ''}}
+                    </div>
+                    <div class="conv-last-msg">${{user.bio || 'ابدأ المحادثة...'}}</div>
+                </div>
+                <i class="fas fa-chevron-left" style="opacity:0.3;font-size:12px"></i>
+            `;
+            item.onclick = () => openChat(uid);
+            list.appendChild(item);
+        }});
+    }}
+    
+    // ═══ فتح محادثة ═══
+    async function openChat(uid) {{
+        chatUserId = uid;
+        const user = allUsers[uid];
+        
+        document.getElementById('chatNameDisplay').innerText = '@' + (user?.username || 'مستخدم');
+        document.getElementById('chatAvatarDisplay').innerHTML = `
+            <img src="${{user?.avatarUrl || (DICEBEAR_URL + '?seed=' + uid)}}" alt="avatar">
+        `;
+        
+        document.getElementById('conversationsView').style.display = 'none';
+        document.getElementById('chatView').style.display = 'flex';
+        
+        // مراقبة حالة الاتصال
+        db.ref('presence/' + uid).on('value', snap => {{
+            const isOnline = snap.val();
+            const statusDisplay = document.getElementById('chatStatusDisplay');
+            if(isOnline) {{
+                statusDisplay.innerHTML = '<span class="online-dot"></span> نشط الآن';
+            }} else {{
+                statusDisplay.innerText = 'آخر ظهور: ' + formatTime(user?.lastSeen);
             }}
-            ml.appendChild(d);
         }});
-        ml.scrollTop=ml.scrollHeight;
+        
+        await loadMessages();
+        
+        // مراقبة الرسائل الجديدة
+        if(messagesListener) {{
+            db.ref('private_messages/' + getChatId()).off('value', messagesListener);
+        }}
+        messagesListener = db.ref('private_messages/' + getChatId()).on('value', async () => {{
+            await loadMessages();
+        }});
     }}
     
-    async function sendMsg(){{
-        const inp=document.getElementById('msgInput');
-        const txt=inp.value.trim();
-        if(!txt||!chatUserId)return;
-        await db.ref('private_messages/'+getChatId()).push({{
-            senderId:currentUser.uid,
-            text:txt,
-            type:'text',
-            timestamp:Date.now()
-        }});
-        inp.value='';
-        await loadMsgs();
+    function getChatId() {{
+        return [currentUser.uid, chatUserId].sort().join('_');
     }}
     
-    function sendImage(){{
-        if(!chatUserId)return;
-        const inp=document.getElementById('imageInput');
-        inp.onchange=async(e)=>{{
-            const file=e.target.files[0];
-            if(!file)return;
+    // ═══ تحميل الرسائل ═══
+    async function loadMessages() {{
+        const messagesList = document.getElementById('messagesList');
+        if(!chatUserId) return;
+        
+        const snap = await db.ref('private_messages/' + getChatId()).once('value');
+        const messages = snap.val() || {{}};
+        messagesList.innerHTML = '';
+        
+        const messagesArray = Object.values(messages).sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+        
+        if(!messagesArray.length) {{
+            messagesList.innerHTML = `
+                <div style="text-align:center;opacity:0.4;padding:60px 20px;margin:auto">
+                    <i class="fas fa-comment-dots" style="font-size:48px;color:#ec4899;margin-bottom:16px;display:block"></i>
+                    <p>ابدأ المحادثة الآن!</p>
+                </div>`;
+            return;
+        }}
+        
+        messagesArray.forEach(msg => {{
+            const isSent = msg.senderId === currentUser.uid;
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble ' + (isSent ? 'sent' : 'received');
             
-            if(file.size>5*1024*1024){{
+            let contentHTML = '';
+            
+            if(msg.type === 'image' && msg.imageUrl) {{
+                contentHTML = `
+                    <img src="${{msg.imageUrl}}" onclick="openImageViewer('${{msg.imageUrl}}')" alt="صورة" loading="lazy">
+                `;
+            }} else if(msg.type === 'audio' && msg.audioUrl) {{
+                contentHTML = `
+                    <audio controls src="${{msg.audioUrl}}" preload="metadata"></audio>
+                `;
+            }} else {{
+                contentHTML = msg.text || '';
+            }}
+            
+            const time = new Date(msg.timestamp).toLocaleTimeString('ar-SA', {{hour: '2-digit', minute: '2-digit'}});
+            
+            bubble.innerHTML = `
+                ${{contentHTML}}
+                <span class="msg-time">${{time}}</span>
+            `;
+            
+            messagesList.appendChild(bubble);
+        }});
+        
+        messagesList.scrollTop = messagesList.scrollHeight;
+    }}
+    
+    // ═══ إرسال رسالة نصية ═══
+    async function sendTextMessage() {{
+        const input = document.getElementById('messageInput');
+        const text = input.value.trim();
+        
+        if(!text || !chatUserId) return;
+        
+        try {{
+            await db.ref('private_messages/' + getChatId()).push({{
+                senderId: currentUser.uid,
+                text: text,
+                type: 'text',
+                timestamp: Date.now()
+            }});
+            
+            input.value = '';
+            await loadMessages();
+        }} catch(error) {{
+            console.error('Send message error:', error);
+            showToast('❌ فشل إرسال الرسالة');
+        }}
+    }}
+    
+    // ═══ إرسال صورة ═══
+    function sendImage() {{
+        if(!chatUserId) return;
+        
+        const input = document.getElementById('imageInput');
+        input.onchange = async (e) => {{
+            const file = e.target.files[0];
+            if(!file) return;
+            
+            // التحقق من نوع الملف
+            if(!file.type.startsWith('image/')) {{
+                showToast('❌ الرجاء اختيار ملف صورة');
+                return;
+            }}
+            
+            // التحقق من الحجم (5MB)
+            if(file.size > 5 * 1024 * 1024) {{
                 showToast('❌ حجم الصورة كبير جداً (الحد الأقصى 5MB)');
                 return;
             }}
             
-            document.getElementById('imageUploadProgress').style.display='block';
+            document.getElementById('uploadProgress').style.display = 'block';
             
-            try{{
-                const fd=new FormData();
-                fd.append('file',file);
-                fd.append('upload_preset',UPLOAD_PRESET);
+            try {{
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('upload_preset', UPLOAD_PRESET);
                 
-                const res=await fetch(CLOUDINARY_IMAGE_UPLOAD_URL,{{
-                    method:'POST',
-                    body:fd
+                console.log('📤 رفع الصورة إلى Cloudinary...');
+                
+                const response = await fetch('https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/image/upload', {{
+                    method: 'POST',
+                    body: formData
                 }});
                 
-                const data=await res.json();
+                const data = await response.json();
+                console.log('📥 استجابة Cloudinary:', data);
                 
-                if(data.secure_url){{
-                    await db.ref('private_messages/'+getChatId()).push({{
-                        senderId:currentUser.uid,
-                        type:'image',
-                        imageUrl:data.secure_url,
-                        timestamp:Date.now()
+                if(data.secure_url) {{
+                    await db.ref('private_messages/' + getChatId()).push({{
+                        senderId: currentUser.uid,
+                        type: 'image',
+                        imageUrl: data.secure_url,
+                        timestamp: Date.now()
                     }});
-                    await loadMsgs();
+                    
+                    await loadMessages();
                     showToast('✅ تم إرسال الصورة');
-                }}else{{
-                    showToast('❌ فشل رفع الصورة');
+                }} else {{
+                    console.error('❌ خطأ Cloudinary:', data);
+                    showToast('❌ فشل رفع الصورة: ' + (data.error?.message || 'خطأ غير معروف'));
                 }}
-            }}catch(err){{
-                console.error('Image upload error:',err);
+            }} catch(error) {{
+                console.error('❌ خطأ الرفع:', error);
                 showToast('❌ خطأ في رفع الصورة');
-            }}finally{{
-                document.getElementById('imageUploadProgress').style.display='none';
+            }} finally {{
+                document.getElementById('uploadProgress').style.display = 'none';
+                input.value = '';
             }}
         }};
-        inp.click();
+        
+        input.click();
     }}
     
-    // 🎤 Voice Recording Functions
-    async function toggleRecording(){{
-        if(!chatUserId)return;
-        const btn=document.getElementById('btnRecord');
+    // ═══ التسجيل الصوتي ═══
+    async function toggleRecording() {{
+        if(!chatUserId) return;
         
-        if(mediaRecorder && mediaRecorder.state==='recording'){{
-            // Stop recording
+        const btn = document.getElementById('btnRecord');
+        
+        if(mediaRecorder && mediaRecorder.state === 'recording') {{
+            // إيقاف التسجيل
             mediaRecorder.stop();
-            btn.innerHTML='<i class="fas fa-microphone"></i>';
-            btn.style.background='rgba(236,72,153,0.1)';
-            document.getElementById('recordingIndicator').style.display='none';
+            btn.classList.remove('recording');
+            btn.innerHTML = '<i class="fas fa-microphone"></i>';
+            document.getElementById('recordingIndicator').style.display = 'none';
             clearInterval(recordingTimer);
-        }}else{{
-            // Start recording
-            try{{
-                const stream=await navigator.mediaDevices.getUserMedia({{audio:true}});
-                mediaRecorder=new MediaRecorder(stream);
-                audioChunks=[];
+        }} else {{
+            // بدء التسجيل
+            try {{
+                const stream = await navigator.mediaDevices.getUserMedia({{audio: true}});
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
                 
-                mediaRecorder.ondataavailable=e=>{{
-                    if(e.data.size>0)audioChunks.push(e.data);
+                mediaRecorder.ondataavailable = (e) => {{
+                    if(e.data.size > 0) {{
+                        audioChunks.push(e.data);
+                    }}
                 }};
                 
-                mediaRecorder.onstop=async()=>{{
-                    const audioBlob=new Blob(audioChunks,{{type:'audio/webm'}});
-                    stream.getTracks().forEach(track=>track.stop());
+                mediaRecorder.onstop = async () => {{
+                    const audioBlob = new Blob(audioChunks, {{type: 'audio/webm'}});
+                    stream.getTracks().forEach(track => track.stop());
                     
-                    if(audioBlob.size>0){{
-                        document.getElementById('imageUploadProgress').style.display='block';
+                    if(audioBlob.size > 0) {{
+                        document.getElementById('uploadProgress').style.display = 'block';
                         
-                        try{{
-                            const fd=new FormData();
-                            fd.append('file',audioBlob,'voice-message.webm');
-                            fd.append('upload_preset',UPLOAD_PRESET);
+                        try {{
+                            const formData = new FormData();
+                            formData.append('file', audioBlob, 'voice-message.webm');
+                            formData.append('upload_preset', UPLOAD_PRESET);
                             
-                            const res=await fetch(CLOUDINARY_AUDIO_UPLOAD_URL,{{
-                                method:'POST',
-                                body:fd
+                            console.log('🎤 رفع الصوت إلى Cloudinary...');
+                            
+                            const response = await fetch('https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/video/upload', {{
+                                method: 'POST',
+                                body: formData
                             }});
                             
-                            const data=await res.json();
+                            const data = await response.json();
+                            console.log('📥 استجابة Cloudinary:', data);
                             
-                            if(data.secure_url){{
-                                await db.ref('private_messages/'+getChatId()).push({{
-                                    senderId:currentUser.uid,
-                                    type:'audio',
-                                    audioUrl:data.secure_url,
-                                    timestamp:Date.now()
+                            if(data.secure_url) {{
+                                await db.ref('private_messages/' + getChatId()).push({{
+                                    senderId: currentUser.uid,
+                                    type: 'audio',
+                                    audioUrl: data.secure_url,
+                                    timestamp: Date.now()
                                 }});
-                                await loadMsgs();
+                                
+                                await loadMessages();
                                 showToast('✅ تم إرسال الرسالة الصوتية');
-                            }}else{{
-                                showToast('❌ فشل رفع الصوت');
+                            }} else {{
+                                console.error('❌ خطأ Cloudinary:', data);
+                                showToast('❌ فشل رفع الصوت: ' + (data.error?.message || 'خطأ غير معروف'));
                             }}
-                        }}catch(err){{
-                            console.error('Audio upload error:',err);
+                        }} catch(error) {{
+                            console.error('❌ خطأ رفع الصوت:', error);
                             showToast('❌ خطأ في رفع الصوت');
-                        }}finally{{
-                            document.getElementById('imageUploadProgress').style.display='none';
+                        }} finally {{
+                            document.getElementById('uploadProgress').style.display = 'none';
                         }}
                     }}
                     
-                    mediaRecorder=null;
-                    audioChunks=[];
+                    mediaRecorder = null;
+                    audioChunks = [];
                 }};
                 
                 mediaRecorder.start();
-                recordingStartTime=Date.now();
-                recordingTimer=setInterval(updateRecordingTime,1000);
+                recordingStartTime = Date.now();
+                recordingTimer = setInterval(updateRecordingTime, 1000);
                 
-                btn.innerHTML='<i class="fas fa-stop"></i>';
-                btn.style.background='rgba(239,68,68,0.3)';
-                document.getElementById('recordingIndicator').style.display='block';
+                btn.classList.add('recording');
+                btn.innerHTML = '<i class="fas fa-stop"></i>';
+                document.getElementById('recordingIndicator').style.display = 'block';
                 updateRecordingTime();
-            }}catch(err){{
-                console.error('Recording error:',err);
+                
+                showToast('🎤 بدأ التسجيل...');
+                
+            }} catch(error) {{
+                console.error('❌ خطأ التسجيل:', error);
                 showToast('❌ لا يمكن الوصول للميكروفون');
             }}
         }}
     }}
     
-    function updateRecordingTime(){{
-        if(!recordingStartTime)return;
-        const elapsed=Math.floor((Date.now()-recordingStartTime)/1000);
-        const mins=Math.floor(elapsed/60);
-        const secs=elapsed%60;
-        document.getElementById('recordingTime').innerText=mins+':'+(secs<10?'0':'')+secs;
+    function updateRecordingTime() {{
+        if(!recordingStartTime) return;
+        
+        const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+        const mins = Math.floor(elapsed / 60);
+        const secs = elapsed % 60;
+        
+        document.getElementById('recordingTime').innerText = mins + ':' + (secs < 10 ? '0' : '') + secs;
     }}
     
-    async function copyChat(){{
-        if(!chatUserId)return;
-        const snap=await db.ref('private_messages/'+getChatId()).once('value');
-        const msgs=snap.val()||{{}};
-        let text='💬 محادثة MNAENCA\\n'+'─'.repeat(30)+'\\n';
-        Object.values(msgs).sort((a,b)=>a.timestamp-b.timestamp).forEach(m=>{{
-            const sender=m.senderId===currentUser.uid?'أنت':(allUsers[m.senderId]?.username||'مستخدم');
-            const content=m.type==='image'?'[صورة 📷]':(m.type==='audio'?'[رسالة صوتية 🎤]':m.text);
-            const time=new Date(m.timestamp).toLocaleTimeString('ar-SA');
-            text+=`\\n${{sender}} (${{time}}):\\n${{content}}\\n`;
+    // ═══ عارض الصور ═══
+    function openImageViewer(url) {{
+        document.getElementById('viewerImage').src = url;
+        document.getElementById('imageViewer').classList.add('show');
+    }}
+    
+    function closeImageViewer() {{
+        document.getElementById('imageViewer').classList.remove('show');
+    }}
+    
+    // ═══ نسخ المحادثة ═══
+    async function copyChat() {{
+        if(!chatUserId) return;
+        
+        const snap = await db.ref('private_messages/' + getChatId()).once('value');
+        const messages = snap.val() || {{}};
+        
+        let text = '💬 محادثة لحظة\n' + '═'.repeat(30) + '\n';
+        
+        Object.values(messages).sort((a, b) => a.timestamp - b.timestamp).forEach(msg => {{
+            const sender = msg.senderId === currentUser.uid ? 'أنت' : (allUsers[msg.senderId]?.username || 'مستخدم');
+            const content = msg.type === 'image' ? '[صورة 📷]' : (msg.type === 'audio' ? '[رسالة صوتية 🎤]' : msg.text);
+            const time = new Date(msg.timestamp).toLocaleTimeString('ar-SA');
+            text += `\n${{sender}} (${{time}}):\n${{content}}\n`;
         }});
-        try{{await navigator.clipboard.writeText(text)}}catch(e){{
-            const ta=document.createElement('textarea');
-            ta.value=text;
-            document.body.appendChild(ta);
-            ta.select();
+        
+        try {{
+            await navigator.clipboard.writeText(text);
+        }} catch(e) {{
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
             document.execCommand('copy');
-            document.body.removeChild(ta);
+            document.body.removeChild(textarea);
         }}
+        
         showToast('✅ تم نسخ المحادثة');
     }}
     
-    function showToast(msg){{
-        const toast=document.getElementById('toastMsg');
-        toast.innerText=msg;
+    // ═══ Toast ═══
+    function showToast(message) {{
+        const toast = document.getElementById('toastMsg');
+        toast.innerText = message;
         toast.classList.add('show');
-        setTimeout(()=>toast.classList.remove('show'),2500);
+        setTimeout(() => {{
+            toast.classList.remove('show');
+        }}, 2500);
     }}
     
-    function formatTime(ts){{
-        if(!ts)return'غير معروف';
-        const diff=Date.now()-ts;
-        const mins=Math.floor(diff/60000);
-        const hours=Math.floor(diff/3600000);
-        const days=Math.floor(diff/86400000);
-        if(mins<1)return'الآن';
-        if(mins<60)return'منذ '+mins+' دقيقة';
-        if(hours<24)return'منذ '+hours+' ساعة';
-        if(days<7)return'منذ '+days+' يوم';
-        return new Date(ts).toLocaleDateString('ar-SA');
+    // ═══ تنسيق الوقت ═══
+    function formatTime(timestamp) {{
+        if(!timestamp) return 'غير معروف';
+        
+        const diff = Date.now() - timestamp;
+        const mins = Math.floor(diff / 60000);
+        const hours = Math.floor(diff / 3600000);
+        const days = Math.floor(diff / 86400000);
+        
+        if(mins < 1) return 'الآن';
+        if(mins < 60) return 'منذ ' + mins + ' دقيقة';
+        if(hours < 24) return 'منذ ' + hours + ' ساعة';
+        if(days < 7) return 'منذ ' + days + ' يوم';
+        
+        return new Date(timestamp).toLocaleDateString('ar-SA');
     }}
     
-    console.log('💗 MNAENCA Chat Ready with Image & Voice Support');
+    console.log('💗 لحظة | Chat Ready with Image & Voice Support ✨');
 </script>
 </body>
 </html>"""
